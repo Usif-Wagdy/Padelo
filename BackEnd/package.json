@@ -1,0 +1,18 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "BackEnd For Padly",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1",
+    "intellisense": "^0.0.1",
+    "mongoose": "^8.8.3",
+    "nodemon": "^3.1.7",
+    "prettier": "^3.4.1"
+  }
+}
