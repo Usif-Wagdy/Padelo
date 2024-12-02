@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "BackEnd For Padly",
+  "description": "Backend server handling API requests, user authentication, and database operations",
   "main": "index.js",
   "scripts": {
     "test": "npm start"
