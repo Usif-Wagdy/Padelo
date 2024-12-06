@@ -1,0 +1,164 @@
+/* General styles for header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e0f7e0;
+    padding: 10px 20px;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo styles */
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #4caf50;
+}
+
+.logo-image {
+    width: 60px;
+    height: auto;
+    margin-right: 10px;
+}
+
+/* Navigation styles */
+.nav {
+    display: flex;
+    gap: 30px;
+    position: relative;
+    align-items: center;
+    height: 40px;
+    flex-wrap: wrap; /* Allow items to wrap in small screens */
+    justify-content: center; /* Center the items when wrapped */
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #297c2c;
+    font-size: 18px;
+    padding: 5px 10px;
+    position: relative;
+    z-index: 2;
+    white-space: nowrap;
+}
+
+/* Navigation background (underlining effect) */
+.nav-background {
+    position: absolute;
+    height: 100%;
+    background-color: #70E4D5;
+    border-radius: 20px;
+    transition: transform 0.3s ease, width 0.3s ease;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 0;
+}
+
+/* Auth buttons container */
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+    margin-right: 50px;
+    flex-wrap: wrap; /* Allow buttons to wrap when screen is narrow */
+    justify-content: center; /* Center the buttons when wrapped */
+}
+
+/* Button styles */
+.register {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login {
+    background-color: transparent;
+    color: #4caf50;
+    border: 1px solid #4caf50;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.register:hover,
+.login:hover {
+    opacity: 0.5;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        padding: 10px 15px;
+    }
+
+    .nav {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+        width: 100%;
+        justify-content: center; /* Center items in small screen */
+    }
+
+    .nav-link {
+        font-size: 16px;
+        padding: 8px;
+    }
+
+    .auth-buttons {
+        flex-direction: column;
+        gap: 10px;
+        margin-right: 0;
+        width: 100%; /* Ensure buttons take full width in narrow screens */
+        justify-content: center; /* Center the buttons */
+    }
+
+    .register,
+    .login {
+        padding: 8px 12px;
+        font-size: 14px;
+        width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 20px;
+    }
+
+    .logo-image {
+        width: 50px;
+    }
+
+    .nav {
+        gap: 20px;
+        width: 100%; /* Ensure nav items take full width on small screens */
+    }
+
+    .nav-link {
+        font-size: 14px;
+        padding: 6px;
+    }
+
+    .auth-buttons {
+        margin-right: 0;
+        width: 100%; /* Ensure buttons take full width on small screens */
+        justify-content: center; /* Center the buttons */
+    }
+
+    .register,
+    .login {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+}
