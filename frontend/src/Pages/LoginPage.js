@@ -8,7 +8,8 @@ const Login = () => {
   const goToRegister = () => {
     navigate("/register");
   };
-
+   console.log("Test");
+  
   return (
     <div className="container">
       <div className="overlay-container">
