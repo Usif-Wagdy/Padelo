@@ -8,6 +8,15 @@ const slotSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+const placeSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true, trim: true },
+    description: { type: String, trim: true },
+    schedule: [slotSchema],
+  },
+  { timestamps: true },
+);
+
 const courtSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
@@ -16,7 +25,7 @@ const courtSchema = new mongoose.Schema(
     location: { type: String, required: true, trim: true },
     image: { type: String },
     available: { type: Boolean, default: true },
-    schedule: [slotSchema],
+    places: [placeSchema],
   },
   { timestamps: true },
 );
