@@ -1,21 +1,5 @@
 const mongoose = require('mongoose');
-
-const slotSchema = new mongoose.Schema(
-  {
-    startTime: { type: Date, required: true },
-    endTime: { type: Date, required: true },
-  },
-  { timestamps: true },
-);
-
-const placeSchema = new mongoose.Schema(
-  {
-    name: { type: String, required: true, trim: true },
-    description: { type: String, trim: true },
-    schedule: [slotSchema],
-  },
-  { timestamps: true },
-);
+const placeSchema = require('./place').schema;
 
 const courtSchema = new mongoose.Schema(
   {
