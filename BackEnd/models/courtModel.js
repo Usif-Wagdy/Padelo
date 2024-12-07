@@ -1,27 +1,24 @@
 const mongoose = require('mongoose');
 
-const slotSchema = new mongoose.Schema({
-  time: { type: String, required: true },
-  reserved: { type: Boolean, default: false },
-  reservedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+const slotSchema = new mongoose.Schema(
+  {
+    startTime: { type: Date, required: true },
+    endTime: { type: Date, required: true },
   },
-});
+  { timestamps: true },
+);
 
-const daySchema = new mongoose.Schema({
-  dayOfWeek: { type: String, required: true },
-  slots: [slotSchema],
-});
-
-const courtSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  description: { type: String, required: false },
-  price: { type: Number, required: false },
-  location: { type: String, required: false },
-  image: { type: String },
-  available: { type: Boolean, default: true },
-  schedule: [daySchema],
-});
+const courtSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true, trim: true },
+    description: { type: String, trim: true },
+    price: { type: Number, required: true, min: 0 },
+    location: { type: String, required: true, trim: true },
+    image: { type: String },
+    available: { type: Boolean, default: true },
+    schedule: [slotSchema],
+  },
+  { timestamps: true },
+);
 
 module.exports = mongoose.model('Court', courtSchema);
