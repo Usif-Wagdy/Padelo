@@ -1,50 +1,53 @@
+// src/Login.js
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import "../Pages Styles/Style.css"; // Import your CSS file
+import { Link } from "react-router-dom"; // Import Link and useLocation
+
+import "../Pages Styles/Login.css";
 
 const Login = () => {
-  const navigate = useNavigate();
-
-  const goToRegister = () => {
-    navigate("/register");
-  };
-
-  return (-
-    <div className="container">
-      <div className="overlay-container">
-        <div className="login-container">
-          <h2 className="form-title">Log in</h2>
-          <form action="#" className="login-form">
-          <label>Email</label>
-            <div className="input wrapper">
-              <input
-                type="email"
-                placeholder="Enter your Email"
-                className="input-field"
-                required
-              />
-            </div>
-            <label>Password</label>
-            <div className="input wrapper">
-              <input
-                type="password"
-                placeholder="Enter your password"
-                className="input-field"
-                required
-              />
-            </div>
-            <button className="login-button">Login</button>
-          </form>
-        </div>
+  return (
+    <div className="login-container">
+      <div className="login-form">
+        <h2 style={{ color: "#08260F" }}>Login</h2>
+        <form className="form-style">
+          <label htmlFor="email" style={{ color: "#08260F" }}>
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter your email address"
+            required
+            aria-label="Email"
+          />
+          <label htmlFor="password" style={{ color: "#08260F" }}>
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            required
+            aria-label="Password"
+          />
+          <button type="submit" className="login-button">
+            Login
+          </button>
+        </form>
       </div>
-
-      <button id="register" onClick={goToRegister}>
-        Go to Register
-      </button>
+      <div className="login-image">
+        <img
+          src={require("../assets/OIP.jpg")}
+          alt="Logo"
+          className="logo-image"
+        />
+        <div className="logo1">Padelo.</div>
+        <Link to="/Register">
+          <button className="register1">Register</button>
+        </Link>
+      </div>
     </div>
   );
 };
-
-
 
 export default Login;
