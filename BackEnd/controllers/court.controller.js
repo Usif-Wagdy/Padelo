@@ -29,6 +29,7 @@ exports.addCourt = async (req, res) => {
   }
 };
 
+// TODO: only return courts with no reservation "completed"
 exports.getCourts = async (req, res) => {
   try {
     const { page = 1, limit = 10 } = req.query;

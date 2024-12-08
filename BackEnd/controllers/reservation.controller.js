@@ -7,20 +7,28 @@ const User = require('../models/user.model');
 
 exports.addReservation = async (req, res) => {
   try {
-    const {
-      user,
-      court,
-      place,
-      slot,
-      status = 'reserved',
-    } = req.body;
+    const { user, court, place, slot } = req.body;
+    const status = 'reserved';
 
-    const existingReservation = await Reservation.findOne({
+    let existingReservation = await Reservation.findOne({
+      court,
+      place,
+      slot,
+      status,
+    });
+    if (existingReservation) {
+      return res.status(400).json({
+        message:
+          'Sorry, this slot is already reserved. Please choose a different time or place.',
+      });
+    }
+
+    existingReservation = await Reservation.findOne({
       user,
       court,
       place,
       slot,
-      status: 'reserved',
+      status,
     });
 
     if (existingReservation) {
