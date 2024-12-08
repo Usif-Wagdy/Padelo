@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const slotSchema = require('./slot').schema;
+const slotSchema = require('./slot.model').schema;
 
 const placeSchema = new mongoose.Schema(
   {

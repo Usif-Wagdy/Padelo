@@ -1,4 +1,4 @@
-const Court = require('../models/courtModel');
+const Court = require('../models/court.model');
 
 exports.addCourt = async (req, res) => {
   try {

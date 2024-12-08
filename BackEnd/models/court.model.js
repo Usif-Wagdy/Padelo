@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const placeSchema = require('./place').schema;
+const placeSchema = require('./place.model').schema;
 
 const courtSchema = new mongoose.Schema(
   {
