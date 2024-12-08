@@ -3,19 +3,17 @@ import { Link, useLocation } from 'react-router-dom'; // Import Link and useLoca
 import './Header.css';
 
 const Header = () => {
-    const [activeIndex, setActiveIndex] = useState(0); // Track the active link
-    const navRef = useRef(null); // Reference to the navigation container
-    const backgroundRef = useRef(null); // Reference to the background box
-    const location = useLocation(); // Get the current URL location
+    const [activeIndex, setActiveIndex] = useState(0);
+    const navRef = useRef(null);
+    const backgroundRef = useRef(null); 
+    const location = useLocation(); 
 
-    // Update activeIndex based on current URL
     useEffect(() => {
         const paths = ['/', '/Courts', '/ContactUs'];
         const currentIndex = paths.indexOf(location.pathname);
         setActiveIndex(currentIndex === -1 ? 0 : currentIndex);
     }, [location]);
 
-    // Function to adjust the background position and size based on active index
     const adjustBackground = () => {
         if (navRef.current && backgroundRef.current) {
             const activeLink = navRef.current.children[activeIndex + 1]; // Account for background box being first child
@@ -61,9 +59,14 @@ const Header = () => {
                 ))}
             </nav>
             <div className="auth-buttons">
-                <button className="register">Register</button>
-                <button className="login">Login</button>
-            </div>
+    <Link to="/Register">
+        <button className="register">Register</button>
+    </Link>
+    <Link to="/Login">
+        <button className="login">Login</button>
+    </Link>
+</div>
+
         </header>
     );
 };

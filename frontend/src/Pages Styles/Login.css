@@ -1,0 +1,90 @@
+.login-container {
+    display: flex;
+    height: 100vh;
+}
+
+.login-form {
+    flex: 1;
+    background-color: #e0f7e0; /* Light green background */
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-form h2 {
+    margin-bottom: 20px;
+    color: #4caf50; /* Green color for heading */
+}
+.form-style {
+    display: flex;
+    flex-direction: column;
+}
+.login-form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.login-form input {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #4caf50; /* Green border */
+    border-radius: 5px;
+}
+
+.login-button {
+    background-color: #4caf50; /* Green button */
+    color: #08260F;
+    font-weight: bold;
+    font-size: large;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.login-image {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20;
+}
+
+.login-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Maintain aspect ratio */
+    position: absolute; /* Ensures content is on top of the image */
+
+    top: 0;
+    left: 0;
+    z-index: -1; 
+}
+.logo1 {
+    font-size: 36px; /* Increased size for visibility */
+    font-weight: bold;
+    color: #08260F; /* Green color for logo */
+    
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 150px;
+}
+
+
+.register1 {
+    background-color: #4caf50; /* Green background for button */
+    color: #08260F;
+    font-weight: bold;
+    font-size: large;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
