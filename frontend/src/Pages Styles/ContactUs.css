@@ -101,3 +101,6 @@ img, .content {
   width: 100%;
   display: block;
 }
+.green-icon {
+  color: #008000; /* Green color */
+}
