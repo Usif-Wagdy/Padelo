@@ -1,7 +1,6 @@
 const Reservation = require('../models/reservation.model');
 const Court = require('../models/court.model');
-const Place = require('../models/place.model');
-const Slot = require('../models/slot.model');
+
 // TODO: User model is not made yet
 const User = require('../models/user.model');
 
