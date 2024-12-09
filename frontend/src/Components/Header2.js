@@ -2,14 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom'; // Import Link and useLocation
 import './Header.css';
 
-const Header = () => {
+const Header2 = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const navRef = useRef(null);
     const backgroundRef = useRef(null); 
     const location = useLocation(); 
 
     useEffect(() => {
-        const paths = ['/', '/Courts', '/ContactUs'];
+        const paths = ['/Home', '/Courts', '/ContactUs', '/Profile'];
         const currentIndex = paths.indexOf(location.pathname);
         setActiveIndex(currentIndex === -1 ? 0 : currentIndex);
     }, [location]);
@@ -48,9 +48,9 @@ const Header = () => {
             </div>
             <nav className="nav" ref={navRef}>
                 <div className="nav-background" ref={backgroundRef}></div>
-                {['Home', 'Courts', 'Contact Us'].map((link, index) => (
+                {['Home', 'Courts', 'Contact Us',"Profile"].map((link, index) => (
                     <Link
-                        to={link === 'Home' ? '/' : `/${link.replace(' ', '')}`} // Set Home link to '/'
+                        to={`/${link.replace(' ', '')}`} 
                         className="nav-link"
                         key={index}
                     >
@@ -59,15 +59,11 @@ const Header = () => {
                 ))}
             </nav>
             <div className="auth-buttons">
-                <Link to="/Register">
-                    <button className="register">Register</button>
-                </Link>
-                <Link to="/Login">
-                    <button className="login">Login</button>
-                </Link>
-            </div>
+
+</div>
+
         </header>
     );
 };
 
-export default Header;
+export default Header2;

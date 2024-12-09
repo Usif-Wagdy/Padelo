@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { courts } from '../Components/courtsData';
 import Header from '../Components/Header';
 import '../Pages Styles/HomePage1.css';
-import Courts from '../Components/Courts';
+import { Link } from 'react-router-dom';
+
 
 function HomePage1() {
     const [selectedLocation, setSelectedLocation] = useState("");
@@ -85,9 +86,10 @@ function HomePage1() {
                     <div className="footer-links">
                         <h3>Navigation</h3>
                         <ul>
-                            <li>HOME</li>
-                            <li>BOOK A COURT</li>
-                            <li>CONTACT US</li>
+                        <li>
+                            <Link to="/">HOME</Link></li>
+                            <li><Link to="/Courts">BOOK A COURT</Link></li>
+                            <li><Link to="/ContactUs">CONTACT US</Link></li>
                         </ul>
                     </div>
                     <div className="footer-social">
