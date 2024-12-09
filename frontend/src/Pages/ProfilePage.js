@@ -2,10 +2,12 @@
 import React from 'react';  
 import { Link } from 'react-router-dom';
 import '../Pages Styles/App.css';
+import Header2 from '../Components/Header2';
 
 function Profile() {
     return (
         <div className="App">
+            <Header2/>
             <header className="App-header">
                 <h1>Profile</h1>
                 <Link to="/HomePage2">HomePage2</Link>

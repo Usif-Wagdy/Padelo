@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link and useLocation
 
-// import '../Pages Styles/Login.css'; 
+import '../Pages Styles/Login.css'; 
 
 const Login = () => {
     return (
