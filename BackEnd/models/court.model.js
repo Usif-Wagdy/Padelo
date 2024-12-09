@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const placeSchema = require('./place.model').schema;
+const slotSchema = require('./slot.model').schema;
 
 const courtSchema = new mongoose.Schema(
   {
@@ -9,7 +9,7 @@ const courtSchema = new mongoose.Schema(
     location: { type: String, required: true, trim: true },
     image: { type: String },
     available: { type: Boolean, default: true },
-    places: [placeSchema],
+    schedule: [slotSchema],
   },
   { timestamps: true },
 );

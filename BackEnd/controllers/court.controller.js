@@ -1,5 +1,6 @@
 const Court = require('../models/court.model');
-
+const generateSlots =
+  require('../schedulers/scheduler').generateSlots;
 exports.addCourt = async (req, res) => {
   try {
     const { name, description, price, location } = req.body;
@@ -14,6 +15,7 @@ exports.addCourt = async (req, res) => {
       price,
       location,
       image,
+      slots: generateSlots(),
     });
 
     await newCourt.save();

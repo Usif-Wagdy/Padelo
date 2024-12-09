@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const reservationController = require('../controllers/reservation.controller');
 
-router.get(
-  '/user',
+app.get(
+  '/user/:user',
   reservationController.getUserReservations,
 );
 

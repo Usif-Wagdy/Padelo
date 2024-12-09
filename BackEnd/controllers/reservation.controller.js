@@ -6,12 +6,11 @@ const User = require('../models/user.model');
 
 exports.addReservation = async (req, res) => {
   try {
-    const { user, court, place, slot } = req.body;
+    const { user, court, slot } = req.body;
     const status = 'reserved';
 
-    let existingReservation = await Reservation.findOne({
+    const existingReservation = await Reservation.findOne({
       court,
-      place,
       slot,
       status,
     });
@@ -22,21 +21,6 @@ exports.addReservation = async (req, res) => {
       });
     }
 
-    existingReservation = await Reservation.findOne({
-      user,
-      court,
-      place,
-      slot,
-      status,
-    });
-
-    if (existingReservation) {
-      return res.status(400).json({
-        message:
-          'A reservation with the same details already exists',
-      });
-    }
-
     const courtExists = await Court.findById(court);
     if (!courtExists) {
       return res
@@ -44,18 +28,11 @@ exports.addReservation = async (req, res) => {
         .json({ message: 'Court not found' });
     }
 
-    const placeExists = courtExists.places.id(place);
-    if (!placeExists) {
-      return res
-        .status(404)
-        .json({ message: 'Place not found in this court' });
-    }
-
-    const slotExists = placeExists.schedule.id(slot);
+    const slotExists = courtExists.schedule.id(slot);
     if (!slotExists) {
       return res
         .status(404)
-        .json({ message: 'Slot not found in this place' });
+        .json({ message: 'Slot not found in this court' });
     }
 
     const now = new Date();
@@ -69,7 +46,6 @@ exports.addReservation = async (req, res) => {
     const newReservation = new Reservation({
       user,
       court,
-      place,
       slot,
       status,
     });
@@ -91,14 +67,8 @@ exports.addReservation = async (req, res) => {
 // TODO: The user model is not made yet
 exports.getUserReservations = async (req, res) => {
   try {
-    const { user } = req.query;
+    const { user } = req.params;
     const { page = 1, limit = 10 } = req.query;
-
-    if (!user) {
-      return res.status(400).json({
-        message: 'User ID is required',
-      });
-    }
 
     const userExists = await User.findById(user);
     if (!userExists) {
@@ -109,7 +79,6 @@ exports.getUserReservations = async (req, res) => {
 
     const reservations = await Reservation.find({ user })
       .populate('court')
-      .populate('place')
       .populate('slot')
       .skip((page - 1) * limit)
       .limit(Number(limit));
@@ -146,7 +115,6 @@ exports.getCourtReservations = async (req, res) => {
       court: courtId,
     })
       .populate('user')
-      .populate('place')
       .populate('slot')
       .skip((page - 1) * limit)
       .limit(Number(limit));
@@ -232,7 +200,6 @@ exports.searchReservations = async (req, res) => {
     const {
       user,
       court,
-      place,
       status,
       startDate,
       endDate,
@@ -245,7 +212,6 @@ exports.searchReservations = async (req, res) => {
 
     if (user) searchQuery.user = user;
     if (court) searchQuery.court = court;
-    if (place) searchQuery.place = place;
     if (status) searchQuery.status = status;
 
     // Date range search for slots
@@ -264,7 +230,6 @@ exports.searchReservations = async (req, res) => {
     const reservations = await Reservation.find(searchQuery)
       .populate('user')
       .populate('court')
-      .populate('place')
       .populate('slot')
       .skip((page - 1) * limit)
       .limit(Number(limit));

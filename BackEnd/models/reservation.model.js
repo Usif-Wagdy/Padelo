@@ -12,11 +12,6 @@ const reservationSchema = new mongoose.Schema(
       ref: 'Court',
       required: true,
     },
-    place: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Place',
-      required: true,
-    },
     slot: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Slot',
