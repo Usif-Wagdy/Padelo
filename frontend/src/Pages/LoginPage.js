@@ -15,7 +15,7 @@ const Login = () => {
         <div className="login-container">
           <h2 className="form-title">Log in</h2>
           <form action="#" className="login-form">
-          <label>Email</label>
+            <label>Email</label>
             <div className="input wrapper">
               <input
                 type="email"
@@ -44,7 +44,5 @@ const Login = () => {
     </div>
   );
 };
-
-
 
 export default Login;
