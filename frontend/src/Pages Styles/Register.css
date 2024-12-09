@@ -48,7 +48,7 @@ html {
   text-align: center;
   z-index: 1;
 }
-.register1 {
+.login1 {
   background-color: var(--primary-color);
   color: var(--secondary-color);
   font-weight: bold;
