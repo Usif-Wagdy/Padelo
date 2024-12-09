@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import "../Pages Styles/ProfilePage.css";
+
 
 const ProfilePage = () => {
     const [bookingHistory, setBookingHistory] = useState([]);
@@ -50,7 +52,7 @@ const ProfilePage = () => {
             <div className="background-image"></div>
             <div className="profile-container">
                 <header className="profile-header">
-                    <h1>Welcome Amr</h1>
+                    <h1> Welcome Seif </h1>
                 </header>
 
                 <section className="booking-history">
