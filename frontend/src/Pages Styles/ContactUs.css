@@ -1,0 +1,106 @@
+/* Overall page styling */
+.contact-us-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensure content pushes the footer to the bottom */
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.5); /* Fallback background color */
+    color: #08260F;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Background image styling */
+  .background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/aichat-image-2024-12-04T21_02_37.972Z.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: -1; /* Place behind all other content */
+  }
+  
+  /* Main content styling */
+  .contact-us-content {
+    margin-top: 30px; /* Space for the header */
+    text-align: center;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    z-index: 1; /* Ensure it is above the background */
+  }
+  
+  /* Styling for content */
+  .contact-us-content h1 {
+    font-size: 5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .contact-us-content p {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 15px 0;
+  }
+  
+  .contact-detail {
+    font-size: 1.8rem;
+  }
+  
+  /* Footer styling */
+  .contact-us-footer {
+    margin-top: auto; /* Pushes footer to the bottom */
+    text-align: center;
+    padding: 20px;
+    /* background-color: rgba(255, 255, 255, 0.8); */
+    color: #08260F;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .contact-us-footer p {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .social-links a {
+    font-size: 1.5rem;
+    color: #08260F; /* Ensure icons are visible */
+    text-decoration: none;
+  }
+
+.social-links a:hover {
+  text-decoration: underline;
+}
+
+/* Prevent horizontal scrolling */
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Ensure images and content do not overflow */
+img, .content {
+  max-width: 100%;
+  width: 100%;
+  display: block;
+}
+.green-icon {
+  color: #008000; /* Green color */
+}

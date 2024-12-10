@@ -1,26 +1,50 @@
-//Countact us page
+import React from "react";
+import Header from "../Components/Header";
+import "../Pages Styles/ContactUs.css";
+import { FaFacebook, FaInstagram, FaLinkedin, FaPhoneAlt } from "react-icons/fa";
 
-import React from 'react';  
-import { Link } from 'react-router-dom';
-import Header from '../Components/Header';
-
-import '../Pages Styles/App.css';
-
-function CountactUs() {
-    return (
-        <div className="App">
-            <header className="App-header">
-                <Header />
-                <h1>Countact Us</h1>
-                <Link to="/">HomePage1</Link>
-                <Link to="/HomePage2">HomePage2</Link>
-                <Link to="/Courts">Courts</Link>
-                <Link to="/Profile">Profile</Link>
-                <Link to="/Login">Login</Link>
-                <Link to="/Register">Register</Link>
-            </header>
+function ContactUs() {
+  return (
+    <div className="contact-us-page">
+      <Header />
+      <div className="background-image"></div>
+      <div className="contact-us-content">
+        <h1>Get in touch</h1>
+        <p>
+          <FaPhoneAlt size={35} style={{ color: "#008000", marginRight: "8px" }} />
+          Give us a ring
+        </p>
+        <p className="contact-detail">+20555948232</p>
+        <p className="contact-detail">Padelo@gmail.com</p>
+      </div>
+      <footer className="contact-us-footer">
+        <p>Follow us on social media</p>
+        <div className="social-links">
+          <a
+            href="https://www.facebook.com/tamer.elgayar.56"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaFacebook size={50} />
+          </a>
+          <a
+            href="https://www.instagram.com/p/DAydzSROozb/?img_index=1"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaInstagram size={50} />
+          </a>
+          <a
+            href="https://www.linkedin.com/company/scitechtalent/?viewAsMember=true"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaLinkedin size={50} />
+          </a>
         </div>
-    );
+      </footer>
+    </div>
+  );
 }
 
-export default CountactUs;
+export default ContactUs;
