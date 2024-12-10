@@ -54,7 +54,7 @@ const ProfilePage = () => {
             <div className="background-image"></div>
             <div className="profile-container">
                 <header className="profile-header">
-                    <h1> Welcome Seif </h1>
+                    <h1> Welcome Dr algayar </h1>
                 </header>
 
                 <section className="booking-history">
