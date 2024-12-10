@@ -303,3 +303,36 @@ exports.searchReservations = async (req, res) => {
     });
   }
 };
+
+exports.addOrUpdateReview = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { rating, comment } = req.body;
+    const reservation = await Reservation.findById(id);
+
+    if (!reservation) {
+      return res
+        .status(404)
+        .json({ message: 'Reservation not found' });
+    }
+    if (reservation.status !== 'completed') {
+      return res.status(400).json({
+        message:
+          'Only completed reservations can be reviewed',
+      });
+    }
+
+    reservation.review = { rating, comment };
+    await reservation.save();
+
+    res.status(200).json({
+      message: 'Review added/updated successfully!',
+      reservation,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error adding/updating review',
+      error: error.message,
+    });
+  }
+};

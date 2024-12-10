@@ -25,6 +25,11 @@ router.patch(
   reservationController.completeReservation,
 );
 
+router.patch(
+  '/:id/review',
+  reservationController.addOrUpdateReview,
+);
+
 router.delete(
   '/:id',
   reservationController.deleteReservation,
