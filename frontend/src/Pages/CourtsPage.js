@@ -1,24 +1,73 @@
-//court page
-import React from 'react';  
-import { Link } from 'react-router-dom';
-import Header from '../Components/Header';
-
-import '../Pages Styles/App.css';
+import React, { useState } from "react";
+import Header from "../Components/Header";
+import { courts } from "../Components/courtsData";
+import "../Pages Styles/Courts.css";
 
 function Courts() {
-    return (
-        <div className="App">
-            <header className="App-header">
-                <Header />
-                <h1>Courts</h1>
-                <Link to="/HomePage2">HomePage2</Link>
-                <Link to="/">HomePage1</Link>
-                <Link to="/ContactUs">ContactUs</Link>
-                <Link to="/Profile">Profile</Link>
-                <Link to="/Login">Login</Link>
-                <Link to="/Register">Register</Link>
+    const [searchQuery, setSearchQuery] = useState("");
 
-            </header>
+    const filteredCourts = searchQuery
+        ? courts.filter((court) => {
+              const query = searchQuery.toLowerCase().trim();
+              return (
+                  court.courtname.toLowerCase().includes(query) ||
+                  court.address.toLowerCase().includes(query)
+              );
+          })
+        : courts;
+
+    return (
+        <div className="courts-page">
+            {/* Header */}
+            <Header />
+
+            {/* Image Section */}
+            <div className="image-container">
+                <div className="main-text">Book now in 3 steps with:</div>
+                <div className="padelo-text">PADELO</div>
+                <div className="steps-text">
+                    <span className="step">1 - Choose court</span>
+                    <span className="step">2 - Select duration</span>
+                    <span className="step">3 - Confirmation</span>
+                </div>
+                <div className="search-bar">
+                    <input
+                        type="text"
+                        placeholder="Search by Court name, Location"
+                        className="search-input"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <button
+                        className="search-button"
+                        onClick={() => setSearchQuery("")}
+                    >
+                        Clear
+                    </button>
+                </div>
+            </div>
+
+            {/* Courts grid */}
+            <div className="courts-container">
+                {filteredCourts.length > 0 ? (
+                    filteredCourts.map((court) => (
+                        <div key={court.__id} className="court-card">
+                            <img
+                                src={court.photo}
+                                alt={`Court ${court.courtname}`}
+                                className="court-image"
+                            />
+                            <div className="court-info">
+                                <h3 className="court-name">Court {court.courtname}</h3>
+                                <p className="court-location">Location: {court.address}</p>
+                                <p className="court-phone">Phone: {court.phone}</p>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p className="no-results">No courts found. Please try a different search.</p>
+                )}
+            </div>
         </div>
     );
 }
