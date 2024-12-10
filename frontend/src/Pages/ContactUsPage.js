@@ -14,7 +14,7 @@ function ContactUs() {
           <FaPhoneAlt size={35} style={{ color: "#008000", marginRight: "8px" }} />
           Give us a ring
         </p>
-        <p className="contact-detail">+20555948232</p>
+        <p className="contact-detail">+201555948232</p>
         <p className="contact-detail">Padelo@gmail.com</p>
       </div>
       <footer className="contact-us-footer">
