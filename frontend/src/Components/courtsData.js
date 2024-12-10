@@ -10,23 +10,9 @@ export const courts = [
     },
     {
         __id: "6569c65cfc13ae761a4cd2de",
-<<<<<<< HEAD
-        address: "cairo",
-        email: "14@dell.com",
-        courtname: "14",
-        photo: "/users_images/users (14).png",
-        phone: "103-375-8934",
-    },
-    {
-        __id: "6569c65cfc13ae761a4cd2de",
-        address: "zayed",
-        email: "13@dell.com",
-        courtname: "13",
-=======
         address: "zayed",
         email: "13@dell.com",
         courtname: "Court B",
->>>>>>> mina
         photo: "/users_images/users (13).png",
         phone: "103-375-8934",
     },
@@ -34,11 +20,7 @@ export const courts = [
         __id: "6lkfvnlkrsd4cd2de",
         address: "6-october",
         email: "12@dell.com",
-<<<<<<< HEAD
-        courtname: "12",
-=======
         courtname: "Court C",
->>>>>>> mina
         photo: "/users_images/users (12).png",
         phone: "103-375-8934",
     },
