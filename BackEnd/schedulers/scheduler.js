@@ -1,36 +1,27 @@
 const cron = require('node-cron');
 const Court = require('../models/court.model');
+const moment = require('moment-timezone');
 
-const generateSlots = () => {
+//* no use for now
+const generateSlots = (startHour = 12, endHour = 3) => {
   const slots = [];
-  const startHour = 10; // 10 AM
-  const endHour = 2; // 2 AM (next day)
+  const today = moment().tz('Africa/Cairo');
 
-  for (let hour = startHour; hour < 24; hour++) {
-    const startTime = new Date();
-    startTime.setHours(hour, 0, 0, 0);
-
-    const endTime = new Date();
-    endTime.setHours(hour + 1, 0, 0, 0);
-
-    slots.push({
-      startTime,
-      endTime,
-    });
-  }
-
-  for (let hour = 0; hour < endHour; hour++) {
-    const startTime = new Date();
-    startTime.setHours(hour, 0, 0, 0);
-    startTime.setDate(startTime.getDate() + 1); // Move to the next day
-
-    const endTime = new Date();
-    endTime.setHours(hour + 1, 0, 0, 0);
-    endTime.setDate(endTime.getDate() + 1); // Move to the next day
+  for (let hour = startHour; hour < 24 + endHour; hour++) {
+    const startTime = today
+      .clone()
+      .hour(hour % 24)
+      .minute(0)
+      .second(0)
+      .millisecond(0);
+    if (hour >= 24) {
+      startTime.add(1, 'day'); // Move to the next day
+    }
+    const endTime = startTime.clone().add(1, 'hour');
 
     slots.push({
-      startTime,
-      endTime,
+      startTime: startTime.toDate(),
+      endTime: endTime.toDate(),
     });
   }
 
@@ -38,15 +29,19 @@ const generateSlots = () => {
 };
 
 // Schedule task to run at midnight every day
-cron.schedule('0 0 * * *', async () => {
-  try {
-    const courts = await Court.find();
-    courts.forEach(async (court) => {
-      court.slots = generateSlots();
-      await court.save();
-    });
-    console.log('Slots regenerated for all courts');
-  } catch (error) {
-    console.error('Error regenerating slots:', error);
-  }
-});
+// cron.schedule('0 0 * * *', async () => {
+//   try {
+//     const courts = await Court.find();
+//     await Promise.all(
+//       courts.map(async (court) => {
+//         court.slots = generateSlots();
+//         await court.save();
+//       }),
+//     );
+//     console.log('Slots regenerated for all courts');
+//   } catch (error) {
+//     console.error('Error regenerating slots:', error);
+//   }
+// });
+
+module.exports = { generateSlots };

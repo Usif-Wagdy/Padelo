@@ -1,21 +1,18 @@
 const express = require('express');
-import express from 'express';
 const router = express.Router();
-const userController = require('../controllers/userController');
+const userController = require('../controllers/user.controller');
 
+router.get('/', userController.getUsers);
 
-router.get('/users', userController.getAllUsers);
+router.post('/', userController.addUser);
 
+router.post('/login', userController.login);
 
-router.post('/users', userController.createUser);
+router.put('/add-image', userController.addImage);
 
-
-router.post('/users/login', userController.loginUser);
-
-
-router.put('/users/add-image', userController.addImage);
-
-
-router.put('/users/add-phone-number', userController.addPhoneNumber);
+router.put(
+  '/add-phone-number',
+  userController.addPhoneNumber,
+);
 
 module.exports = router;

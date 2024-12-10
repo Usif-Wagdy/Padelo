@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const reservationController = require('../controllers/reservation.controller');
+// const adminAuth = require('../middlewares/admin.auth'); // Your middleware file
 
-app.get(
+router.get(
   '/user/:user',
   reservationController.getUserReservations,
 );
@@ -19,11 +20,16 @@ router.patch(
   reservationController.cancelReservation,
 );
 
-// TODO: Delete a reservation (admin only - placeholder)
+router.patch(
+  '/:id/complete',
+  reservationController.completeReservation,
+);
+
 router.delete(
   '/:id',
   reservationController.deleteReservation,
 );
+// router.delete('/:id', adminAuth, reservationController.deleteReservation);
 
 router.get(
   '/search',

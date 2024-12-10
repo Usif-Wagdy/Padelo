@@ -1,9 +1,15 @@
 const Court = require('../models/court.model');
-const generateSlots =
-  require('../schedulers/scheduler').generateSlots;
+
 exports.addCourt = async (req, res) => {
   try {
-    const { name, description, price, location } = req.body;
+    const {
+      name,
+      description,
+      price,
+      location,
+      email,
+      phoneNumber,
+    } = req.body;
 
     const image = req.file
       ? `/uploads/${req.file.filename}`
@@ -14,8 +20,9 @@ exports.addCourt = async (req, res) => {
       description,
       price,
       location,
+      email,
+      phoneNumber,
       image,
-      slots: generateSlots(),
     });
 
     await newCourt.save();
@@ -31,7 +38,6 @@ exports.addCourt = async (req, res) => {
   }
 };
 
-// TODO: only return courts with no reservation "completed"
 exports.getCourts = async (req, res) => {
   try {
     const { page = 1, limit = 10 } = req.query;
@@ -39,10 +45,39 @@ exports.getCourts = async (req, res) => {
       .skip((page - 1) * limit)
       .limit(Number(limit));
 
+    const formattedCourts = courts.map((court) => {
+      const courtObj = court.toObject();
+      courtObj.schedule = courtObj.schedule.map((day) => {
+        const filteredSlots = day.slots.filter(
+          (slot) => !slot.reserved,
+        );
+        return {
+          ...day,
+          slots: filteredSlots.map((slot) => ({
+            number: slot.number,
+            reserved: slot.reserved,
+          })),
+        };
+      });
+      return courtObj;
+    });
+
+    // const formattedCourts = courts.map((court) => ({
+    //   ...court.toObject(),
+    //   schedule: court.schedule.map((day) => ({
+    //     ...day,
+    //     slots: day.slots
+    //       .map((slot) => ({
+    //         number: slot.number,
+    //         reserved: slot.reserved,
+    //       })),
+    //   })),
+    // }));
+
     const totalCourts = await Court.countDocuments();
 
     res.status(200).json({
-      courts,
+      courts: formattedCourts,
       totalPages: Math.ceil(totalCourts / limit),
       currentPage: page,
     });

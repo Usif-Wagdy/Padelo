@@ -1,15 +1,45 @@
 const mongoose = require('mongoose');
-const slotSchema = require('./slot.model').schema;
+
+// Define the default slots array
+const defaultSlots = Array.from({ length: 16 }, (_, i) => ({
+  number: i + 1,
+  reserved: false,
+}));
+
+const slotSchema = new mongoose.Schema({
+  number: { type: Number, required: true },
+  reserved: { type: Boolean, default: false },
+});
+
+const daySchema = new mongoose.Schema({
+  day: { type: String, required: true },
+  slots: [slotSchema],
+});
 
 const courtSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
-    description: { type: String, trim: true },
+    email: { type: String, trim: true, lowercase: true },
+    phoneNumber: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     price: { type: Number, required: true, min: 0 },
     location: { type: String, required: true, trim: true },
     image: { type: String },
-    available: { type: Boolean, default: true },
-    schedule: [slotSchema],
+    schedule: {
+      type: [daySchema],
+      default: [
+        { day: 'Monday', slots: defaultSlots },
+        { day: 'Tuesday', slots: defaultSlots },
+        { day: 'Wednesday', slots: defaultSlots },
+        { day: 'Thursday', slots: defaultSlots },
+        { day: 'Friday', slots: defaultSlots },
+        { day: 'Saturday', slots: defaultSlots },
+        { day: 'Sunday', slots: defaultSlots },
+      ],
+    },
   },
   { timestamps: true },
 );

@@ -1,17 +1,16 @@
 const Reservation = require('../models/reservation.model');
 const Court = require('../models/court.model');
-
-// TODO: User model is not made yet
 const User = require('../models/user.model');
 
 exports.addReservation = async (req, res) => {
   try {
-    const { user, court, slot } = req.body;
+    const { user, court, day, slotNumber } = req.body;
     const status = 'reserved';
 
     const existingReservation = await Reservation.findOne({
       court,
-      slot,
+      day,
+      slotNumber,
       status,
     });
     if (existingReservation) {
@@ -28,25 +27,32 @@ exports.addReservation = async (req, res) => {
         .json({ message: 'Court not found' });
     }
 
-    const slotExists = courtExists.schedule.id(slot);
-    if (!slotExists) {
-      return res
-        .status(404)
-        .json({ message: 'Slot not found in this court' });
-    }
-
-    const now = new Date();
-    if (slotExists.endTime < now) {
-      return res.status(400).json({
-        message:
-          'Cannot reserve a slot that has already passed',
+    const dayExists = courtExists.schedule.find(
+      (d) => d.day === day,
+    );
+    if (!dayExists) {
+      return res.status(404).json({
+        message: 'Day not found in this court schedule',
       });
     }
+
+    const slotExists = dayExists.slots.find(
+      (slot) =>
+        slot.number === slotNumber && !slot.reserved,
+    );
+    if (!slotExists) {
+      return res.status(400).json({
+        message: 'Slot not available for reservation',
+      });
+    }
+    slotExists.reserved = true;
+    await courtExists.save();
 
     const newReservation = new Reservation({
       user,
       court,
-      slot,
+      day,
+      slotNumber,
       status,
     });
 
@@ -64,7 +70,6 @@ exports.addReservation = async (req, res) => {
   }
 };
 
-// TODO: The user model is not made yet
 exports.getUserReservations = async (req, res) => {
   try {
     const { user } = req.params;
@@ -79,7 +84,6 @@ exports.getUserReservations = async (req, res) => {
 
     const reservations = await Reservation.find({ user })
       .populate('court')
-      .populate('slot')
       .skip((page - 1) * limit)
       .limit(Number(limit));
 
@@ -115,7 +119,6 @@ exports.getCourtReservations = async (req, res) => {
       court: courtId,
     })
       .populate('user')
-      .populate('slot')
       .skip((page - 1) * limit)
       .limit(Number(limit));
 
@@ -154,6 +157,16 @@ exports.cancelReservation = async (req, res) => {
       });
     }
 
+    const court = await Court.findById(reservation.court);
+    const day = court.schedule.find(
+      (d) => d.day === reservation.day,
+    );
+    const slot = day.slots.find(
+      (s) => s.number === reservation.slotNumber,
+    );
+    slot.reserved = false;
+    await court.save();
+
     reservation.status = 'cancelled';
     await reservation.save();
 
@@ -169,10 +182,49 @@ exports.cancelReservation = async (req, res) => {
   }
 };
 
+exports.completeReservation = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const reservation = await Reservation.findById(id);
+    if (!reservation) {
+      return res
+        .status(404)
+        .json({ message: 'Reservation not found' });
+    }
+    if (reservation.status !== 'reserved') {
+      return res.status(400).json({
+        message:
+          'Only reserved reservations can be completed',
+      });
+    }
+    const court = await Court.findById(reservation.court);
+    const day = court.schedule.find(
+      (d) => d.day === reservation.day,
+    );
+    const slot = day.slots.find(
+      (s) => s.number === reservation.slotNumber,
+    );
+
+    slot.reserved = false;
+    await court.save();
+
+    reservation.status = 'completed';
+    await reservation.save();
+
+    res.status(200).json({
+      message: 'Reservation completed successfully!',
+      reservation,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error completing reservation',
+      error: error.message,
+    });
+  }
+};
+
 exports.deleteReservation = async (req, res) => {
   try {
-    // TODO: Implement admin authentication middleware
-    // This is a placeholder for admin-only reservation deletion
     const { id } = req.params;
 
     const deletedReservation =
@@ -182,6 +234,20 @@ exports.deleteReservation = async (req, res) => {
       return res.status(404).json({
         message: 'Reservation not found',
       });
+    }
+
+    if (deletedReservation.status === 'reserved') {
+      const court = await Court.findById(
+        deletedReservation.court,
+      );
+      const day = court.schedule.find(
+        (d) => d.day === deletedReservation.day,
+      );
+      const slot = day.slots.find(
+        (s) => s.number === deletedReservation.slotNumber,
+      );
+      slot.reserved = false;
+      await court.save();
     }
 
     res.status(200).json({
@@ -201,8 +267,8 @@ exports.searchReservations = async (req, res) => {
       user,
       court,
       status,
-      startDate,
-      endDate,
+      day,
+      slotNumber,
       page = 1,
       limit = 10,
     } = req.query;
@@ -213,24 +279,12 @@ exports.searchReservations = async (req, res) => {
     if (user) searchQuery.user = user;
     if (court) searchQuery.court = court;
     if (status) searchQuery.status = status;
-
-    // Date range search for slots
-    if (startDate || endDate) {
-      searchQuery['slot.startTime'] = {};
-      if (startDate)
-        searchQuery['slot.startTime'].$gte = new Date(
-          startDate,
-        );
-      if (endDate)
-        searchQuery['slot.startTime'].$lte = new Date(
-          endDate,
-        );
-    }
+    if (day) searchQuery.day = day;
+    if (slotNumber) searchQuery.slotNumber = slotNumber;
 
     const reservations = await Reservation.find(searchQuery)
       .populate('user')
       .populate('court')
-      .populate('slot')
       .skip((page - 1) * limit)
       .limit(Number(limit));
 
