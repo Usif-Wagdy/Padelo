@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import "../Pages Styles/ProfilePage.css";
 
 
+
+
 const ProfilePage = () => {
     const [bookingHistory, setBookingHistory] = useState([]);
     const [personalInfo, setPersonalInfo] = useState({
