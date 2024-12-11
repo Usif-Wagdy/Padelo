@@ -119,3 +119,7 @@ html {
 .register-button:focus {
   outline: 2px solid var(--secondary-color);
 }
+
+/* Responsive Design */
+
+/* Not yet, Waiting requiring full ui improvement, Also for Login Page */
