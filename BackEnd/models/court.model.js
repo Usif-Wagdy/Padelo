@@ -19,12 +19,6 @@ const daySchema = new mongoose.Schema({
 const courtSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
-    email: { type: String, trim: true, lowercase: true },
-    phoneNumber: {
-      type: String,
-      required: true,
-      trim: true,
-    },
     price: { type: Number, required: true, min: 0 },
     location: { type: String, required: true, trim: true },
     image: { type: String },
