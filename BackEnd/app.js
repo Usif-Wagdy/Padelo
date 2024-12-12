@@ -14,8 +14,4 @@ app.use('/api/courts', courtRouter);
 app.use('/api/reservations', reservationRouter);
 app.use('/api/users', userRouter);
 
-app.get('/', (req, res) => {
-  res.send('Welcome to the Padel Court API');
-});
-
 module.exports = app;
