@@ -4,7 +4,7 @@
     --background-color: #e0f7e0;
 }
 
-body, html {
+ html {
     margin: 0;
     padding: 0;
     height: 100%; /* Ensures the body takes the full height */
