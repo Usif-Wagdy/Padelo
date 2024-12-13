@@ -5,28 +5,21 @@ import Header3 from "../Components/HeaderAdminPage";
 
 const AdminPage = () => {
   const [activeSection, setActiveSection] = useState("add");
-  const [selectedLocation, setSelectedLocation] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [search, setSearch] = useState("");
 
   const handleSectionChange = (section) => {
     setActiveSection(section);
   };
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-    setSelectedLocation(searchTerm); 
-  };
-
-  const handleSearchClick = () => {
-    setSelectedLocation(searchTerm); 
-  };
-
-  const filteredCourts = selectedLocation
-  ? courts.filter((court) =>
-      court.courtname.toLowerCase().includes(selectedLocation.toLowerCase()) ||
-      court.address.toLowerCase().includes(selectedLocation.toLowerCase())
-    )
-  : courts;
+  const filteredCourts = search
+    ? courts.filter((court) => {
+        const query = search.toLowerCase().trim();
+        return (
+          court.courtname.toLowerCase().includes(query) ||
+          court.address.toLowerCase().includes(query)
+        );
+      })
+    : courts;
 
 
   return (
@@ -56,20 +49,20 @@ const AdminPage = () => {
         <div className="update-section">
           <h2>Search for delete or update court</h2>
           <div className="search-container">
-            <input
-              type="text"
-              placeholder="Court, Location"
-              className="search-input"
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-            <button className="search-button" onClick={handleSearchClick}>
-              Search
-            </button>
+          <input
+            type="text"
+            placeholder="Search by Court name, Location"
+            className="search-input"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button className="search-button" onClick={() => setSearch("")}>
+            Clear
+          </button>
           </div>
           <div className="courts-grid">
             {filteredCourts.map((court) => (
-              <div key={court.__id} className="court-card">
+              <div key={court.__id} className="admin-court-card">
                 <img
                   src={court.photo}
                   alt={court.courtname}
