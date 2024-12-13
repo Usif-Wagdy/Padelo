@@ -1,15 +1,59 @@
-// src/Login.js
-import React from "react";
-import { Link } from "react-router-dom"; // Import Link and useLocation
-
-import '../Pages Styles/Login.css'; 
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import '../Pages Styles/Login.css';
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password) => {
+    const hasCapitalLetter = /[A-Z]/.test(password);
+    const hasMinLength = password.length >= 8;
+    return { hasCapitalLetter, hasMinLength };
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    let valid = true;
+
+    if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email address.");
+      valid = false;
+    } else {
+      setEmailError("");
+    }
+
+    const { hasCapitalLetter, hasMinLength } = validatePassword(password);
+    if (!hasCapitalLetter || !hasMinLength) {
+      let error = "Password must: ";
+      if (!hasMinLength && !hasCapitalLetter) {error += "be at least 8 characters & contain at least one uppercase letter.";}
+    
+      else if (!hasMinLength) {error += "be at least 8 characters.";}
+      else if (!hasCapitalLetter) error += " contain at least one uppercase letter.";
+      setPasswordError(error);
+      valid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    if (valid) {
+      console.log("Form submitted successfully.");
+    }
+  };
+
   return (
     <div className="login-container">
       <div className="login-form">
         <h2 style={{ color: "#08260F" }}>Login</h2>
-        <form className="form-style">
+        <form className="form-style" onSubmit={handleSubmit}>
           <label htmlFor="email" style={{ color: "#08260F" }}>
             Email
           </label>
@@ -17,9 +61,13 @@ const Login = () => {
             type="email"
             id="email"
             placeholder="Enter your email address"
-            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{ borderColor: emailError ? "red" : "" }}
             aria-label="Email"
           />
+          {emailError && <p className="error-message">{emailError}</p>}
+
           <label htmlFor="password" style={{ color: "#08260F" }}>
             Password
           </label>
@@ -27,9 +75,13 @@ const Login = () => {
             type="password"
             id="password"
             placeholder="Enter your password"
-            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{ borderColor: passwordError ? "red" : "" }}
             aria-label="Password"
           />
+          {passwordError && <p className="error-message">{passwordError}</p>}
+
           <button type="submit" className="login-button">
             Login
           </button>

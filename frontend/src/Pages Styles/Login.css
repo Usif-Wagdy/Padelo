@@ -7,15 +7,15 @@
  html {
     margin: 0;
     padding: 0;
-    height: 100%; /* Ensures the body takes the full height */
+    height: 100%; 
     font-family: Arial, sans-serif;
 }
 
 .login-container {
     display: flex;
     flex-direction: row;
-    height: 100vh; /* Full screen height */
-    width: 100vw; /* Full screen width */
+    height: 100vh; 
+    width: 100vw; 
 }
 
 .login-form {
@@ -38,7 +38,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 400px; /* Limits form width for better responsiveness */
+    max-width: 400px; 
 }
 
 .login-form label {
@@ -46,15 +46,17 @@
     font-weight: bold;
     color: var(--secondary-color);
 }
-
+.error-message{
+    color: red;
+}
 .login-form input {
     margin-bottom: 20px;
     padding: 10px;
     border: 1px solid var(--primary-color);
     border-radius: 5px;
     font-size: 16px;
-    width: 100%; /* Ensures inputs stretch full width */
-}
+    width: 100%;
+ }
 
 .login-button {
     background-color: var(--primary-color);
@@ -70,7 +72,7 @@
 }
 
 .login-button:hover {
-    background-color: #45a049; /* Slightly darker green for hover */
+    background-color: #45a049;
 }
 
 .login-button:focus {
@@ -85,13 +87,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%; /* Ensures it fills container height */
+    height: 100%;
 }
 
 .login-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Maintain aspect ratio */
+    object-fit: cover; 
     position: absolute;
     top: 0;
     left: 0;
@@ -120,14 +122,14 @@
 }
 
 .register1:hover {
-    background-color: #45a049; /* Slightly darker green for hover */
+    background-color: #45a049; 
 }
 
 .register1:focus {
     outline: 2px solid var(--secondary-color);
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
     .login-container {
         flex-direction: row;
@@ -135,16 +137,15 @@
 
     .login-form, .login-image {
         flex: 1;
-        /* height: 50%; Each section takes half of the height */
+      
         width: 100%;
     }
 
     .form-style {
-        max-width: 300px; /* Further reduce form width for smaller screens */
+        max-width: 300px; 
     }
 }
 
-/* Responsive Design */
 @media (max-width: 400px) {
     .login-container {
         flex-direction: row;
@@ -153,15 +154,14 @@
     .login-form{flex : 0.5}
     .login-image {
         flex: 1;
-        /* height: 50%; Each section takes half of the height */
-        /* width: 100%; */
+
     }
 
     .form-style {
-        max-width: 300px; /* Further reduce form width for smaller screens */
+        max-width: 300px; 
     }
 }
-/* Responsive Design */
+
 @media (max-width: 300px) {
     .login-container {
         flex-direction: row;
@@ -169,7 +169,6 @@
 
     .login-form,
     .login-image {
-        /* flex: 1; */
         height: 100%;
         width: 50%;
     }
