@@ -12,20 +12,40 @@ const reservationSchema = new mongoose.Schema(
       ref: 'Court',
       required: true,
     },
-    place: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Place',
+    day: {
+      type: String,
       required: true,
+      enum: [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday',
+      ], // Enum to ensure valid days
     },
-    slot: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Slot',
+    slotNumber: {
+      type: Number,
       required: true,
+      min: 1,
+      max: 16,
     },
     status: {
       type: String,
       enum: ['reserved', 'cancelled', 'completed'],
       default: 'reserved',
+    },
+    review: {
+      rating: {
+        type: Number,
+        min: 1,
+        max: 10,
+      },
+      comment: {
+        type: String,
+        trim: true,
+      },
     },
   },
   { timestamps: true },

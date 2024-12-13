@@ -1,0 +1,139 @@
+/* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.profile-page {
+    position: relative;
+    min-height: 100vh;
+    overflow-y: auto;
+    color: #000;
+}
+
+/* Background Image */
+.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../assets/aichat-image-2024-12-04T21_02_37.972Z.jpg') no-repeat center center/cover;
+    z-index: -1;
+    opacity: 0.7;
+    filter: brightness(80%);
+}
+
+/* Profile Container */
+.profile-container {
+    padding: 20px;
+    max-width: 900px;
+    margin: 40px auto;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Header */
+.profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-header h1 {
+    color: #0a6416;
+    font-size: 1.8rem;
+}
+
+/* Booking History */
+.booking-history h2 {
+    margin-top: 20px;
+    color: #0a6416;
+    text-align: left;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.history-table th,
+.history-table td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+}
+
+.history-table th {
+    background: #e8f5e9;
+    color: #0a6416;
+}
+
+.history-table td {
+    background: #fff;
+}
+
+.comment-button {
+    background-color: #0a6416;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.comment-button:hover {
+    background-color: #086411;
+}
+
+/* Account Settings */
+.account-settings h2 {
+    color: #0a6416;
+}
+
+.account-settings h3 {
+    margin-top: 20px;
+    color: #333;
+}
+
+.personal-info input,
+.password-info input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #0a6416;
+    border-radius: 5px;
+    background: #0a6416;
+}
+
+.save-button {
+    background-color: #0a6416;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.save-button:hover {
+    background-color: #086411;
+}
+
+/* Logout Button */
+.logout-button {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    background-color: #ff5252;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.logout-button:hover {
+    background-color: #e42e2e;
+}
