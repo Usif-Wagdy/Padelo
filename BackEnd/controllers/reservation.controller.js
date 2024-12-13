@@ -2,25 +2,19 @@ const Reservation = require('../models/reservation.model');
 const Court = require('../models/court.model');
 const User = require('../models/user.model');
 
+const mongoose = require('mongoose');
+const { startSession } = mongoose;
+
 exports.addReservation = async (req, res) => {
+  const session = await startSession();
+  session.startTransaction();
+
   try {
     const { user, court, day, slotNumber } = req.body;
     const status = 'reserved';
 
-    const existingReservation = await Reservation.findOne({
-      court,
-      day,
-      slotNumber,
-      status,
-    });
-    if (existingReservation) {
-      return res.status(400).json({
-        message:
-          'Sorry, this slot is already reserved. Please choose a different time or place.',
-      });
-    }
-
-    const courtExists = await Court.findById(court);
+    const courtExists =
+      await Court.findById(court).session(session);
     if (!courtExists) {
       return res
         .status(404)
@@ -45,8 +39,28 @@ exports.addReservation = async (req, res) => {
         message: 'Slot not available for reservation',
       });
     }
+
+    const existingReservation = await Reservation.findOne({
+      court,
+      day,
+      slotNumber,
+      status,
+    }).session(session);
+    if (existingReservation) {
+      return res.status(400).json({
+        message:
+          'Sorry, this slot is already reserved. Please choose a different time or place.',
+      });
+    }
+
     slotExists.reserved = true;
-    await courtExists.save();
+    await courtExists.save({ session });
+
+    await Court.findByIdAndUpdate(
+      court,
+      { $inc: { bookingCount: 1 } },
+      { session },
+    );
 
     const newReservation = new Reservation({
       user,
@@ -55,18 +69,21 @@ exports.addReservation = async (req, res) => {
       slotNumber,
       status,
     });
+    await newReservation.save({ session });
 
-    await newReservation.save();
-
+    await session.commitTransaction();
     res.status(201).json({
       message: 'Reservation added successfully!',
       reservation: newReservation,
     });
   } catch (error) {
+    await session.abortTransaction();
     res.status(500).json({
       message: 'Error adding reservation',
       error: error.message,
     });
+  } finally {
+    session.endSession();
   }
 };
 
@@ -273,7 +290,6 @@ exports.searchReservations = async (req, res) => {
       limit = 10,
     } = req.query;
 
-    // Build dynamic search query
     const searchQuery = {};
 
     if (user) searchQuery.user = user;
