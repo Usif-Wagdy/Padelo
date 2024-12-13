@@ -1,9 +1,18 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
-
+const validator = require('validator');
 exports.addUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
+    if (!email || !validator.isEmail(email)) {
+      return res.send('A valid Email is Required');
+    }
+    if (!name) {
+      return res.send('A valid name is required');
+    }
+    if (!password) {
+      return res.send('A valid Password is required');
+    }
     if (await User.findOne({ email })) {
       return res
         .status(400)
@@ -21,6 +30,8 @@ exports.addUser = async (req, res) => {
     res
       .status(500)
       .json({ message: 'Error registering user', error });
+
+    console.log(`this error is ${error}`);
   }
 };
 

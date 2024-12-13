@@ -10,6 +10,7 @@ import Profile from './Pages/ProfilePage';
 import Login from './Pages/LoginPage';
 import Register from './Pages/RegisterPage';
 import reportWebVitals from './reportWebVitals';
+import Admin from './Pages/AdminsPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -23,6 +24,7 @@ root.render(
         <Route path="/Profile" element={<Profile />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
+        <Route path="/Admin" element={<Admin />} />
 
       </Routes>
     </BrowserRouter>
