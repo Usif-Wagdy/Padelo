@@ -1,9 +1,12 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require("cors");
 const app = express();
 const courtRouter = require('./routes/court.routes');
 const reservationRouter = require('./routes/reservation.routes');
 const userRouter = require('./routes/user.routes');
+
+app.use(cors());
 
 app.use(morgan('dev'));
 
