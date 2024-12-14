@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { courts } from "../Components/courtsData";
 import "../Pages Styles/AdminPage.css";
 import Header3 from "../Components/HeaderAdminPage";
+import defaultCourtImage from '../assets/OIP.jpg';
 
 const AdminPage = () => {
   const [activeSection, setActiveSection] = useState("add");
   const [search, setSearch] = useState("");
+  const [courts, setCourts] = useState([]);
 
+  useEffect(() => {
+    fetch('http://127.0.0.1:3000/api/courts') 
+      .then(response => response.json())
+      .then(data => setCourts(data.courts))
+      .catch(error => console.error('Error fetching courts:', error));
+  }, []);
   const handleSectionChange = (section) => {
     setActiveSection(section);
   };
@@ -64,13 +72,13 @@ const AdminPage = () => {
             {filteredCourts.map((court) => (
               <div key={court.__id} className="admin-court-card">
                 <img
-                  src={court.photo}
-                  alt={court.courtname}
+                  src={court.image || defaultCourtImage}
+                  alt={court.name}
                   className="court-image"
-                />
+                  />
                 <div className="court-details">
-                  <p className="court-name">{court.courtname}</p>
-                  <p className="court-address">{court.address}</p>
+                  <p className="court-name">{court.name}</p>
+                  <p className="court-address">{court.location}</p>
                   <p className="court-phone">{court.phone}</p>
                 </div>
               </div>

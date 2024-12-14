@@ -39,9 +39,11 @@ const ProfilePage = () => {
 
     const fetchBookingHistory = async () => {
         try {
-            const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+
+            const userId = '675d485699a7e3e4ad8b7f2a'; 
+            const response = await fetch(`http://127.0.0.1:3000/api/reservations/user/${userId}`);
             const data = await response.json();
-            setBookingHistory(data.slice(0, 3));
+            setBookingHistory(data.reservations); 
         } catch (error) {
             console.error('Error fetching booking history:', error);
         }
@@ -67,7 +69,7 @@ const ProfilePage = () => {
 
     useEffect(() => {
         fetchBookingHistory();
-    }, []);
+    }, []); 
 
     return (
         <div className="profile-page">
@@ -94,32 +96,30 @@ const ProfilePage = () => {
                         </thead>
                         <tbody>
                             {bookingHistory.map((booking) => (
-                                <tr key={booking.id}>
-                                    <td>{booking.id}</td>
-                                    <td>{booking.date}</td>
-                                    <td>{booking.duration}</td>
-                                    <td>{booking.court}</td>
-                                    <td>{booking.status}</td>
+                                <tr key={booking._id}>
+                                    <td>{booking._id}</td>
+                                    <td>{booking.court.schedule[0]?.day || "N/A"}</td>
+                                    <td>{booking.court.schedule[0]?.slots?.length || "N/A"}</td>
+                                    <td>{booking.court.name}</td>
+                                    <td>{booking.status || 'Reserved'}</td>
                                     <td>
                                         <div className="rating">
                                             {[...Array(5)].map((_, index) => {
-                                                const value = (index + 1) / 2;
+                                                const value = index + 1;
                                                 return (
                                                     <FaStar
                                                         key={index}
                                                         size={20}
                                                         className="star"
-                                                        color={
-                                                            value <= (hoverRatings[booking.id] || ratings[booking.id] || 0)
-                                                                ? "#ffc107"
-                                                                : "#e4e5e9"
-                                                        }
-                                                        onClick={() => handleRatingChange(booking.id, value)}
+                                                        color={value <= (hoverRatings[booking._id] || ratings[booking._id] || 0)
+                                                            ? "#ffc107"
+                                                            : "#e4e5e9"}
+                                                        onClick={() => handleRatingChange(booking._id, value)}
                                                         onMouseEnter={() =>
-                                                            setHoverRatings((prev) => ({ ...prev, [booking.id]: value }))
+                                                            setHoverRatings((prev) => ({ ...prev, [booking._id]: value }))
                                                         }
                                                         onMouseLeave={() =>
-                                                            setHoverRatings((prev) => ({ ...prev, [booking.id]: 0 }))
+                                                            setHoverRatings((prev) => ({ ...prev, [booking._id]: 0 }))
                                                         }
                                                     />
                                                 );
@@ -129,7 +129,7 @@ const ProfilePage = () => {
                                     <td>
                                         <button
                                             className="comment-button"
-                                            onClick={() => openCommentPopup(booking.id)}
+                                            onClick={() => openCommentPopup(booking._id)}
                                         >
                                             Add Comment
                                         </button>
