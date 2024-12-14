@@ -18,6 +18,7 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [passwordR, setPasswordR] = useState("");
   const [accept, setAccept] = useState(false);
+
   const [error, setError] = useState("");
 
   // Toggle Password Visibility
@@ -95,6 +96,7 @@ const RegisterPage = () => {
         </button>
       </div>
       <div className="register-form">
+
         <h2>Create Account</h2>
 
         <form className="form-style" onSubmit={submit}>
@@ -184,6 +186,7 @@ const RegisterPage = () => {
             By signing up you agree to{" "}
             <a href="#HomePage">terms and conditions</a> at Padelo.
           </p>
+          {  error ? <p className ="error-message">{error}</p>:" "}
 
           <button type="submit" className="register-button">
             Register

@@ -1,13 +1,18 @@
+// src/Login.js
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import '../Pages Styles/Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState("");
+  
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
+   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
+  const navigate = useNavigate();
+  
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -18,9 +23,9 @@ const Login = () => {
     const hasMinLength = password.length >= 8;
     return { hasCapitalLetter, hasMinLength };
   };
-
   const handleSubmit = (e) => {
-    e.preventDefault();
+  
+
 
     let valid = true;
 
@@ -47,6 +52,29 @@ const Login = () => {
     if (valid) {
       console.log("Form submitted successfully.");
     }
+    // Handle login logic here
+    fetch("http://127.0.0.1:3000/api/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+      
+    })
+      .then((response) => response.json())
+      .then((data) => {
+
+        console.log("Success:", data);
+        // route to home page
+        navigate("/Home");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle login error here
+      });
+
+    
+    
   };
 
   return (
@@ -65,6 +93,8 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
             style={{ borderColor: emailError ? "red" : "" }}
             aria-label="Email"
+            onChange={(e) => setUsername(e.target.value)}
+            
           />
           {emailError && <p className="error-message">{emailError}</p>}
 
@@ -79,7 +109,9 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             style={{ borderColor: passwordError ? "red" : "" }}
             aria-label="Password"
+            onChange={(e) => setPassword(e.target.value)}
           />
+
           {passwordError && <p className="error-message">{passwordError}</p>}
 
           <button type="submit" className="login-button">
