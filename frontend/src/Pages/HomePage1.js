@@ -59,15 +59,21 @@ function HomePage1() {
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
             <h2 style={{ marginRight: '20px' }}>Choose Location:</h2>
             <select
-              className="location-dropdown"
-              value={selectedLocation}
-              onChange={handleLocationChange}
-              style={{ padding: '10px', borderRadius: '5px', width: '200px' }}
-            >
-              <option value="">Select a Location</option>
-              {["6-october", "zayed", "shobra", "helwan", "giza", "cairo","Location A"].map((location, index) => (
-                <option key={index} value={location}>{location}</option>
-              ))}
+                className="location-dropdown"
+                value={selectedLocation}
+                onChange={handleLocationChange}
+                style={{ padding: "10px", borderRadius: "5px", width: "200px" }}
+                >
+                <option value="">Select a Location</option>
+                {[
+                    ...new Set(
+                    courts.map((court) => court.location) 
+                    ),     
+                ].map((location, index) => (
+                    <option key={index} value={location}>
+                    {location}
+                    </option>
+                ))}
             </select>
           </div>
           <div className="location-cards">
