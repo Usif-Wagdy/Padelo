@@ -165,6 +165,9 @@
     flex: 1;
 }
 
+.footer-info{
+    padding-left: 50px;
+}
 .footer-links ul {
     list-style-type: none;
     padding: 0;
