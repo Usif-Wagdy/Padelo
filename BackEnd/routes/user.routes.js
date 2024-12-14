@@ -12,5 +12,9 @@ router.put(
   '/add-phone-number',
   userController.addPhoneNumber,
 );
+router.post(
+  '/forgetPassword',
+  userController.forgetPassword,
+);
 
 module.exports = router;
