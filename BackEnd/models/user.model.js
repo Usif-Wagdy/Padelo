@@ -35,6 +35,13 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+userSchema.pre('save', function (next) {
+  if (!this.isModified('passed') || this.isNew)
+    return next();
+  this.password.isModified = Date.now() - 1000;
+});
+
 userSchema.methods.createResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
   this.passwordResetToken = crypto
