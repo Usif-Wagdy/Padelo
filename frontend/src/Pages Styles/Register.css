@@ -84,7 +84,8 @@ html {
   max-width: 400px;
 }
 
-.register-form label {
+.form-style label {
+  display: block;
   margin-bottom: 5px;
   font-weight: bold;
   color: var(--secondary-color);
@@ -96,7 +97,12 @@ html {
   border: 1px solid var(--primary-color);
   border-radius: 5px;
   font-size: 16px;
-  width: 100%; /* Ensures inputs stretch full width */
+  width: 100%;
+  outline: none;
+}
+
+.register-form input:focus {
+  box-shadow: 0 0 13px 0px #4caf50a8;
 }
 
 .register-button {
@@ -106,20 +112,71 @@ html {
   font-size: 18px;
   border: none;
   padding: 10px;
-  margin-left: 10px;
   border-radius: 5px;
+  width: 60%;
+  margin: 0 auto;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .register-button:hover {
-  background-color: #45a049; /* Slightly darker green for hover */
+  background-color: #45a049; /* Slightly darker color for hover */
 }
 
 .register-button:focus {
   outline: 2px solid var(--secondary-color);
 }
 
+.terms {
+  font-size: 14px;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.terms a {
+  color: #003df3;
+  text-decoration: none;
+}
+
+.error {
+  display: none;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+  font-size: 14px;
+  border-left-color: #d9534f;
+  background-color: rgba(217, 83, 79, 0.1);
+}
+
+.error.show {
+  display: flex;
+}
+
+.error p {
+  margin: 0;
+}
+
+.error-heading {
+  color: #d9534f;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.pw-container {
+  position: relative;
+}
+
+.show-password {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
 /* Responsive Design */
 
 /* Not yet, Waiting requiring full ui improvement, Also for Login Page */

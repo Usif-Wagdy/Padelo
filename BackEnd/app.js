@@ -5,6 +5,10 @@ const courtRouter = require('./routes/court.routes');
 const reservationRouter = require('./routes/reservation.routes');
 const userRouter = require('./routes/user.routes');
 
+// Enable CORS
+const cors = require('cors');
+app.use(cors()); // This allows all front-ends, but they can specify which to allow
+
 app.use(morgan('dev'));
 
 app.use(express.json());
