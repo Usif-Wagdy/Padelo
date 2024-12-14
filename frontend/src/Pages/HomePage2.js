@@ -14,14 +14,18 @@ function HomePage1() {
     fetch("http://127.0.0.1:3000/api/courts")
       .then((response) => response.json())
       .then((data) => {
-        setCourts(data.courts); 
+        setCourts(data.courts);
       })
       .catch((error) => console.error("Error fetching courts:", error));
   }, []);
-  
+
   const filteredCourts = selectedLocation
-    ? courts.filter((court) => 
-        court.location && court.location.trim().toLowerCase() === selectedLocation.trim().toLowerCase())
+    ? courts.filter(
+        (court) =>
+          court.location &&
+          court.location.trim().toLowerCase() ===
+            selectedLocation.trim().toLowerCase()
+      )
     : courts;
 
   const handleLocationChange = (event) => {
@@ -74,21 +78,19 @@ function HomePage1() {
           >
             <h2 style={{ marginRight: "20px" }}>Choose Location:</h2>
             <select
-                className="location-dropdown"
-                value={selectedLocation}
-                onChange={handleLocationChange}
-                style={{ padding: "10px", borderRadius: "5px", width: "200px" }}
-                >
-                <option value="">Select a Location</option>
-                {[
-                    ...new Set(
-                    courts.map((court) => court.location) 
-                    ),     
-                ].map((location, index) => (
-                    <option key={index} value={location}>
+              className="location-dropdown"
+              value={selectedLocation}
+              onChange={handleLocationChange}
+              style={{ padding: "10px", borderRadius: "5px", width: "200px" }}
+            >
+              <option value="">Select a Location</option>
+              {[...new Set(courts.map((court) => court.location))].map(
+                (location, index) => (
+                  <option key={index} value={location}>
                     {location}
-                    </option>
-                ))}
+                  </option>
+                )
+              )}
             </select>
           </div>
           <div className="location-cards">
