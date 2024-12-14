@@ -14,8 +14,6 @@
 
 align-self: stretch;
 }
-/* 
-/* Logo styles */
 
 .logo {
     display: flex;
@@ -54,7 +52,6 @@ align-self: stretch;
     white-space: nowrap;
 }
 
-/* Navigation background (underlining effect) */
 .nav-background {
     position: absolute;
     height: 100%;
@@ -67,7 +64,6 @@ align-self: stretch;
     width: 0;
 }
 
-/* Auth buttons container */
 .auth-buttons {
     display: flex;
     gap: 10px;
@@ -108,6 +104,9 @@ align-self: stretch;
     .header {
         flex-direction: column;
         padding: 10px 15px;
+        justify-content: center; 
+    align-items: center;
+
     }
 
     .nav {
@@ -115,7 +114,7 @@ align-self: stretch;
         gap: 10px;
         margin-top: 10px;
         width: 100%;
-        justify-content: center; /* Center items in small screen */
+        justify-content: center; 
     }
 
     .nav-link {
@@ -124,11 +123,11 @@ align-self: stretch;
     }
 
     .auth-buttons {
-        flex-direction: column;
+        flex-direction: row;
         gap: 10px;
         margin-right: 0;
-        width: 100%; /* Ensure buttons take full width in narrow screens */
-        justify-content: center; /* Center the buttons */
+        width: 100%; 
+        justify-content: center;
     }
 
     .register,

@@ -169,7 +169,7 @@
     gap: 2rem;
 }
 
-.court-card {
+.Courts-court-card {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -180,19 +180,19 @@
 }
 
 @media (max-width: 1024px) {
-    .court-card {
+    .Courts-court-card {
         width: 250px;
     }
 }
 
 @media (max-width: 768px) {
-    .court-card {
+    .Courts-court-card {
         width: 100%;
     }
 }
 
 @media (max-width: 480px) {
-    .court-card {
+    .Courts-court-card {
         width: 100%;
     }
 }

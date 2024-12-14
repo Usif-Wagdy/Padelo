@@ -2,14 +2,6 @@
 export const courts = [
     {
         __id: "6569c65cfc13ae761a4cd2de",
-        address: "6-october",
-        email: "5@dell.com",
-        courtname: "Court A",
-        photo: "/users_images/users (5).png",
-        phone: "103-375-8934",
-    },
-    {
-        __id: "6569c65cfc13ae761a4cd2de",
         address: "zayed",
         email: "13@dell.com",
         courtname: "Court B",
