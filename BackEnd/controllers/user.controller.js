@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const sendEmail = require('./../email');
+const crypto = require('crypto');
+const { error } = require('console');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -166,9 +168,7 @@ exports.forgetPassword = async (req, res) => {
     const resetToken = user.createResetToken();
     await user.save({ validateBeforeSave: false });
 
-    const resetURL = `${req.protocol}:
-      'host',
-    )}/api/users/ResetPass/${resetToken}`;
+    const resetURL = `${req.protocol}:${req.get('host')}/api/users/ResetPass/${resetToken}`;
 
     const message = `Forgot your password? Submit your new password here: ${resetURL}`;
 
@@ -192,4 +192,27 @@ exports.forgetPassword = async (req, res) => {
   }
 };
 
-exports.forgetPassword = async (req, res) => {};
+exports.ResetPassword = async (req, res) => {
+  const hashedtoken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+
+  const user = await User.findOne({
+    passwordResetToken: hashedtoken,
+    passwordResetexpires: { $gt: Date.now() },
+  });
+  if (!user) {
+    return res
+      .status(400)
+      .json({ message: 'Token is invalid or expired' });
+  }
+
+  user.password = req.body.password;
+  user.passwordResetToken = undefined;
+  user.passwordResetexpires = undefined;
+  await user.save();
+
+  const token = signToken(user._id);
+  res.status(200).json({ user, token });
+};
