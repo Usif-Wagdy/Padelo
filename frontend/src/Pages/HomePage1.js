@@ -3,17 +3,23 @@ import { courts } from '../Components/courtsData';
 import Header from '../Components/Header';
 import '../Pages Styles/HomePage1.css';
 import { Link } from 'react-router-dom';
+import img1 from '../assets/OIP (1).jpg';
+import img2 from '../assets/OIP (2).jpg';
+import img3 from '../assets/OIP (3).jpg';
+import img4 from '../assets/OIP (4).jpg';
+import img5 from '../assets/OIP (5).jpg';
+
+const images = [img1, img2, img3, img4, img5];
+
 
 
 function HomePage1() {
     const [selectedLocation, setSelectedLocation] = useState("");
 
-    // Function to handle the location change
     const handleLocationChange = (event) => {
         setSelectedLocation(event.target.value);
     };
 
-    // Filter courts based on the selected location
     const filteredCourts = selectedLocation
         ? courts.filter(court => court.address === selectedLocation)
         : courts;
@@ -40,40 +46,54 @@ function HomePage1() {
                 <section className="most-picked">
                     <h2>Most Picked</h2>
                     <div className="picked-cards">
-                        <div className="card">Padel Shift</div>
-                        <div className="card">We Padel</div>
-                        <div className="card">Padel X</div>
-                        <div className="card">Padel One</div>
-                        <div className="card">Rocket Padel</div>
+                        {["Padel Shift", "We Padel", "Padel X", "Padel One", "Rocket Padel"].map((title, index) => (
+                            <div
+                                className="card"
+                                key={index}
+                                style={{
+                                    backgroundImage: `url(${images[index]})`,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                }}
+                            >
+                                <div className="card-content">
+                                    <span className="title">{title}</span>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </section>
 
                 <section className="locations">
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-                    <h2 style={{ marginRight: '20px' }}>Choose Location:</h2>
-                    <select
-                        className="location-dropdown"
-                        value={selectedLocation}
-                        onChange={handleLocationChange}
-                        style={{ padding: '10px', borderRadius: '5px', width: '200px' }}
-                    >
-                        <option value="">Select a Location</option>
-                        {["6-october", "zayed", "shobra", "helwan", "giza", "cairo"].map((location, index) => (
-                            <option key={index} value={location}>{location}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className="location-cards">
-                    {filteredCourts.map((court) => (
-                        <div key={court.__id} className="court-card">
-                            <img src={court.photo} alt={court.courtname} className="court-image" />
-                            <div className="court-name">{court.courtname}</div>
-                            <div className="court-address">{court.address}</div>
-                            <div className="court-phone">{court.phone}</div>
-                        </div>
-                    ))}
-                </div>
-            </section>
+    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+        <h2 style={{ marginRight: '20px' }}>Choose Location:</h2>
+        <select
+            className="location-dropdown"
+            value={selectedLocation}
+            onChange={handleLocationChange}
+            style={{ padding: '10px', borderRadius: '5px', width: '200px' }}
+        >
+            <option value="">Select a Location</option>
+            {Array.from(new Set(filteredCourts.map((court) => court.address))).map((address, index) => (
+                <option key={index} value={address}>
+                    {address}
+                </option>
+            ))}
+        </select>
+    </div>
+    <div className="location-cards">
+        {filteredCourts.map((court) => (
+            <div key={court.__id} className="court-card">
+                <img src={court.photo} alt={court.courtname} className="court-image" />
+                <div className="court-name">{court.courtname}</div>
+                <div className="court-address">{court.address}</div>
+                <div className="court-phone">{court.phone}</div>
+            </div>
+        ))}
+    </div>
+</section>
+
+
 
                 <footer className="footer">
                     <div className="footer-info">

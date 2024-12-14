@@ -44,11 +44,10 @@ function Courts() {
         </div>
       </div>
 
-      {/* Courts grid */}
       <div className="courts-container">
         {filteredCourts.length > 0 ? (
           filteredCourts.map((court) => (
-            <div key={court.__id} className="court-card">
+            <div key={court.__id} className="Courts-court-card">
               <img
                 src={court.photo}
                 alt={`Court ${court.courtname}`}

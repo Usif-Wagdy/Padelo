@@ -1,18 +1,36 @@
-/* General Styles */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+.comment-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.popup-content textarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.popup-content button {
+    margin-right: 10px;
 }
 
 .profile-page {
+    margin-top: 50px;
     position: relative;
     min-height: 100vh;
     overflow-y: auto;
     color: #000;
 }
 
-/* Background Image */
 .background-image {
     position: fixed;
     top: 0;
@@ -25,7 +43,6 @@ body {
     filter: brightness(80%);
 }
 
-/* Profile Container */
 .profile-container {
     padding: 20px;
     max-width: 900px;
@@ -35,7 +52,6 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Header */
 .profile-header {
     text-align: center;
     margin-bottom: 20px;
@@ -43,10 +59,9 @@ body {
 
 .profile-header h1 {
     color: #0a6416;
-    font-size: 1.8rem;
+    font-size: 2rem;
 }
 
-/* Booking History */
 .booking-history h2 {
     margin-top: 20px;
     color: #0a6416;
@@ -57,6 +72,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
+    font-size: 1rem;
 }
 
 .history-table th,
@@ -88,7 +104,6 @@ body {
     background-color: #086411;
 }
 
-/* Account Settings */
 .account-settings h2 {
     color: #0a6416;
 }
@@ -105,7 +120,7 @@ body {
     margin-bottom: 10px;
     border: 2px solid #0a6416;
     border-radius: 5px;
-    background: #0a6416;
+    background: #f9f9f9;
 }
 
 .save-button {
@@ -121,7 +136,6 @@ body {
     background-color: #086411;
 }
 
-/* Logout Button */
 .logout-button {
     display: block;
     width: 100%;
@@ -137,3 +151,103 @@ body {
 .logout-button:hover {
     background-color: #e42e2e;
 }
+
+@media (max-width: 1024px) {
+    .profile-container {
+        padding: 15px;
+        margin: 30px 15px;
+    }
+
+    .profile-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .history-table {
+        font-size: 0.9rem;
+    }
+
+    .comment-button,
+    .save-button,
+    .logout-button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-page {
+        margin-top: 120px;
+
+    }
+    .profile-container {
+        margin: 20px 10px;
+        padding: 15px;
+    }
+
+    .profile-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .history-table th,
+    .history-table td {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+
+    .comment-button,
+    .save-button,
+    .logout-button {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 530px) {
+    .profile-container {
+        padding: 10px;
+        margin: 15px 5px;
+    }
+
+    .profile-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .history-table th,
+    .history-table td {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+
+    .comment-button,
+    .save-button,
+    .logout-button {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 440px) {
+    .profile-container {
+        padding: 10px;
+        margin: 15px 5px;
+    }
+
+    .profile-header h1 {
+        font-size: 0.8rem;
+    }
+
+    .history-table th,
+    .history-table td {
+        padding: 6px;
+        font-size: 0.5rem;
+    }
+
+    .comment-button,
+    .save-button,
+    .logout-button {
+        padding: 5px 10px;
+        font-size: 0.5rem;
+    }
+}
+
+

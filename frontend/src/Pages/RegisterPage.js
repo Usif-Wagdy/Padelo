@@ -1,65 +1,86 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../Pages Styles/Register.css";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
+import "../Pages Styles/Register.css";
 
 const RegisterPage = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [accept, setAccept] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  
+  // Set the Navigate to Login
   const navigate = useNavigate();
-
-  console.log(name);
-  console.log(email);
-  console.log(password);
-  console.log(confirmPassword);
-  console.log(accept);
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle login logic here
-    fetch("http://127.0.0.1:3000/api/users/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, name, password }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        navigate("/Login");      
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        console.log("Success:");
-        setError("the email address already exist");
-      });
-  };
-
-
-  async function submit(e) {
-    e.preventDefault();
-    setAccept(true);
-    // ******************** Waiting back-end team to push the API.
-    //   try {
-    //     await axios.post("http://127.0.0.1:3000/api/register", {
-    //       name: name,
-    //       email: email,
-    //       password: password,
-    //     });
-    //     navigate("/Login");
-    //   } catch (error) {}
-  }
-
   const goToLogin = () => {
     navigate("/Login");
   };
+
+  // Data to send for API
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordR, setPasswordR] = useState("");
+  const [accept, setAccept] = useState(false);
+
+  const [error, setError] = useState("");
+
+  // Toggle Password Visibility
+  const [type, setType] = useState("password");
+  const [typeR, setTypeR] = useState("password");
+  const [icon, setIcon] = useState(faEyeSlash);
+  const [iconR, setIconR] = useState(faEyeSlash);
+
+  const handleToggle = () => {
+    if (type === "password") {
+      setIcon(faEye);
+      setType("text");
+    } else {
+      setIcon(faEyeSlash);
+      setType("password");
+    }
+  };
+
+  const handleToggleR = () => {
+    if (typeR === "password") {
+      setIconR(faEye);
+      setTypeR("text");
+    } else {
+      setIconR(faEyeSlash);
+      setTypeR("password");
+    }
+  };
+
+  // Set API Configuration
+  async function submit(e) {
+    e.preventDefault();
+    let flag;
+    setAccept(true);
+    if (name === "" || password.length < 8 || passwordR !== password) {
+      flag = false;
+    } else {
+      flag = true;
+    }
+    try {
+      if (flag) {
+        await axios
+          .post("http://127.0.0.1:3000/api/users/register", {
+            name: name,
+            email: email,
+            password: password,
+          })
+          .then();
+        if (!error) {
+          navigate("/Login");
+        }
+      }
+    } catch (err) {
+      // handle the response
+      if (err.response?.data) {
+        // If the error contains data (email already exists)
+        setError(err.response.data);
+      } else {
+        // Handle other types of errors (network issues)
+        setError("An error occurred, please try again later.");
+      }
+    }
+  }
 
   return (
     <div className="register-container">
@@ -74,71 +95,96 @@ const RegisterPage = () => {
           Login
         </button>
       </div>
-
       <div className="register-form">
-        <h2 style={{ color: "#08260F" }}>Create Account</h2>
-        <form className="form-style" onSubmit={handleSubmit}>
-          <label htmlFor="name" style={{ color: "#08260F" }}>
-            Name
-          </label>
+
+        <h2>Create Account</h2>
+
+        <form className="form-style" onSubmit={submit}>
+          <label htmlFor="name">Name</label>
           <input
             type="text"
             id="name"
             placeholder="Enter your Name"
-            required
-            aria-label="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
-          <label htmlFor="email" style={{ color: "#08260F" }}>
-            Email
-          </label>
+          <label htmlFor="email">Email</label>
           <input
             type="email"
             id="email"
             placeholder="Enter your email address"
             required
-            aria-label="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          <label htmlFor="password" style={{ color: "#08260F" }}>
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter your password"
-            required
-            aria-label="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div className="pw-container">
+            <label htmlFor="password">Password</label>
+            <input
+              type={type}
+              id="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+            />
+            <FontAwesomeIcon
+              icon={icon}
+              className="show-password"
+              onClick={() => handleToggle()}
+            />
+          </div>
 
-          <label htmlFor="password-2" style={{ color: "#08260F" }}>
-            Re-enter Password
-          </label>
-          <input
-            type="password"
-            id="password-2"
-            placeholder="Re-enter your password"
-            required
-            aria-label="Password-2"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          {password !== confirmPassword && accept && (
-            <p className="error">Password doesn't Match</p>
-          )}
+          <div className="pw-container">
+            <label htmlFor="passwordR">Re-enter Password</label>
+            <input
+              type={typeR}
+              id="passwordR"
+              placeholder="Re-enter your password"
+              value={passwordR}
+              onChange={(e) => setPasswordR(e.target.value)}
+            />
+            <FontAwesomeIcon
+              icon={iconR}
+              className="show-password"
+              onClick={() => handleToggleR()}
+            />
+          </div>
 
-          <p>
+          {/* Display Errors */}
+          <div
+            className={`error ${
+              accept &&
+              (error ||
+                name === "" ||
+                !/[A-Z]/.test(password) ||
+                password.length < 8 ||
+                password !== passwordR)
+                ? "show"
+                : ""
+            }`}
+          >
+            <p className="error-heading">Error!</p>
+
+            {name === "" && accept && <p>User name is required.</p>}
+
+            {!/[A-Z]/.test(password) && accept && (
+              <p>Password doesn't contain at least one capital letter.</p>
+            )}
+
+            {accept && error && <p>{error}</p>}
+
+            {password.length < 8 && accept && (
+              <p>Password must be more than 8 characters.</p>
+            )}
+
+            {password !== passwordR && accept && <p>Password doesn't Match.</p>}
+          </div>
+
+          <p className="terms">
             By signing up you agree to{" "}
-            <a style={{ color: "#003df3", textDecoration: "none" }} href="#">
-              terms and conditions
-            </a>{" "}
-            at Padelo.
+            <a href="#HomePage">terms and conditions</a> at Padelo.
           </p>
           {  error ? <p className ="error-message">{error}</p>:" "}
 
