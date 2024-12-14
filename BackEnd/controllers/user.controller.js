@@ -2,6 +2,7 @@ const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
+const sendEmail = require('./../email');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -64,7 +65,6 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validate email and password input
     if (!email || !password) {
       return res
         .status(400)
@@ -73,7 +73,6 @@ exports.login = async (req, res) => {
 
     console.log('Login Request Body:', req.body);
 
-    // Check if user exists
     const user = await User.findOne({ email }).select(
       '+password',
     );
@@ -86,7 +85,6 @@ exports.login = async (req, res) => {
 
     console.log('User retrieved from DB:', user);
 
-    // Validate password using bcrypt
     const isPasswordValid = await bcrypt.compare(
       password,
       user.password,
@@ -98,7 +96,6 @@ exports.login = async (req, res) => {
         .send('Invalid email or password');
     }
 
-    // Generate token
     const token = signToken(user._id);
     res.status(200).json({ user, token });
   } catch (error) {
@@ -155,14 +152,44 @@ exports.addPhoneNumber = async (req, res) => {
   }
 };
 
-exports.forgetPassword = async (req, res, next) => {
-  const user = await User.findOne({
-    email: req.body.email,
-  });
-  if (!user) {
-    res.send('No User Found to This Email And Password');
+exports.forgetPassword = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      email: req.body.email,
+    });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: 'No user found with this email' });
+    }
+
+    const resetToken = user.createResetToken();
+    await user.save({ validateBeforeSave: false });
+
+    const resetURL = `${req.protocol}:
+      'host',
+    )}/api/users/ResetPass/${resetToken}`;
+
+    const message = `Forgot your password? Submit your new password here: ${resetURL}`;
+
+    await sendEmail({
+      email: user.email,
+      subject:
+        'Your Password Reset Link (valid for 10 minutes)',
+      text: message,
+    });
+
+    return res
+      .status(200)
+      .json({ message: 'Token sent successfully :)' });
+  } catch (err) {
+    console.error('Error sending email:', err);
+
+    return res.status(500).json({
+      message:
+        'There was an error sending the email. Try again later.',
+    });
   }
-  const resettoken = user.createResetToken();
-  console.log(resettoken);
-  await user.save({ validateBeforeSave: false });
 };
+
+exports.forgetPassword = async (req, res) => {};
