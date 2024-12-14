@@ -9,6 +9,8 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [accept, setAccept] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  
   const navigate = useNavigate();
 
   console.log(name);
@@ -16,6 +18,30 @@ const RegisterPage = () => {
   console.log(password);
   console.log(confirmPassword);
   console.log(accept);
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle login logic here
+    fetch("http://127.0.0.1:3000/api/users/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, name, password }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        navigate("/Login");      
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        console.log("Success:");
+        setError("the email address already exist");
+      });
+  };
+
 
   async function submit(e) {
     e.preventDefault();
@@ -51,7 +77,7 @@ const RegisterPage = () => {
 
       <div className="register-form">
         <h2 style={{ color: "#08260F" }}>Create Account</h2>
-        <form className="form-style" onSubmit={submit}>
+        <form className="form-style" onSubmit={handleSubmit}>
           <label htmlFor="name" style={{ color: "#08260F" }}>
             Name
           </label>
@@ -114,6 +140,7 @@ const RegisterPage = () => {
             </a>{" "}
             at Padelo.
           </p>
+          {  error ? <p className ="error-message">{error}</p>:" "}
 
           <button type="submit" className="register-button">
             Register
