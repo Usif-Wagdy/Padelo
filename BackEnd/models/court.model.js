@@ -44,6 +44,7 @@ const courtSchema = new mongoose.Schema(
         { day: 'Sunday', slots: defaultSlots },
       ],
     },
+    bookingCount: { type: Number, default: 0 },
   },
   { timestamps: true },
 );

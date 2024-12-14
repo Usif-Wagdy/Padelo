@@ -161,6 +161,7 @@
         max-width: 300px; 
     }
 }
+/* Responsive Design */
 @media (max-width: 300px) {
     .login-container {
         flex-direction: row;
