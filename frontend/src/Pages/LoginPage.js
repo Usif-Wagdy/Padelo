@@ -2,31 +2,27 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import '../Pages Styles/Login.css';
+import "../Pages Styles/Login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
-  
-  const [password, setPassword] = useState("");
-   const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
 
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [loginError, setLoginError] = useState("");
   const navigate = useNavigate();
-  
+
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   const validatePassword = (password) => {
-    const hasCapitalLetter = /[A-Z]/.test(password);
-    const hasMinLength = password.length >= 8;
-    return { hasCapitalLetter, hasMinLength };
+    return password.length > 0;
   };
   const handleSubmit = (e) => {
-  
-
-
+    e.preventDefault();
     let valid = true;
 
     if (!validateEmail(email)) {
@@ -36,13 +32,8 @@ const Login = () => {
       setEmailError("");
     }
 
-    const { hasCapitalLetter, hasMinLength } = validatePassword(password);
-    if (!hasCapitalLetter || !hasMinLength) {
-      let error = "Password must: ";
-      if (!hasMinLength && !hasCapitalLetter) {error += "be at least 8 characters & contain at least one uppercase letter.";}
-    
-      else if (!hasMinLength) {error += "be at least 8 characters.";}
-      else if (!hasCapitalLetter) error += " contain at least one uppercase letter.";
+    if (!validatePassword(password)) {
+      let error = "you must enter a password";
       setPasswordError(error);
       valid = false;
     } else {
@@ -50,31 +41,26 @@ const Login = () => {
     }
 
     if (valid) {
-      console.log("Form submitted successfully.");
-    }
-    // Handle login logic here
-    fetch("http://127.0.0.1:3000/api/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-      
-    })
-      .then((response) => response.json())
-      .then((data) => {
-
-        console.log("Success:", data);
-        // route to home page
-        navigate("/Home");
+      // Handle login logic here
+      fetch("http://127.0.0.1:3000/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
       })
-      .catch((error) => {
-        console.error("Error:", error);
-        // Handle login error here
-      });
-
-    
-    
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data);
+          // route to home page
+          navigate("/Home");
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          // Handle login error here
+          setLoginError("Invalid email or password. Please try again.");
+        });
+    }
   };
 
   return (
@@ -93,8 +79,6 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
             style={{ borderColor: emailError ? "red" : "" }}
             aria-label="Email"
-            onChange={(e) => setUsername(e.target.value)}
-            
           />
           {emailError && <p className="error-message">{emailError}</p>}
 
@@ -109,9 +93,9 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             style={{ borderColor: passwordError ? "red" : "" }}
             aria-label="Password"
-            onChange={(e) => setPassword(e.target.value)}
           />
 
+          {loginError && <p className="error-message">{loginError}</p>}
           {passwordError && <p className="error-message">{passwordError}</p>}
 
           <button type="submit" className="login-button">
