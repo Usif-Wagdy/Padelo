@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "../Components/Header";
 import "../Styles/HomePage.css";
 import defaultCourtImage from "../assets/OIP.jpg";
-import { user } from "../Context/UserContext";
 
 function HomePage() {
   const [selectedLocation, setSelectedLocation] = useState("");

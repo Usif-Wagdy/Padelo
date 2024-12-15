@@ -25,6 +25,7 @@ root.render(
     <UserProvider>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<HomePage />} />
           <Route path="/Courts" element={<Courts />} />
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/Login" element={<Login />} />
@@ -33,7 +34,6 @@ root.render(
           {/* Protected Paths: Requires Auth */}
           <Route element={<PersistLogin />}>
             <Route element={<RequireAuth />}>
-              <Route path="/" element={<HomePage />} />
               <Route path="/Profile" element={<Profile />} />
               <Route path="/Admin" element={<Admin />} />
               <Route path="/Admin2" element={<Admin2 />} />

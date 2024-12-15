@@ -4,7 +4,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import "../../Styles/Register.css";
-import { user } from "../../Context/UserContext";
+import { User } from "../../Context/UserContext";
 import Cookies from "universal-cookie";
 
 const RegisterPage = () => {
@@ -15,7 +15,7 @@ const RegisterPage = () => {
   };
 
   //Get User
-  const userNow = useContext(user);
+  const userNow = useContext(User);
 
   //Cookie
   const cookie = new Cookies();
@@ -55,25 +55,21 @@ const RegisterPage = () => {
       setTypeR("password");
     }
   };
-
   // Set API Configuration
   async function submit(e) {
     e.preventDefault();
     setAccept(true);
     try {
       if (!error) {
-        let res = await axios
-          .post("http://127.0.0.1:3000/api/users/register", {
-            name: name,
-            email: email,
-            password: password,
-          })
-          .then();
+        let res = await axios.post("http://127.0.0.1:3000/api/users/register", {
+          name: name,
+          email: email,
+          password: password,
+        });
 
         const token = res.data.token;
+        cookie.set("JWT", token);
         const userDetails = res.data.user;
-        cookie.set("UserToken", token);
-
         userNow.setAuth({ token, userDetails });
 
         navigate("/");
