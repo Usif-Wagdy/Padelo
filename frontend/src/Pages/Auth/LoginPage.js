@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
-import { user } from "../../Context/UserContext";
+import { User } from "../../Context/UserContext";
 import Cookies from "universal-cookie";
 
 const LoginPage = () => {
@@ -18,10 +18,10 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [accept, setAccept] = useState(false);
 
-  //Token
-  const userNow = useContext(user);
+  // Get User
+  const userNow = useContext(User);
 
-  //Cookie
+  // Cookie
   const cookie = new Cookies();
 
   // Catch Error
@@ -41,28 +41,22 @@ const LoginPage = () => {
     }
   };
 
-  let nav = useNavigate();
-
   // Set API Configuration
   async function submit(e) {
     e.preventDefault();
     setAccept(true);
     try {
-      let res = await axios
-        .post("http://127.0.0.1:3000/api/users/login", {
-          email: email,
-          password: password,
-        })
-        .then();
+      let res = await axios.post("http://127.0.0.1:3000/api/users/login", {
+        email: email,
+        password: password,
+      });
 
       const token = res.data.token;
+      cookie.set("JWT", token);
       const userDetails = res.data.user;
-      cookie.set("UserToken", token);
-
       userNow.setAuth({ token, userDetails });
 
-      // navigate("/");
-      nav("/");
+      navigate("/");
     } catch (err) {
       // handle the response
       if (err.response?.data) {
