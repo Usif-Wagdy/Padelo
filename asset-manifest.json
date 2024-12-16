@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/Padelo/static/css/main.1f405319.css",
+    "main.js": "/Padelo/static/js/main.e5b70b3d.js",
+    "static/js/453.8ab44547.chunk.js": "/Padelo/static/js/453.8ab44547.chunk.js",
+    "static/media/R.jpg": "/Padelo/static/media/R.8d0d88c7d5e5db9d25fe.jpg",
+    "static/media/Logo.png": "/Padelo/static/media/Logo.7b8862cd89acfe9a55ba.png",
+    "static/media/fotor-ai-2024120862244.jpg": "/Padelo/static/media/fotor-ai-2024120862244.5fa7a835b8de84c95d3c.jpg",
+    "static/media/OIP.jpg": "/Padelo/static/media/OIP.4f848ce2ba4faa7f7667.jpg",
+    "static/media/aichat-image-2024-12-04T20_08_38.041Z.jpg": "/Padelo/static/media/aichat-image-2024-12-04T20_08_38.041Z.3b41767d77c8243bc362.jpg",
+    "static/media/aichat-image-2024-12-04T21_02_37.972Z.jpg": "/Padelo/static/media/aichat-image-2024-12-04T21_02_37.972Z.246b2c1f50958b28561d.jpg",
+    "index.html": "/Padelo/index.html",
+    "main.1f405319.css.map": "/Padelo/static/css/main.1f405319.css.map",
+    "main.e5b70b3d.js.map": "/Padelo/static/js/main.e5b70b3d.js.map",
+    "453.8ab44547.chunk.js.map": "/Padelo/static/js/453.8ab44547.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1f405319.css",
+    "static/js/main.e5b70b3d.js"
+  ]
+}
