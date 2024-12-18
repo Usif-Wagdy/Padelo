@@ -81,7 +81,7 @@ function Courts() {
               <div className="court-info">
                 <h3 className="court-name">Court {court.name}</h3>
                 <p className="court-location">Location: {court.location}</p>
-                <p className="court-phone">Phone: {court.phone}</p>
+                <p className="court-phone">Phone: {court.contactNumber}</p>
               </div>
             </div>
           ))
