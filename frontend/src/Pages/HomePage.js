@@ -64,6 +64,8 @@ function HomePage() {
             <div className="card">Padel X</div>
             <div className="card">Padel One</div>
             <div className="card">Rocket Padel</div>
+            <div className="card">Rocket Padel</div>
+
           </div>
         </section>
 
