@@ -21,4 +21,9 @@ router.put(
   userController.addPhoneNumber,
 );
 
+
+router.put('/change-name', userController.updateName);
+
+router.put('/change-email', userController.updateEmail);
+
 module.exports = router;

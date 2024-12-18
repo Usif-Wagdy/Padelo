@@ -4,9 +4,15 @@ const Court = require('../models/court.model');
 exports.deleteUser = async (req, res) => {
   try {
     const { email } = req.params;
+    const userId = req.user.id;
     
-    if (!req.user.isAdmin) {
-      return res.status(403).json({ error: 'Not authorized' });
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    if (user.role !== 'admin') {
+      return res.status(403).json({ error: 'Not authorized - Admin access only' });
     }
 
     const deletedUser = await User.findOneAndDelete({ email: email });
@@ -24,9 +30,15 @@ exports.updateCourtPrice = async (req, res) => {
   try {
     const { courtId } = req.params;
     const { newPrice } = req.body;
+    const userId = req.user.id;
 
-    if (!req.user.isAdmin) {
-      return res.status(403).json({ error: 'Not allowed' });
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    if (user.role !== 'admin') {
+      return res.status(403).json({ error: 'Not authorized - Admin access only' });
     }
 
     const court = await Court.findByIdAndUpdate(
@@ -52,18 +64,24 @@ exports.updateCourtPrice = async (req, res) => {
 
 exports.getAllUsers = async (req, res) => {
   try {
-
-
-
     
-    if (!req.user.isAdmin) {
-      return res.status(403).json({ error: 'Not authorized' });
+    const userId = req.user.id;
+    
+    
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' }); 
+    }
+
+   
+    if (user.role !== 'admin') {
+      return res.status(403).json({ error: 'Not authorized - Admin access only' });
     }
 
     const users = await User.find({});
     
     res.status(200).json({
-      message: 'Users retrieved successfully',
+      message: 'Users retrieved successfully', 
       users
     });
   } catch (error) {
