@@ -14,7 +14,7 @@ const PadelBooking = () => {
   
   const [minDate, setMinDate] = useState("");
 
-  const user = "675d485699a7e3e4ad8b7f2a"; 
+  const user = "675e44b3b5b52b28ffd843a2"; 
 
   const bookduration = async () => {
     const { day, time, duration } = formData;
@@ -151,7 +151,7 @@ const PadelBooking = () => {
 
 
   return (
-    <div style={{ backgroundImage: `url(${require("../assets/padel-ball-net_755219-104.png")})`, backgroundSize: "cover" ,backgroundRepeat: "no-repeat"}}>
+    <div className="padel-body" style={{ backgroundImage: `url(${require("../assets/padel-ball-net_755219-104.png")})`, backgroundSize: "cover" ,backgroundRepeat: "no-repeat"}}>
     <div className="padel-page-container" >
       <div
         className="padel-court-header"
