@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Define the default slots array
 const defaultSlots = Array.from({ length: 16 }, (_, i) => ({
   number: i + 1,
   reserved: false,
@@ -15,6 +14,24 @@ const daySchema = new mongoose.Schema({
   day: { type: String, required: true },
   slots: [slotSchema],
 });
+
+const reviewSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    comment: { type: String, required: true, trim: true },
+    rating: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 5,
+    },
+  },
+  { timestamps: true },
+);
 
 const courtSchema = new mongoose.Schema(
   {
@@ -45,8 +62,23 @@ const courtSchema = new mongoose.Schema(
       ],
     },
     bookingCount: { type: Number, default: 0 },
+    reviews: [reviewSchema],
+    averageRating: { type: Number, default: 0 },
   },
   { timestamps: true },
 );
+
+courtSchema.pre('save', function (next) {
+  if (this.reviews.length > 0) {
+    const totalRating = this.reviews.reduce(
+      (sum, review) => sum + review.rating,
+      0,
+    );
+    this.averageRating = totalRating / this.reviews.length;
+  } else {
+    this.averageRating = 0;
+  }
+  next();
+});
 
 module.exports = mongoose.model('Court', courtSchema);
