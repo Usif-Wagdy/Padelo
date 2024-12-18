@@ -1,24 +1,29 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user.controller');
+const authController = require('../controllers/auth.controller');
 
-router.post('/register', userController.addUser);
+router.post('/register', authController.addUser);
 
-router.post('/login', userController.login);
-
+router.post('/login', authController.login);
+router.post(
+  '/forgetPassword',
+  authController.forgetPassword,
+);
+router.patch(
+  '/ResetPass/:token',
+  authController.ResetPassword,
+);
 router.put('/add-image', userController.addImage);
 
 router.put(
   '/add-phone-number',
   userController.addPhoneNumber,
 );
-router.post(
-  '/forgetPassword',
-  userController.forgetPassword,
-);
-router.patch(
-  '/ResetPass/:token',
-  userController.ResetPassword,
-);
+
+
+router.put('/change-name', userController.updateName);
+
+router.put('/change-email', userController.updateEmail);
 
 module.exports = router;
