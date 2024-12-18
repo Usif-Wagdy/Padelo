@@ -7,8 +7,9 @@ import defaultCourtImage from "../assets/OIP.jpg";
 function Courts() {
   const [searchQuery, setSearchQuery] = useState("");
   const [courts, setCourts] = useState([]);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
+  
   useEffect(() => {
     fetch("http://127.0.0.1:3000/api/courts")
       .then((response) => response.json())
@@ -28,8 +29,9 @@ function Courts() {
       })
     : courts;
 
+  // Navigate to the reservation page with the selected court's id
   const handleCourtClick = (courtId) => {
-    navigate(`/reservation/${courtId}`); // Navigate to the reservation page by the court ID
+    navigate(`/reservation/${courtId}`);
   };
 
   return (
@@ -60,22 +62,22 @@ function Courts() {
         </div>
       </div>
 
-      {/* Courts Container */}
+      {/* Courts List */}
       <div className="courts-container">
         {filteredCourts.length > 0 ? (
           filteredCourts.map((court) => (
             <div
-              key={court.__id}
+              key={court._id} 
               className="Courts-court-card"
-              onClick={() => handleCourtClick(court.__id)} 
-              style={{ cursor: "pointer" }} // Make cards clickable
+              onClick={() => handleCourtClick(court._id)} 
+              style={{ cursor: "pointer" }} 
             >
               <img
                 src={court.image || defaultCourtImage}
                 alt={court.name}
                 className="court-image"
               />
-              <div className="court-info">
+            <div className="court-info">
                 <h3 className="court-name">Court {court.name}</h3>
                 <p className="court-location">Location: {court.location}</p>
                 <p className="court-phone">Phone: {court.contactNumber}</p>
