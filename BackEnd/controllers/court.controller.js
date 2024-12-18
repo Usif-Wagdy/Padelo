@@ -67,3 +67,68 @@ exports.getCourts = async (req, res) => {
       .json({ message: 'Error fetching courts', error });
   }
 };
+
+exports.addReview = async (req, res) => {
+  try {
+    const { courtId, userId, rating, comment } = req.body;
+
+    const court = await Court.findById(courtId);
+    if (!court) {
+      return res
+        .status(404)
+        .json({ message: 'Court not found' });
+    }
+
+    const newReview = {
+      user: userId,
+      rating,
+      comment,
+    };
+    court.reviews.push(newReview);
+
+    const totalRatings = court.reviews.reduce(
+      (acc, review) => acc + review.rating,
+      0,
+    );
+    court.averageRating =
+      totalRatings / court.reviews.length;
+
+    await court.save();
+
+    res.status(201).json({
+      message: 'Review added successfully!',
+      review: newReview,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error adding review',
+      error: error.message,
+    });
+  }
+};
+
+exports.getReviews = async (req, res) => {
+  try {
+    const { courtId } = req.params;
+
+    const court = await Court.findById(courtId).populate(
+      'reviews.user',
+      'name email',
+    );
+    if (!court) {
+      return res
+        .status(404)
+        .json({ message: 'Court not found' });
+    }
+
+    res.status(200).json({
+      message: 'Reviews fetched successfully!',
+      reviews: court.reviews,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error fetching reviews',
+      error: error.message,
+    });
+  }
+};
