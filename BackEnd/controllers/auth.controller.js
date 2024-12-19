@@ -4,10 +4,16 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const sendEmail = require('./../email');
 const crypto = require('crypto');
+const mongoose = require('mongoose');
 
 const signToken = (user) => {
   return jwt.sign(
-    { id: user._id, name: user.name, role: user.role },
+    {
+      id: user._id,
+      name: user.name,
+      role: user.role,
+      image: user.image,
+    },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_EXPIRES_IN,
