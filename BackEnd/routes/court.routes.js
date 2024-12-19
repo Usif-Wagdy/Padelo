@@ -4,14 +4,11 @@ const courtController = require('../controllers/court.controller');
 
 router.get('/', courtController.getCourts);
 
-router.post('/', courtController.addCourt);
-
-router.put('/:id', courtController.updateCourt);
-
-router.delete('/:id', courtController.deleteCourt);
-
 router.get('/search', courtController.searchCourts);
 
 router.get('/:id', courtController.getCourtById);
-
+router
+  .route('/:id/reviews')
+  .post(courtController.addReview)
+  .get(courtController.getReviews);
 module.exports = router;

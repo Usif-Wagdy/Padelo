@@ -64,6 +64,8 @@ function HomePage() {
             <div className="card">Padel X</div>
             <div className="card">Padel One</div>
             <div className="card">Rocket Padel</div>
+            <div className="card">Rocket Padel</div>
+
           </div>
         </section>
 
@@ -94,19 +96,24 @@ function HomePage() {
           </div>
 
           <div className="location-cards">
+
             {filteredCourts.map((court) => (
+          <Link to={`/Reservation/${court._id}`}>
+
               <div key={court._id} className="court-card">
                 <img
                   src={court.image || defaultCourtImage}
                   alt={court.name}
                   className="court-image"
-                />
+                 />
                 {/* <img src={court.photo} alt={court.name} className="court-image" /> */}
                 <div className="court-name">{court.name}</div>
                 <div className="court-address">{court.location}</div>
                 <div className="court-phone">{court.phone}</div>
               </div>
+              </Link>
             ))}
+            
           </div>
         </section>
 

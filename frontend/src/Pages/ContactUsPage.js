@@ -29,7 +29,7 @@ function ContactUs() {
         <p>Follow us on social media</p>
         <div className="social-links">
           <a
-            href="https://www.facebook.com/tamer.elgayar.56"
+            href="https://www.facebook.com/fcbarcelona"
             target="_blank"
             rel="noopener noreferrer"
           >
