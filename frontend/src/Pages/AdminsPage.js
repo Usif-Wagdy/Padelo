@@ -124,40 +124,37 @@ const AdminPage = () => {
           </button>
         </div>
         {activeSection === "update" && (
-          <div className="update-section">
-            <h2>Search for Delete or Update Court</h2>
-            <div className="search-container">
-              <input
-                type="text"
-                placeholder="Search by Court Name or Location"
-                className="search-input"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <button className="search-button" onClick={() => setSearch("")}>
-                Clear
-              </button>
-            </div>
-            <div className="courts-grid">
-              {filteredCourts.map((court) => (
-                <div key={court.__id} className="admin-court-card">
-                  <Link to={`/Admin2`}>
-                    <img
-                      src={court.image}
-                      alt={court.name}
-                      className="court-image"
-                    />
-                  </Link>
-                  <div className="court-details">
-                    <p className="court-name">{court.name}</p>
-                    <p className="court-address">{court.location}</p>
-                    <p className="court-phone">{court.phone}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+  <div className="update-section">
+    <h2>Search for Delete or Update Court</h2>
+    <div className="search-container">
+      <input
+        type="text"
+        placeholder="Search by Court Name or Location"
+        className="search-input"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <button className="search-button" onClick={() => setSearch("")}>
+        Clear
+      </button>
+    </div>
+    <div className="courts-grid">
+      {filteredCourts.map((court) => (
+        <div key={court._id} className="admin-court-card">
+          <Link to={`/Admin/${court._id}`} state={{ token: cookie.get("JWT") }}>
+          <img src={court.image} alt={court.name} className="court-image" />
+          </Link>
+          <div className="court-details">
+            <p className="court-name">{court.name}</p>
+            <p className="court-address">{court.location}</p>
+            <p className="court-phone">{court.phone}</p>
           </div>
-        )}
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
         {activeSection === "add" && (
           <div className="add-section">
             <h2>ADD COURT</h2>
