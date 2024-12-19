@@ -92,6 +92,10 @@
 
 .picked-cards .card {
   background-color: #02b875;
+ 
+  background-position: center;
+  background-size: cover;
+  
   color: white;
   padding: 15px;
   border-radius: 10px;
@@ -99,6 +103,7 @@
   font-size: 1rem;
   width: 150px;
 }
+
 
 /* Locations Section */
 .locations {
