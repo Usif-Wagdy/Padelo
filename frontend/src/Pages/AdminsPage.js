@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../Styles/AdminPage.css";
-import Header3 from "../Components/HeaderAdminPage";
 import defaultCourtImage from "../assets/OIP.jpg";
+import Header from "../Components/Header/Header";
 import { Link } from "react-router-dom";
 
 const AdminPage = () => {
@@ -34,8 +34,8 @@ const AdminPage = () => {
 
   return (
     <body className="admin-page">
+      <Header />
       <div className="admin-container">
-        <Header3 />
         <h1 className="admin-header">.</h1>
         <div className="buttons-container">
           <button

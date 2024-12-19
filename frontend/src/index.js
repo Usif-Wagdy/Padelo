@@ -13,6 +13,7 @@ import Profile from "./Pages/ProfilePage";
 import Admin from "./Pages/AdminsPage";
 import Admin2 from "./Pages/adminPage2";
 import Reservation from "./Pages/ReservationPage";
+
 // Auth Controllers
 import UserProvider from "./Context/UserContext";
 import RequireAuth from "./Pages/Auth/RequireAuth";
@@ -25,18 +26,17 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/Courts" element={<Courts />} />
-          <Route path="/ContactUs" element={<ContactUs />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/Register" element={<Register />} />
-          <Route path="/Reservation/:id" element={<Reservation />} />
+          <Route path="/courts" element={<Courts />} />
+          <Route path="/contactUs" element={<ContactUs />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           {/* Protected Paths: Requires Auth */}
           <Route element={<PersistLogin />}>
             <Route element={<RequireAuth />}>
-              <Route path="/Profile" element={<Profile />} />
-              <Route path="/Admin" element={<Admin />} />
-              <Route path="/Admin2" element={<Admin2 />} />
-              
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/admin2" element={<Admin2 />} />
+              <Route path="/reservation/:id" element={<Reservation />} />
             </Route>
           </Route>
         </Routes>

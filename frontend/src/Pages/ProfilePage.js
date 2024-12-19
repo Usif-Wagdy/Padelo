@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../Styles/ProfilePage.css";
-import Header2 from "../Components/Header2";
+import Header from "../Components/Header/Header";
+
 import { FaStar } from "react-icons/fa";
 
 const ProfilePage = () => {
@@ -77,7 +78,7 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-page">
-      <Header2 />
+      <Header />
       <div className="background-image"></div>
       <div className="profile-container">
         <header className="profile-header">

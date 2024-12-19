@@ -39,6 +39,15 @@ p {
   margin: 0;
 }
 
+a {
+  text-decoration: none;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 .main-logo,
 .main-btn {
   font-family: "Montserrat", serif;
@@ -90,18 +99,22 @@ h3 {
 }
 
 .main-logo {
+  text-transform: uppercase;
+  width: fit-content;
+  font-size: 32px;
+  font-weight: 600;
   color: #3282b8;
   position: relative;
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 7px;
-    right: -2px;
-    background-color: #2fad2f;
-    width: 3px;
-    height: 3px;
-    border-radius: 50%;
-  }
+}
+.main-logo::after {
+  content: "";
+  position: absolute;
+  bottom: 7px;
+  right: -2px;
+  background-color: #009f89;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
 }
 
 .main-btn {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../Components/Header";
+import Header from "../Components/Header/Header";
 import "../Styles/Courts.css";
 import defaultCourtImage from "../assets/OIP.jpg";
 
@@ -9,7 +9,6 @@ function Courts() {
   const [courts, setCourts] = useState([]);
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     fetch("http://127.0.0.1:3000/api/courts")
       .then((response) => response.json())
@@ -67,17 +66,17 @@ function Courts() {
         {filteredCourts.length > 0 ? (
           filteredCourts.map((court) => (
             <div
-              key={court._id} 
+              key={court._id}
               className="Courts-court-card"
-              onClick={() => handleCourtClick(court._id)} 
-              style={{ cursor: "pointer" }} 
+              onClick={() => handleCourtClick(court._id)}
+              style={{ cursor: "pointer" }}
             >
               <img
                 src={court.image || defaultCourtImage}
                 alt={court.name}
                 className="court-image"
               />
-            <div className="court-info">
+              <div className="court-info">
                 <h3 className="court-name">Court {court.name}</h3>
                 <p className="court-location">Location: {court.location}</p>
                 <p className="court-phone">Phone: {court.contactNumber}</p>

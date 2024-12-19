@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../Styles/adminPage2.css";
-import Header3 from "../Components/HeaderAdminPage";
+import Header from "../Components/Header/Header";
 
 function UpdateCourt() {
   const [courtName, setCourtName] = useState("");
@@ -19,8 +19,7 @@ function UpdateCourt() {
 
   return (
     <div className="update-court">
-      <Header3 />
-
+      <Header />
       <div
         className="court-info"
         style={{ backgroundImage: `url(${require("../assets/R.jpg")})` }}

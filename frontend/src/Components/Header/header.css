@@ -1,0 +1,91 @@
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f5f7f8;
+}
+.header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  border-bottom: 1px solid #ddd;
+}
+.header .container .left {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-right: 50px;
+}
+.header .container .left img {
+  width: 70px;
+}
+.header .container .left .main-logo {
+  font-size: 25px;
+  margin-left: -15px;
+}
+.header .container .left::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  right: 0;
+  height: 30px;
+  width: 2px;
+  border-radius: 2px;
+  background-color: #3282b8;
+}
+.header .container .mid {
+  flex: 1;
+}
+.header .container .mid ul {
+  display: flex;
+  justify-content: flex-start;
+  gap: 30px;
+}
+.header .container .mid ul li a {
+  display: block;
+  padding: 27px 10px;
+  color: #0f4c75;
+  font-size: 21px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s ease;
+}
+.header .container .mid ul li a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -200px;
+  width: 110%;
+  height: 1px;
+  background-color: transparent;
+  transition: 0.3s ease;
+}
+.header .container .mid ul li.active a {
+  color: #3282b8;
+}
+.header .container .mid ul li.active a::after {
+  left: 0;
+  background-color: #3282b8;
+}
+.header .container .mid ul li:hover a {
+  color: #3282b8;
+}
+.header .container .mid ul li:hover a::after {
+  left: 0;
+  background-color: #3282b8;
+}
+.header .container .right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header .container .right a {
+  width: 140px;
+  text-align: center;
+}/*# sourceMappingURL=header.css.map */
