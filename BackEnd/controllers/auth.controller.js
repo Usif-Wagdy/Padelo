@@ -50,7 +50,7 @@ exports.addUser = async (req, res) => {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
-        message: `The email "${email}" is already registered.`,
+        message: `The email ${email} is already registered.`,
       });
     }
 
@@ -60,13 +60,16 @@ exports.addUser = async (req, res) => {
       100000,
       999999,
     );
+    const verificationCodeExpires =
+      Date.now() + 5 * 60 * 1000;
 
     const newUser = new User({
       name: name.trim(),
       email: email.toLowerCase(),
       password: hashedPassword,
       isVerified: false,
-      verificationCode,
+      emailVerificationCode: verificationCode,
+      verificationCodeExpires: verificationCodeExpires,
     });
 
     await newUser.save();
@@ -279,4 +282,41 @@ exports.ResetPassword = async (req, res) => {
 
   const token = signToken(user._id);
   res.status(200).json({ user, token });
+};
+
+exports.verifyEmail = async (req, res) => {
+  try {
+    const { email, code } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ error: 'User not found' });
+    }
+    const token = signToken(user);
+    console.log(code, user.verificationCode);
+    if (
+      user.emailVerificationCode !== code ||
+      user.verificationCodeExpires < Date.now()
+    ) {
+      return res.status(400).json({
+        error: 'Invalid or expired verification code',
+      });
+    }
+
+    user.isVerified = true;
+    user.emailVerificationCode = undefined;
+    user.verificationCodeExpires = undefined;
+    await user.save();
+
+    res
+      .status(200)
+      .json(
+        { message: 'Email verified successfully' },
+        token,
+      );
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };

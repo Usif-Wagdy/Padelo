@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const reservationController = require('../controllers/reservation.controller');
-// const adminAuth = require('../middlewares/admin.auth'); // Your middleware file
 
 router.get(
   '/user/:user',
