@@ -57,17 +57,23 @@ function HomePage() {
         </div>
 
         <section className="most-picked">
-          <h2>Most Picked</h2>
-          <div className="picked-cards">
-            <div className="card">Padel Shift</div>
-            <div className="card">We Padel</div>
-            <div className="card">Padel X</div>
-            <div className="card">Padel One</div>
-            <div className="card">Rocket Padel</div>
-            <div className="card">Rocket Padel</div>
+  <h2>Most Picked</h2>
+  <div className="picked-cards">
+    {courts
+      .filter((court) => court.bookingCount ) 
+      .map((court) => (
+        <div key={court._id} className="card" style={{ backgroundImage: `url(${court.image || defaultCourtImage})`,backgroundSize: "cover"}}>
+          <Link to={`/Reservation/${court._id}`} style={{ textDecoration: "none" }}>
 
-          </div>
-        </section>
+                  <div style={{ display: "flex", flexDirection: "column" ,fontFamily: "Poppins",color: "white",padding: "15px",borderRadius: "10px",textAlign: "center",fontSize: "2rem",width: "150px"}} >
+                    <h3>{court.name}</h3>
+                    
+                  </div>
+          </Link>
+        </div>
+      ))}
+  </div>
+</section>
 
         <section className="locations">
           <div
