@@ -3,7 +3,7 @@ import Header from "../Components/Header";
 // import { courts } from "../Components/courtsData";
 import "../Styles/Courts.css";
 import defaultCourtImage from "../assets/OIP.jpg";
-
+import { Link } from "react-router-dom";
 function Courts() {
   const [searchQuery, setSearchQuery] = useState("");
   const [courts, setCourts] = useState([]);
@@ -58,12 +58,17 @@ function Courts() {
       <div className="courts-container">
         {filteredCourts.length > 0 ? (
           filteredCourts.map((court) => (
+
             <div key={court.__id} className="Courts-court-card">
+          <Link to={`/Reservation/${court._id}`}>
+                              
               <img
                 src={court.image || defaultCourtImage}
                 alt={court.name}
                 className="court-image"
               />
+            </Link>
+
               <div className="court-info">
                 <h3 className="court-name">Court {court.name}</h3>
                 <p className="court-location">Location: {court.location}</p>
