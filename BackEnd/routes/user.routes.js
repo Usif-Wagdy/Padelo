@@ -1,29 +1,41 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
 const userController = require('../controllers/user.controller');
 const authController = require('../controllers/auth.controller');
+const authMiddleware = require('../middleware/authMiddleware');
 
 router.post('/register', authController.addUser);
-
 router.post('/login', authController.login);
 router.post(
-  '/forgetPassword',
+  '/forget-password',
   authController.forgetPassword,
 );
 router.patch(
-  '/ResetPass/:token',
+  '/reset-password/:token',
   authController.ResetPassword,
 );
-router.put('/add-image', userController.addImage);
 
 router.put(
+  '/add-image',
+  authMiddleware,
+  userController.addImage,
+);
+router.put(
   '/add-phone-number',
+  authMiddleware,
   userController.addPhoneNumber,
 );
-
-
-router.put('/change-name', userController.updateName);
-
-router.put('/change-email', userController.updateEmail);
+router.put(
+  '/change-name',
+  authMiddleware,
+  userController.updateName,
+);
+router.put(
+  '/change-email',
+  authMiddleware,
+  userController.updateEmail,
+);
 
 module.exports = router;
