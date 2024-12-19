@@ -22,36 +22,36 @@ const signToken = (user) => {
 };
 
 exports.addUser = async (req, res) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
     const { name, email, password } = req.body;
 
     if (!name || name.trim() === '') {
-      return res
-        .status(400)
-        .json({ message: 'Name is required' });
+      throw new Error('Name is required');
     }
 
     if (!email || !validator.isEmail(email)) {
-      return res
-        .status(400)
-        .json({ message: 'A valid email is required' });
+      throw new Error('A valid email is required');
     }
 
     if (
       !password ||
       !validator.isStrongPassword(password)
     ) {
-      return res.status(400).json({
-        message:
-          'Password must be strong. Include at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and 1 symbol.',
-      });
+      throw new Error(
+        'Password must be strong. Include at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and 1 symbol.',
+      );
     }
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({
+      email,
+    }).session(session);
     if (existingUser) {
-      return res.status(400).json({
-        message: `The email ${email} is already registered.`,
-      });
+      throw new Error(
+        `The email ${email} is already registered.`,
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -72,8 +72,10 @@ exports.addUser = async (req, res) => {
       verificationCodeExpires: verificationCodeExpires,
     });
 
-    await newUser.save();
+    await newUser.save({ session });
+
     console.log('Sending email to:', email);
+
     const emailContent = `
     <html>
       <head>
@@ -154,6 +156,9 @@ exports.addUser = async (req, res) => {
       html: emailContent,
     });
 
+    await session.commitTransaction();
+    session.endSession();
+
     res.status(201).json({
       message:
         'User registered successfully. Please verify your email to activate your account.',
@@ -165,6 +170,9 @@ exports.addUser = async (req, res) => {
       },
     });
   } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+
     res.status(500).json({
       message: 'Error registering user',
       error: error.message,
@@ -310,12 +318,10 @@ exports.verifyEmail = async (req, res) => {
     user.verificationCodeExpires = undefined;
     await user.save();
 
-    res
-      .status(200)
-      .json(
-        { message: 'Email verified successfully' },
-        token,
-      );
+    res.status(200).json({
+      message: 'Email verified successfully',
+      token: token,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
