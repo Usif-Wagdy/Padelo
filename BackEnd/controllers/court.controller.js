@@ -1,40 +1,38 @@
 const Court = require('../models/court.model');
 
-exports.addCourt = async (req, res) => {
+exports.searchCourts = async (req, res) => {
   try {
-    const {
-      name,
-      description,
-      price,
-      location,
-      email,
-      phoneNumber,
-    } = req.body;
+    const { q } = req.query;
 
-    const image = req.file
-      ? `/uploads/${req.file.filename}`
-      : '';
-
-    const newCourt = new Court({
-      name,
-      description,
-      price,
-      location,
-      email,
-      phoneNumber,
-      image,
+    const courts = await Court.find({
+      name: { $regex: q, $options: 'i' },
     });
 
-    await newCourt.save();
-
-    res.status(201).json({
-      message: 'Court added successfully!',
-      court: newCourt,
-    });
+    res.status(200).json({ courts });
   } catch (error) {
     res
       .status(500)
-      .json({ message: 'Error adding court', error });
+      .json({ message: 'Error searching courts', error });
+  }
+};
+
+exports.getCourtById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const court = await Court.findById(id);
+
+    if (!court) {
+      return res
+        .status(404)
+        .json({ message: 'Court not found' });
+    }
+
+    res.status(200).json({ court });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Error fetching court', error });
   }
 };
 
@@ -70,85 +68,67 @@ exports.getCourts = async (req, res) => {
   }
 };
 
-exports.updateCourt = async (req, res) => {
+exports.addReview = async (req, res) => {
   try {
-    const { id } = req.params;
-    const updates = req.body;
+    const { courtId, userId, rating, comment } = req.body;
 
-    const updatedCourt = await Court.findByIdAndUpdate(
-      id,
-      updates,
-      {
-        new: true,
-      },
+    const court = await Court.findById(courtId);
+    if (!court) {
+      return res
+        .status(404)
+        .json({ message: 'Court not found' });
+    }
+
+    const newReview = {
+      user: userId,
+      rating,
+      comment,
+    };
+    court.reviews.push(newReview);
+
+    const totalRatings = court.reviews.reduce(
+      (acc, review) => acc + review.rating,
+      0,
     );
+    court.averageRating =
+      totalRatings / court.reviews.length;
 
-    if (!updatedCourt) {
+    await court.save();
+
+    res.status(201).json({
+      message: 'Review added successfully!',
+      review: newReview,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error adding review',
+      error: error.message,
+    });
+  }
+};
+
+exports.getReviews = async (req, res) => {
+  try {
+    const { courtId } = req.params;
+
+    const court = await Court.findById(courtId).populate(
+      'reviews.user',
+      'name email',
+    );
+    if (!court) {
       return res
         .status(404)
         .json({ message: 'Court not found' });
     }
 
     res.status(200).json({
-      message: 'Court updated successfully!',
-      court: updatedCourt,
+      message: 'Reviews fetched successfully!',
+      reviews: court.reviews,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: 'Error updating court', error });
-  }
-};
-
-exports.deleteCourt = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const deletedCourt = await Court.findByIdAndDelete(id);
-    if (!deletedCourt) {
-      return res
-        .status(404)
-        .json({ message: 'Court not found' });
-    }
-
-    res
-      .status(200)
-      .json({ message: 'Court deleted successfully!' });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: 'Error deleting court', error });
-  }
-};
-
-exports.searchCourts = async (req, res) => {
-  try {
-    const { q } = req.query;
-
-    const courts = await Court.find({
-      name: { $regex: q, $options: 'i' },
+    res.status(500).json({
+      message: 'Error fetching reviews',
+      error: error.message,
     });
-
-    res.status(200).json({ courts });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: 'Error searching courts', error });
-  }
-};
-
-exports.getCourtById = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const court = await Court.findById(id);
-
-    if (!court) {
-      return res.status(404).json({ message: 'Court not found' });
-    }
-
-    res.status(200).json({ court });
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching court', error });
   }
 };

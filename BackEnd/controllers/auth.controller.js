@@ -5,16 +5,21 @@ const jwt = require('jsonwebtoken');
 const sendEmail = require('./../email');
 const crypto = require('crypto');
 
-const signToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
+const signToken = (user) => {
+  return jwt.sign(
+    { id: user._id, name: user.name, role: user.role }, // Include 'name' and 'role'
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    },
+  );
 };
 
 exports.addUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
+    // Validate input
     if (!email || !validator.isEmail(email)) {
       return res
         .status(400)
@@ -43,22 +48,24 @@ exports.addUser = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const newUser = new User({
       email,
       password: hashedPassword,
       name,
     });
 
-    const token = signToken(newUser._id);
-
     await newUser.save();
+
+    const token = signToken(newUser);
+
     res.status(201).json({ user: newUser, token });
   } catch (error) {
     res.status(500).json({
       message: 'Error registering user',
       error: error.message,
     });
-    console.log(`this error is ${error}`);
+    console.log(`This error is ${error}`);
   }
 };
 
@@ -97,7 +104,7 @@ exports.login = async (req, res) => {
         .send('Invalid email or password');
     }
 
-    const token = signToken(user._id);
+    const token = signToken(user);
     res.status(200).json({ user, token });
   } catch (error) {
     console.error('Login Error:', error.message);

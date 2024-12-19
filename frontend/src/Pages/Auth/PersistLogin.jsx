@@ -22,20 +22,20 @@ export default function PersistLogin() {
 
       if (getToken) {
         // Simulating refreshing token
-        const fetchedData = user.auth.userData || {}; // Use existing data if available
+        const fetchedUserData = user.auth.userData || {}; // Use existing data if available
 
         // Update context & send it back (to keep the user logged-in, because the context data deleted on every refresh)
-        user.setAuth({ token: getToken, userData: fetchedData });
+        user.setAuth({ token: getToken, userData: fetchedUserData });
         console.log("Updated user context with token and data.");
       } else {
         console.log("No token found in cookies. User remains unauthenticated.");
       }
 
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
 
     refresh();
-  }, []); // Run only once on mount
+  }, []);
 
   return loading ? <LoadingScreen /> : <Outlet />;
 }

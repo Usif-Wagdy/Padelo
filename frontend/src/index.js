@@ -1,8 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom"; // Import necessary components
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
-import reportWebVitals from "./reportWebVitals";
 
 // Website Pages
 import Login from "./Pages/Auth/LoginPage";
@@ -45,5 +44,3 @@ root.render(
     </UserProvider>
   </React.StrictMode>
 );
-
-reportWebVitals();
