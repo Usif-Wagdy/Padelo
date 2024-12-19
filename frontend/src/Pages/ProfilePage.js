@@ -3,7 +3,8 @@ import "../Styles/ProfilePage.css";
 import Header from "../Components/Header/Header";
 
 import { FaStar } from "react-icons/fa";
-
+import Cookies from "universal-cookie";
+import { jwtDecode } from "jwt-decode";
 const ProfilePage = () => {
   const [bookingHistory, setBookingHistory] = useState([]);
   const [personalInfo, setPersonalInfo] = useState({
@@ -14,7 +15,8 @@ const ProfilePage = () => {
   const [comment, setComment] = useState("");
   const [ratings, setRatings] = useState({});
   const [hoverRatings, setHoverRatings] = useState({});
-
+  const cookie = new Cookies();
+  const userId = jwtDecode(cookie.get("JWT"));
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setPersonalInfo((prev) => ({ ...prev, [name]: value }));
@@ -43,9 +45,8 @@ const ProfilePage = () => {
 
   const fetchBookingHistory = async () => {
     try {
-      const userId = "675e44b3b5b52b28ffd843a2";
       const response = await fetch(
-        `http://127.0.0.1:3000/api/reservations/user/${userId}`
+        `http://127.0.0.1:3000/api/reservations/user/${userId.id}`
       );
       const data = await response.json();
       setBookingHistory(data.reservations);
@@ -92,7 +93,7 @@ const ProfilePage = () => {
               <tr>
                 <th>Booking No.</th>
                 <th>Date</th>
-                <th>Duration</th>
+                <th>Time</th>
                 <th>Court</th>
                 <th>Status</th>
                 <th>Rating</th>
@@ -104,7 +105,11 @@ const ProfilePage = () => {
                 <tr key={booking._id}>
                   <td>{booking._id}</td>
                   <td>{booking.court.schedule[0]?.day || "N/A"}</td>
-                  <td>{booking.court.schedule[0]?.slots?.length || "N/A"}</td>
+                  <td>
+                    {booking.court.schedule[0]?.slots?.find(
+                      (slot) => slot.number === booking.slotNumber
+                    )?.number || "N/A"}
+                  </td>
                   <td>{booking.court.name}</td>
                   <td>{booking.status || "Reserved"}</td>
                   <td>

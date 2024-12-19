@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema(
     phoneNumber: {
       type: String,
     },
+    isVerified: { type: Boolean, default: false },
+    emailVerificationCode: { type: String },
+    verificationCodeExpires: { type: Date },
     role: {
       type: String,
       enum: ['admin', 'user'],

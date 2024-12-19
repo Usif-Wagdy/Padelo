@@ -7,7 +7,7 @@ const crypto = require('crypto');
 
 const signToken = (user) => {
   return jwt.sign(
-    { id: user._id, name: user.name, role: user.role }, // Include 'name' and 'role'
+    { id: user._id, name: user.name, role: user.role },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_EXPIRES_IN,
@@ -19,53 +19,150 @@ exports.addUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // Validate input
+    if (!name || name.trim() === '') {
+      return res
+        .status(400)
+        .json({ message: 'Name is required' });
+    }
+
     if (!email || !validator.isEmail(email)) {
       return res
         .status(400)
-        .send('A valid Email is Required');
-    }
-
-    if (!name) {
-      return res
-        .status(400)
-        .send('A valid name is required');
+        .json({ message: 'A valid email is required' });
     }
 
     if (
       !password ||
       !validator.isStrongPassword(password)
     ) {
-      return res
-        .status(400)
-        .send('A strong password is required');
+      return res.status(400).json({
+        message:
+          'Password must be strong. Include at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and 1 symbol.',
+      });
     }
 
-    if (await User.findOne({ email })) {
-      return res
-        .status(400)
-        .send(`This email "${email}" already exists`);
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        message: `The email "${email}" is already registered.`,
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    const verificationCode = crypto.randomInt(
+      100000,
+      999999,
+    );
+
     const newUser = new User({
-      email,
+      name: name.trim(),
+      email: email.toLowerCase(),
       password: hashedPassword,
-      name,
+      isVerified: false,
+      verificationCode,
     });
 
     await newUser.save();
+    console.log('Sending email to:', email);
+    const emailContent = `
+    <html>
+      <head>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+          }
+          .email-container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          }
+          .email-header {
+            text-align: center;
+            padding-bottom: 20px;
+          }
+          .email-header h1 {
+            color: #4CAF50;
+          }
+          .email-body {
+            font-size: 16px;
+            line-height: 1.6;
+          }
+          .verification-code {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 20px 0;
+            background-color: #e8f5e9;
+            border: 1px solid #4CAF50;
+            border-radius: 5px;
+          }
+          .footer {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 14px;
+            color: #777;
+          }
+          .footer a {
+            color: #4CAF50;
+            text-decoration: none;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="email-container">
+          <div class="email-header">
+            <h1>Welcome to Our Service, ${name}!</h1>
+          </div>
+          <div class="email-body">
+            <p>Hi ${name},</p>
+            <p>Thank you for registering with us. To complete your registration, please use the verification code below:</p>
+            <div class="verification-code">${verificationCode}</div>
+            <p>Please enter this code on the verification page to activate your account.</p>
+            <p>If you did not request this, please ignore this email.</p>
+          </div>
+          <div class="footer">
+            <p>Thank you for choosing us!</p>
+            <p>If you have any questions, feel free to <a href="mailto:support@example.com">contact our support team</a>.</p>
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
 
-    const token = signToken(newUser);
+    await sendEmail({
+      email: email,
+      subject: 'Verify Your Email Address',
+      html: emailContent,
+    });
 
-    res.status(201).json({ user: newUser, token });
+    res.status(201).json({
+      message:
+        'User registered successfully. Please verify your email to activate your account.',
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        isVerified: newUser.isVerified,
+      },
+    });
   } catch (error) {
     res.status(500).json({
       message: 'Error registering user',
       error: error.message,
     });
-    console.log(`This error is ${error}`);
+    console.error(
+      `Error during user registration: ${error}`,
+    );
   }
 };
 

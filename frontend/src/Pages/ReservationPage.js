@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../Styles/ReservationPage.css";
 import { useParams } from "react-router-dom";
-import Header from "../Components/Header/Header";
+import Cookies from "universal-cookie";
+import { jwtDecode } from "jwt-decode";
 
 const PadelBooking = () => {
   const court1 = useParams();
@@ -11,9 +12,11 @@ const PadelBooking = () => {
   const [slots, setSlots] = useState([]);
   const [slotsReserved, setSlots1] = useState([]);
 
+  const cookie = new Cookies();
+  const userId = jwtDecode(cookie.get("JWT"));
   const [minDate, setMinDate] = useState("");
 
-  const user = "675e44b3b5b52b28ffd843a2";
+  const user = userId.id;
 
   const bookduration = async () => {
     const { day, time, duration } = formData;
@@ -158,7 +161,6 @@ const PadelBooking = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <Header />
       <div className="padel-page-container">
         <div
           className="padel-court-header"
@@ -283,11 +285,11 @@ const PadelBooking = () => {
           </div>
         </section>
 
-        {/* Ratings Section */}
+        {/* Ratings Section
         <section className="padel-ratings-section">
           <h3>Ratings & Comments</h3>
           <p>Share your experience here!</p>
-        </section>
+        </section> */}
 
         {/* Map Section */}
         <section className="padel-map-section">

@@ -53,14 +53,22 @@ export default function Header() {
             </li>
           </ul>
         </div>
-        <div className="right">
-          <Link to={"/register"} className="main-btn">
-            Register
-          </Link>
-          <Link to={"/login"} className="main-btn">
-            Login
-          </Link>
-        </div>
+        {user.name === "" ? (
+          <div className="right">
+            <Link to={"/register"} className="main-btn">
+              Register
+            </Link>
+            <Link to={"/login"} className="main-btn">
+              Login
+            </Link>
+          </div>
+        ) : (
+          <div className="right">
+            <Link to={"/profile"} className="main-btn">
+              Profile
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

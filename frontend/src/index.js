@@ -35,7 +35,7 @@ root.render(
             <Route element={<RequireAuth />}>
               <Route path="/profile" element={<Profile />} />
               <Route path="/admin" element={<Admin />} />
-              <Route path="/admin2" element={<Admin2 />} />
+              <Route path="/Admin/:id" element={<Admin2 />} />
               <Route path="/reservation/:id" element={<Reservation />} />
             </Route>
           </Route>
