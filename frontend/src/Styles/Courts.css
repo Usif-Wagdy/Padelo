@@ -26,7 +26,7 @@
 
 .main-text {
     position: absolute;
-    top: 40%;
+    top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
@@ -45,7 +45,7 @@
 
 .padelo-text {
     position: absolute;
-    top: 65%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
@@ -64,7 +64,7 @@
 
 .steps-text {
     position: absolute;
-    bottom: 3%;
+    bottom: 2%;
     font-size: 2rem;
     font-weight: bold;
     color: white;
@@ -101,7 +101,7 @@
 
 .search-bar {
     position: absolute;
-    top: 80%;
+    top: 77%;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -170,6 +170,7 @@
 }
 
 .Courts-court-card {
+    position: relative; /* Make the court card a positioned element */
     background-color: white;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -177,7 +178,7 @@
     width: 300px;
     text-align: center;
     transition: transform 0.3s;
-}
+  }
 
 .Courts-court-card:hover {
     transform: scale(1.04);
@@ -248,3 +249,33 @@
     color: #28a745;
     font-size: 1.3rem;
 }
+.reviews-island {
+    position: absolute;
+    top:120px; /* Move it slightly above the bottom */
+    left: 3px; /* Align it to the left */
+    display: flex;
+    align-items: center;
+    gap: 0.3rem; /* Adjust spacing */
+    background-color: #e9fbee;
+    padding: 0.3rem 0.7rem; /* Smaller padding */
+    border-radius: 15px; /* Slightly smaller border radius */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Lighter shadow */
+    font-size: 0.9rem; /* Smaller font size */
+    font-weight: bold;
+    color: #2c3e50;
+  }
+  
+  .average-rating {
+    color: #28a745; /* Green for the average rating */
+    font-size: 1rem; /* Smaller font size */
+  }
+  
+  .reviews-icon {
+    color: #156a28;
+    font-size: 1rem; /* Adjust size */
+  }
+  
+  .reviews-count {
+    color: #555;
+    font-size: 0.9rem; /* Smaller font size */
+  }
