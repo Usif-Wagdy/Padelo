@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import LoginForm from "../../Components/Auth/LoginForm";
 import { User } from "../../Context/UserContext";
 import { useNavigate } from "react-router-dom";
@@ -6,9 +6,10 @@ import "./auth.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
 
-const RegisterPage = () => {
+const LoginPage = () => {
   const userNow = useContext(User);
   const navigate = useNavigate();
+  const [emailInput, setEmailInput] = useState(""); // State to manage the email input
 
   return (
     <div className="container">
@@ -21,7 +22,22 @@ const RegisterPage = () => {
             </button>
 
             <h2>Login</h2>
-            <LoginForm userNow={userNow} />
+            {/* Pass setEmailInput to LoginForm to track the email input */}
+            <LoginForm userNow={userNow} setEmailInput={setEmailInput} />
+
+            {/* Forgot Password Link */}
+            <div className="forgot-password">
+              <p>
+                <span
+                  className="forgot-link"
+                  onClick={() =>
+                    navigate("/ForgetPassword", { state: { email: emailInput } })
+                  }
+                >
+                  Forgot Password?
+                </span>
+              </p>
+            </div>
           </div>
 
           <div className="auth-switch">
@@ -39,4 +55,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default LoginPage;

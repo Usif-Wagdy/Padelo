@@ -157,11 +157,6 @@ const PadelBooking = () => {
   return (
     <div
       className="padel-body"
-      style={{
-        backgroundImage: `url(${require("../assets/padel-ball-net_755219-104.png")})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-      }}
     >
       <div className="padel-page-container">
         <div
@@ -233,9 +228,9 @@ const PadelBooking = () => {
               ))}
             </select>
 
-            <p>
+            <p style={{ fontSize: "20px",color:"white" }}>
               Price:{" "}
-              <strong>{courtData ? courtData.price : "Loading..."} LE</strong>
+              <strong style={{ color: "green" }}>{courtData ? courtData.price : "Loading..."} LE</strong>
             </p>
             <button type="submit">Book</button>
           </form>
@@ -243,7 +238,7 @@ const PadelBooking = () => {
 
         {/* Available Slots Section */}
         <section className="padel-slots-section">
-          <h3 style={{ textAlign: "center", color: "green", fontSize: "20px" }}>
+          <h3 style={{ textAlign: "center", fontSize: "20px" }}>
             Available Slots
           </h3>
           <div className="padel-slots-grid">

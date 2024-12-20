@@ -6,22 +6,22 @@
   align-items: center;
   min-height: 100vh;
   position: relative;
-  background-color: rgba(255, 255, 255, 0.5); /* Fallback background color */
+  background-color: rgba(255, 255, 255, 0.5);
   color: #08260F;
   font-family: Arial, sans-serif;
 }
 
-.background-image {
+.background-img {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/aichat-image-2024-12-04T21_02_37.972Z.jpg');
+  background-image: url('../assets/fotor-ai-2024120862244.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  z-index: -1; /* Place behind all other content */
+  z-index: 0; /* Place behind all other content */
 }
 
 /* Main content styling */

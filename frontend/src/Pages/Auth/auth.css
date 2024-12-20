@@ -5,6 +5,20 @@ body {
   padding: 0;
 }
 
+  .forgot-password {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .forgot-link {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: unset;
+  }
+  
+  .forgot-link:hover {
+    color: #0056b3;
+  }
 .container .auth-box {
   height: 100vh;
   display: flex;

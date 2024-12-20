@@ -256,7 +256,7 @@ exports.forgetPassword = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: 'Token sent successfully :)' });
+      .json({ message: 'email has been sent successfully' });
   } catch (err) {
     console.error('Error sending email:', err);
 
