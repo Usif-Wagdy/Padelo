@@ -25,6 +25,8 @@ import Reservation from "./Pages/ReservationPage";
 import OtpCheckPage from "./Pages/OTPcheck";
 import History from "./Components/Profile/History";
 import AccountSettings from "./Components/Profile/AccountSettings";
+import ForgetPassword from "./Pages/ForgetPassword";
+import ResetPassword from "./Pages/ResetPasswordPage";
 
 // Layouts, main with header, auth without
 const MainLayout = () => (
@@ -52,8 +54,10 @@ root.render(
             <Route element={<RequireNoAuth />}>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              
-
+              <Route path="/ForgetPassword" element={<ForgetPassword />} />
+              <Route path="/ResetPassword" element={<ResetPassword />} />
+              <Route path="/reset-password/:token" element={<ResetPassword />} />
+              <Route path="/reset-password/:token" element={<ResetPassword />} />
             </Route>
           </Route>
 
@@ -65,6 +69,7 @@ root.render(
             <Route path="/contactUs" element={<ContactUs />} />
             {/* Protected Paths: Requires Auth */}
             <Route element={<PersistLogin />}>
+            
               <Route element={<RequireAuth />}>
                 <Route path="/profile" element={<Profile />}>
                   <Route path="history" element={<History />} />
