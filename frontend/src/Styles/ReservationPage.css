@@ -7,9 +7,9 @@
 }
 
 .padel-page-container {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.692);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 30px;
@@ -36,7 +36,7 @@ background-position: center;
 }
 
 .padel-court-contact-info h2 {
-  color: #fff;
+  color: #602f2f;
   font-size: 3rem;
   margin: 0;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -86,10 +86,14 @@ background-position: center;
   backdrop-filter: blur(5px);
 }
 
+
+
 .padel-booking-form input:focus,
 .padel-booking-form select:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+  outline: 2px solid #F09819;
+
 }
 
 .padel-booking-form option {
@@ -107,11 +111,15 @@ background-position: center;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.3s ease;
+
 }
 
 .padel-booking-form button:hover {
   transform: translateY(-2px);
+  background: linear-gradient(45deg, #FF512F 0%, #ff9500 100%);
+
 }
+
 
 .padel-slots-section {
   background: rgba(255, 255, 255, 0.1);
