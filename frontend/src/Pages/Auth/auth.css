@@ -21,6 +21,7 @@ body {
   background-repeat: no-repeat;
   width: 100%;
   padding: 25px;
+  min-height: 450px;
   gap: 20px;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
@@ -58,6 +59,7 @@ body {
   display: flex;
   flex-direction: column;
   width: 500px;
+  min-height: 280px;
   gap: 15px;
 }
 .container .auth-box .box-content .form .form-control .input-container {

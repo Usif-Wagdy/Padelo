@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
+import OtpPopup from "../Popup/OtpPopup";
+import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEye,
@@ -17,9 +17,6 @@ import {
 const RegisterForm = ({ userNow }) => {
   const navigate = useNavigate();
 
-  // set cookies to save user's token in
-  const cookie = new Cookies();
-
   // data which will be sent to the API
   const [formData, setFormData] = useState({
     name: "",
@@ -30,6 +27,9 @@ const RegisterForm = ({ userNow }) => {
 
   // capture errors
   const [errors, setErrors] = useState({});
+
+  // capture response message
+  const [message, setMessage] = useState();
 
   // indicate user's first touch to the input field
   const [touched, setTouched] = useState({});
@@ -101,6 +101,9 @@ const RegisterForm = ({ userNow }) => {
     setTouched((prev) => ({ ...prev, [name]: true }));
   };
 
+  // control verification popup
+  const [isOtpPopupOpen, setIsOtpPopupOpen] = useState(false);
+
   async function submit(e) {
     e.preventDefault();
     if (!isFormValid) return;
@@ -111,13 +114,13 @@ const RegisterForm = ({ userNow }) => {
         formData
       );
 
-      const token = res.data.token;
-      cookie.set("JWT", token);
-      userNow.setAuth({ token, userDetails: res.data.user });
-      alert("Please check your email!");    
-      navigate(`/verify-email/`, { state: { email: formData.email } }); 
+      // After successful registration, show OTP popup
+      if (res.status === 201) {
+        setMessage(res.data.message);
+        setIsOtpPopupOpen(true); // Open OTP popup
+      }
     } catch (err) {
-      if (err.response?.status === 400) {
+      if (err.response?.status === 500) {
         setErrors((prev) => ({
           ...prev,
           email: "This email is already registered",
@@ -131,156 +134,171 @@ const RegisterForm = ({ userNow }) => {
     }
   }
 
+  const closeOtpPopup = () => {
+    setIsOtpPopupOpen(false); // Close OTP popup
+  };
+
   return (
-    <form className="form-control" onSubmit={submit}>
-      <div className="input-container">
-        <div className="icon">
-          <FontAwesomeIcon icon={faUser} />
-        </div>
+    <div style={{ width: "100%" }}>
+      <form className="form-control" onSubmit={submit}>
+        <div className="input-container">
+          <div className="icon">
+            <FontAwesomeIcon icon={faUser} />
+          </div>
 
-        <div className="col">
-          <label htmlFor="name">Name</label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            placeholder="Enter your Name"
-            value={formData.name}
-            onChange={handleInputChange}
-            onBlur={handleBlur}
-          />
-        </div>
-        {touched.name && (
-          <FontAwesomeIcon
-            icon={
-              errors.name
-                ? faCircleXmark
-                : formData.name && !errors.name
-                ? faCircleCheck
-                : null
-            }
-            className={`validation-icon ${errors.name ? "error" : "success"}`}
-            title={errors.name || ""}
-          />
-        )}
-      </div>
-
-      <div className="input-container">
-        <div className="icon">
-          <FontAwesomeIcon icon={faEnvelope} />
-        </div>
-
-        <div className="col">
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="Enter your email address"
-            value={formData.email}
-            onChange={handleInputChange}
-            onBlur={handleBlur}
-          />
-        </div>
-        {touched.email && (
-          <FontAwesomeIcon
-            icon={
-              errors.email
-                ? faCircleXmark
-                : formData.email && !errors.email
-                ? faCircleCheck
-                : null
-            }
-            className={`validation-icon ${errors.email ? "error" : "success"}`}
-            title={errors.email || ""}
-          />
-        )}
-      </div>
-
-      <div className="input-container">
-        <div className="icon">
-          <FontAwesomeIcon icon={faLock} />
-        </div>
-        <div className="col">
-          <label htmlFor="password">Password</label>
-          <div className="row">
+          <div className="col">
+            <label htmlFor="name">Name</label>
             <input
-              id="password"
-              name="password"
-              type={type}
-              placeholder="Enter your password"
-              value={formData.password}
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Enter your Name"
+              value={formData.name}
               onChange={handleInputChange}
               onBlur={handleBlur}
             />
-            <FontAwesomeIcon
-              icon={icon}
-              className="show-password"
-              onClick={toggleVisibility}
-            />
           </div>
+          {touched.name && (
+            <FontAwesomeIcon
+              icon={
+                errors.name
+                  ? faCircleXmark
+                  : formData.name && !errors.name
+                  ? faCircleCheck
+                  : null
+              }
+              className={`validation-icon ${errors.name ? "error" : "success"}`}
+              title={errors.name || ""}
+            />
+          )}
         </div>
-        {touched.password && (
-          <FontAwesomeIcon
-            icon={
-              errors.password
-                ? faCircleXmark
-                : formData.password && !errors.password
-                ? faCircleCheck
-                : null
-            }
-            className={`validation-icon ${
-              errors.password ? "error" : "success"
-            }`}
-            title={errors.password || ""}
-          />
-        )}
-      </div>
 
-      <div className="input-container">
-        <div className="icon">
-          <FontAwesomeIcon icon={faLock} />
-        </div>
-        <div className="col">
-          <label htmlFor="confirmPassword">Confirm your password</label>
-          <div className="row">
+        <div className="input-container">
+          <div className="icon">
+            <FontAwesomeIcon icon={faEnvelope} />
+          </div>
+
+          <div className="col">
+            <label htmlFor="email">Email</label>
             <input
-              id="confirmPassword"
-              name="confirmPassword"
-              type={typeC}
-              placeholder="Re-enter your password"
-              value={formData.confirmPassword}
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Enter your email address"
+              value={formData.email}
               onChange={handleInputChange}
               onBlur={handleBlur}
             />
-            <FontAwesomeIcon
-              icon={iconC}
-              className="show-password"
-              onClick={toggleVisibilityC}
-            />
           </div>
+          {touched.email && (
+            <FontAwesomeIcon
+              icon={
+                errors.email
+                  ? faCircleXmark
+                  : formData.email && !errors.email
+                  ? faCircleCheck
+                  : null
+              }
+              className={`validation-icon ${
+                errors.email ? "error" : "success"
+              }`}
+              title={errors.email || ""}
+            />
+          )}
         </div>
-        {touched.confirmPassword && (
-          <FontAwesomeIcon
-            icon={
-              errors.confirmPassword
-                ? faCircleXmark
-                : formData.confirmPassword && !errors.confirmPassword
-                ? faCircleCheck
-                : null
-            }
-            className={`validation-icon ${
-              errors.confirmPassword ? "error" : "success"
-            }`}
-            title={errors.confirmPassword || ""}
-          />
-        )}
-      </div>
 
-      <button type="submit" className="main-btn" disabled={!isFormValid}>
-        Register
-      </button>
-    </form>
+        <div className="input-container">
+          <div className="icon">
+            <FontAwesomeIcon icon={faLock} />
+          </div>
+          <div className="col">
+            <label htmlFor="password">Password</label>
+            <div className="row">
+              <input
+                id="password"
+                name="password"
+                type={type}
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+              />
+              <FontAwesomeIcon
+                icon={icon}
+                className="show-password"
+                onClick={toggleVisibility}
+              />
+            </div>
+          </div>
+          {touched.password && (
+            <FontAwesomeIcon
+              icon={
+                errors.password
+                  ? faCircleXmark
+                  : formData.password && !errors.password
+                  ? faCircleCheck
+                  : null
+              }
+              className={`validation-icon ${
+                errors.password ? "error" : "success"
+              }`}
+              title={errors.password || ""}
+            />
+          )}
+        </div>
+
+        <div className="input-container">
+          <div className="icon">
+            <FontAwesomeIcon icon={faLock} />
+          </div>
+          <div className="col">
+            <label htmlFor="confirmPassword">Confirm your password</label>
+            <div className="row">
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type={typeC}
+                placeholder="Re-enter your password"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+              />
+              <FontAwesomeIcon
+                icon={iconC}
+                className="show-password"
+                onClick={toggleVisibilityC}
+              />
+            </div>
+          </div>
+          {touched.confirmPassword && (
+            <FontAwesomeIcon
+              icon={
+                errors.confirmPassword
+                  ? faCircleXmark
+                  : formData.confirmPassword && !errors.confirmPassword
+                  ? faCircleCheck
+                  : null
+              }
+              className={`validation-icon ${
+                errors.confirmPassword ? "error" : "success"
+              }`}
+              title={errors.confirmPassword || ""}
+            />
+          )}
+        </div>
+
+        <button type="submit" className="main-btn" disabled={!isFormValid}>
+          Register
+        </button>
+      </form>
+      {isOtpPopupOpen && (
+        <OtpPopup
+          email={formData.email}
+          message={message}
+          onClose={closeOtpPopup}
+        />
+      )}
+    </div>
   );
 };
 

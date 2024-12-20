@@ -12,6 +12,7 @@ import {
   faEnvelope,
   faLock,
 } from "@fortawesome/free-solid-svg-icons";
+import OtpPopup from "../Popup/OtpPopup";
 
 const LoginForm = ({ userNow }) => {
   const navigate = useNavigate();
@@ -27,6 +28,9 @@ const LoginForm = ({ userNow }) => {
 
   // capture errors
   const [errors, setErrors] = useState({});
+
+  // capture res message
+  const [message, setMessage] = useState({});
 
   // indicate user's first touch to the input field
   const [touched, setTouched] = useState({});
@@ -75,6 +79,9 @@ const LoginForm = ({ userNow }) => {
     setTouched((prev) => ({ ...prev, [name]: true }));
   };
 
+  // control verification popup
+  const [isOtpPopupOpen, setIsOtpPopupOpen] = useState(false);
+
   async function submit(e) {
     e.preventDefault();
     if (!isFormValid) return;
@@ -84,11 +91,18 @@ const LoginForm = ({ userNow }) => {
         "http://127.0.0.1:3000/api/users/login",
         formData
       );
-
-      const token = res.data.token;
-      cookie.set("JWT", token);
-      userNow.setAuth({ token, userDetails: res.data.user });
-      navigate("/");
+      console.log(res);
+      // check whether user is verified or not
+      if (!res.data.user.isVerified) {
+        setMessage("Email is not verified");
+        setIsOtpPopupOpen(true);
+      } else {
+        cookie.set("JWT", res.data.token);
+        userNow.setAuth({ token: res.data.token, userDetails: res.data.user });
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      }
     } catch (err) {
       if (err.response?.status) {
         setErrors((prev) => ({ ...prev, email: err.response.status }));
@@ -101,92 +115,107 @@ const LoginForm = ({ userNow }) => {
     }
   }
 
+  const closeOtpPopup = () => {
+    setIsOtpPopupOpen(false); // Close OTP popup
+  };
+
   return (
-    <form className="form-control" onSubmit={submit}>
-      <div className="input-container">
-        <div className="icon">
-          <FontAwesomeIcon icon={faEnvelope} />
-        </div>
+    <div style={{ width: "100%" }}>
+      <form className="form-control" onSubmit={submit}>
+        <div className="input-container">
+          <div className="icon">
+            <FontAwesomeIcon icon={faEnvelope} />
+          </div>
 
-        <div className="col">
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="Enter your email address"
-            value={formData.email}
-            onChange={handleInputChange}
-            onBlur={handleBlur}
-          />
-        </div>
-        {touched.email && (
-          <FontAwesomeIcon
-            icon={
-              errors.email
-                ? faCircleXmark
-                : formData.email && !errors.email
-                ? faCircleCheck
-                : null
-            }
-            className={`validation-icon ${errors.email ? "error" : "success"}`}
-          />
-        )}
-      </div>
-
-      <div className="input-container">
-        <div className="icon">
-          <FontAwesomeIcon icon={faLock} />
-        </div>
-
-        <div className="col">
-          <label htmlFor="password">Password</label>
-          <div className="row">
+          <div className="col">
+            <label htmlFor="email">Email</label>
             <input
-              id="password"
-              name="password"
-              type={type}
-              placeholder="Enter your password"
-              value={formData.password}
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Enter your email address"
+              value={formData.email}
               onChange={handleInputChange}
               onBlur={handleBlur}
             />
-            <FontAwesomeIcon
-              icon={icon}
-              className="show-password"
-              onClick={toggleVisibility}
-            />
           </div>
+          {touched.email && (
+            <FontAwesomeIcon
+              icon={
+                errors.email
+                  ? faCircleXmark
+                  : formData.email && !errors.email
+                  ? faCircleCheck
+                  : null
+              }
+              className={`validation-icon ${
+                errors.email ? "error" : "success"
+              }`}
+            />
+          )}
         </div>
-        {touched.password && (
-          <FontAwesomeIcon
-            icon={
-              errors.password && errors.email
-                ? faCircleXmark
-                : formData.password && !errors.password
-                ? faCircleCheck
-                : null
-            }
-            className={`validation-icon ${
-              errors.password ? "error" : "success"
-            }`}
-            title={errors.password || ""}
-          />
+
+        <div className="input-container">
+          <div className="icon">
+            <FontAwesomeIcon icon={faLock} />
+          </div>
+
+          <div className="col">
+            <label htmlFor="password">Password</label>
+            <div className="row">
+              <input
+                id="password"
+                name="password"
+                type={type}
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+              />
+              <FontAwesomeIcon
+                icon={icon}
+                className="show-password"
+                onClick={toggleVisibility}
+              />
+            </div>
+          </div>
+          {touched.password && (
+            <FontAwesomeIcon
+              icon={
+                errors.password && errors.email
+                  ? faCircleXmark
+                  : formData.password && !errors.password
+                  ? faCircleCheck
+                  : null
+              }
+              className={`validation-icon ${
+                errors.password ? "error" : "success"
+              }`}
+              title={errors.password || ""}
+            />
+          )}
+        </div>
+
+        <button type="submit" className="main-btn" disabled={!isFormValid}>
+          Login
+        </button>
+
+        {errors.email && (
+          <span
+            className={`error-general ${errors.email === 401 ? "visible" : ""}`}
+          >
+            Invalid email or password.
+          </span>
         )}
-      </div>
-
-      <button type="submit" className="main-btn" disabled={!isFormValid}>
-        Login
-      </button>
-
-      {errors.email && (
-        <span
-          className={`error-general ${errors.email === 401 ? "visible" : ""}`}
-        >
-          Invalid email or password.
-        </span>
+      </form>
+      {isOtpPopupOpen && (
+        <OtpPopup
+          email={formData.email}
+          message={message}
+          onClose={closeOtpPopup}
+        />
       )}
-    </form>
+    </div>
   );
 };
 
