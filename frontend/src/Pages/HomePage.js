@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Header from "../Components/Header/Header.jsx";
 import "../Styles/HomePage.css";
 import defaultCourtImage from "../assets/OIP.jpg";
 
@@ -32,7 +31,6 @@ function HomePage() {
 
   return (
     <div className="App">
-      <Header />
       <div className="home-page1">
         <div className="hero">
           <div className="hero-text">

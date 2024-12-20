@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "../Styles/AdminPage.css";
-import Header from "../Components/Header/Header";
 import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 
@@ -100,7 +99,6 @@ const AdminPage = () => {
 
   return (
     <body className="admin-page">
-      <Header />
       <div className="admin-container">
         <h1 className="admin-header">Admin Panel</h1>
         <div className="buttons-container">

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "../Styles/ProfilePage.css";
-import Header from "../Components/Header/Header";
 
 import { FaStar } from "react-icons/fa";
 import Cookies from "universal-cookie";
@@ -79,7 +78,6 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-page">
-      <Header />
       <div className="background-image"></div>
       <div className="profile-container">
         <header className="profile-header">

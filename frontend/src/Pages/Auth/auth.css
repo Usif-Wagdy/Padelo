@@ -20,12 +20,13 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   width: 100%;
-  height: 40rem;
+  padding: 25px;
+  gap: 20px;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  position: relative;
 }
 .container .auth-box .box-content .form {
-  padding: 40px 0 0 40px;
   height: 100%;
   width: 50%;
   display: flex;
@@ -45,13 +46,13 @@ body {
   gap: 5px;
 }
 .container .auth-box .box-content .form .back-to-home:hover {
-  color: #0f4c75;
+  color: #185a8b;
 }
 .container .auth-box .box-content .form h2 {
   margin: 0;
   font-size: 2rem;
   font-weight: 600;
-  color: #0f4c75;
+  color: #185a8b;
 }
 .container .auth-box .box-content .form .form-control {
   display: flex;
@@ -73,8 +74,8 @@ body {
   justify-content: center;
   align-items: center;
   width: 50px;
-  height: 100%;
-  color: #0f4c75;
+  height: 86px;
+  color: #185a8b;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
 }
@@ -88,7 +89,7 @@ body {
 }
 .container .auth-box .box-content .form .form-control .input-container .col label {
   font-size: 16px;
-  color: #0f4c75;
+  color: #185a8b;
   padding: 10px;
   border-bottom: 1px solid #ddd;
   font-weight: 600;
@@ -100,7 +101,7 @@ body {
 }
 .container .auth-box .box-content .form .form-control .input-container .col input {
   flex: 1;
-  padding: 15px 10px;
+  padding: 15px 40px 15px 10px;
   border: none;
   outline: none;
   background-color: transparent;
@@ -109,11 +110,15 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-right: 10px;
+  position: relative;
 }
 .container .auth-box .box-content .form .form-control .input-container .col .row svg {
   cursor: pointer;
-  color: #0f4c75;
+  color: #185a8b;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .container .auth-box .box-content .form .form-control .input-container .validation-icon {
   position: absolute;
@@ -166,4 +171,49 @@ body {
   margin-bottom: 20px;
   text-transform: capitalize;
   letter-spacing: 3px;
+}
+@media (max-width: 1399px) {
+  .container .auth-box .box-content .form .form-control {
+    width: 400px;
+  }
+}
+@media (max-width: 1200px) {
+  .container .auth-box .box-content {
+    background-image: linear-gradient(90deg, #f5f7f8 0%, #f5f7f8 50%, transparent 49%), linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("../../assets/auth-bg.jpg");
+  }
+  .container .auth-box .box-content .form .form-control {
+    width: 400px;
+  }
+  .container .auth-box .box-content .auth-switch h2 {
+    font-size: 1.6rem;
+  }
+  .container .auth-box .box-content .auth-switch h2 .main-logo {
+    font-size: 26px;
+  }
+}
+@media (max-width: 991px) {
+  .container .auth-box .box-content {
+    background-image: linear-gradient(114deg, #f5f7f8 0%, #f5f7f8 50%, #f5f7f8 50%);
+    flex-direction: column;
+  }
+  .container .auth-box .box-content .form {
+    width: 100%;
+    position: relative;
+  }
+  .container .auth-box .box-content .form .form-control {
+    width: 100%;
+  }
+  .container .auth-box .box-content .auth-switch {
+    width: 100%;
+    flex-direction: row;
+    gap: 15px;
+    justify-content: center;
+  }
+  .container .auth-box .box-content .auth-switch h2 {
+    display: none;
+  }
+  .container .auth-box .box-content .auth-switch p {
+    color: #343a40;
+    margin: 0;
+  }
 }/*# sourceMappingURL=auth.css.map */

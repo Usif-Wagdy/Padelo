@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../Components/Header/Header";
 import "../Styles/Courts.css";
 import defaultCourtImage from "../assets/OIP.jpg";
 import { Link } from "react-router-dom";
@@ -35,9 +34,6 @@ function Courts() {
 
   return (
     <div className="courts-page">
-      {/* Header */}
-      <Header />
-
       {/* Image Section */}
       <div className="image-container">
         <div className="main-text">Book now in 3 steps with:</div>
