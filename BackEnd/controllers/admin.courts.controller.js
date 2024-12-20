@@ -7,6 +7,7 @@ exports.addCourt = async (req, res) => {
       description,
       price,
       location,
+      place,
       email,
       contactNumber,
     } = req.body;
@@ -21,6 +22,7 @@ exports.addCourt = async (req, res) => {
       price,
       contactNumber,
       location,
+      place,
       email,
       image,
     });
@@ -80,7 +82,6 @@ exports.getAllCourts = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 exports.deleteCourt = async (req, res) => {
   try {

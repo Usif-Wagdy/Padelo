@@ -48,6 +48,7 @@ const courtSchema = new mongoose.Schema(
     },
     price: { type: Number, required: true, min: 0 },
     location: { type: String, required: true, trim: true },
+    place: { type: String, required: true, trim: true },
     image: { type: String },
     schedule: {
       type: [daySchema],
