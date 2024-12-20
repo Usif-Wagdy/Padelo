@@ -69,6 +69,19 @@ exports.updateCourt = async (req, res) => {
   }
 };
 
+exports.getAllCourts = async (req, res) => {
+  try {
+    const courts = await Court.find({});
+    res.status(200).json({
+      message: 'Courts retrieved successfully',
+      courts,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 exports.deleteCourt = async (req, res) => {
   try {
     const { id } = req.params;

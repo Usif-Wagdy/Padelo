@@ -36,6 +36,7 @@ exports.deleteUser = async (req, res) => {
         .json({ error: 'Cannot delete your own account' });
     }
 
+
     await Audit.create({
       action: 'DELETE',
       performedBy: userId,
@@ -52,6 +53,16 @@ exports.deleteUser = async (req, res) => {
     console.log(
       `Admin ${username} deleted user ${deletedUser.email} at ${new Date()}`,
     );
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    res.status(200).json({ user });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
