@@ -311,7 +311,7 @@ exports.forgetPassword = async (req, res) => {
         </div>
         <div class="footer">
           <p>Thank you for choosing us!</p>
-          <p>If you have any questions, feel free to <a href="mailto:support@example.com">contact our support team</a>.</p>
+          <p>If you have any questions, feel free to <a href="mailto:padeloteamcs@gmail.com">contact our support team</a>.</p>
         </div>
       </div>
     </body>
