@@ -326,3 +326,135 @@ exports.verifyEmail = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.resendVerificationCode = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ error: 'User not found' });
+    }
+
+    if (user.isVerified) {
+      return res
+        .status(400)
+        .json({ error: 'Email is already verified' });
+    }
+
+    if (user.verificationCodeExpires < Date.now()) {
+      const verificationCode = crypto.randomInt(
+        100000,
+        999999,
+      );
+      const verificationCodeExpires =
+        Date.now() + 5 * 60 * 1000;
+
+      user.emailVerificationCode = verificationCode;
+      user.verificationCodeExpires =
+        verificationCodeExpires;
+
+      await user.save();
+
+      const emailContent = `
+        <html>
+          <head>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                color: #333;
+                margin: 0;
+                padding: 0;
+              }
+              .email-container {
+                max-width: 600px;
+                margin: 30px auto;
+                padding: 20px;
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+              }
+              .email-header {
+                text-align: center;
+                padding-bottom: 20px;
+              }
+              .email-header h1 {
+                color: #4CAF50;
+              }
+              .email-body {
+                font-size: 16px;
+                line-height: 1.6;
+              }
+              .verification-code {
+                font-size: 24px;
+                font-weight: bold;
+                color: #4CAF50;
+                display: inline-block;
+                padding: 10px 20px;
+                margin: 20px 0;
+                background-color: #e8f5e9;
+                border: 1px solid #4CAF50;
+                border-radius: 5px;
+              }
+              .footer {
+                text-align: center;
+                padding-top: 20px;
+                font-size: 14px;
+                color: #777;
+              }
+              .footer a {
+                color: #4CAF50;
+                text-decoration: none;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="email-container">
+              <div class="email-header">
+                <h1>Verify Your Email Address, ${user.name}!</h1>
+              </div>
+              <div class="email-body">
+                <p>Hi ${user.name},</p>
+                <p>It seems like you didn't complete the email verification. Here is your new verification code:</p>
+                <div class="verification-code">${verificationCode}</div>
+                <p>Please enter this code on the verification page to activate your account.</p>
+                <p>If you did not request this, please ignore this email.</p>
+              </div>
+              <div class="footer">
+                <p>Thank you for choosing us!</p>
+                <p>If you have any questions, feel free to <a href="mailto:support@example.com">contact our support team</a>.</p>
+              </div>
+            </div>
+          </body>
+        </html>
+      `;
+
+      await sendEmail({
+        email: user.email,
+        subject: 'Verify Your Email Address',
+        html: emailContent,
+      });
+
+      return res.status(200).json({
+        message:
+          'A new verification code has been sent to your email.',
+      });
+    } else {
+      return res.status(400).json({
+        error:
+          'Your verification code is still valid. Please check your inbox.',
+      });
+    }
+  } catch (error) {
+    console.error(
+      'Error during resend verification code:',
+      error,
+    );
+    res
+      .status(500)
+      .json({ error: 'Error resending verification code' });
+  }
+};

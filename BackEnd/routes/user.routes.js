@@ -8,6 +8,10 @@ const checkVerified = require('../middleware/verifiedMiddleware');
 const { upload } = require('../config/cloudinaryConfig');
 router.post('/register', authController.addUser);
 router.post('/verify_email', authController.verifyEmail);
+router.post(
+  '/resend_verification',
+  authController.resendVerificationCode,
+);
 
 router.post('/login', authController.login);
 router.post(
