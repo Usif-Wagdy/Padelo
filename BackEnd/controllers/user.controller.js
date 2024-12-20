@@ -1,28 +1,61 @@
 const User = require('../models/user.model');
 const validator = require('validator');
+const mongoose = require('mongoose');
 
 exports.addImage = async (req, res) => {
   try {
-    const { userId, imageUrl } = req.body;
+    const userId = req.params.id.trim();
 
-    if (!validator.isURL(imageUrl)) {
-      return res.status(400).send('Invalid image URL');
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res
+        .status(400)
+        .json({ error: 'Invalid user ID format' });
     }
 
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).send('User not found');
+    if (!req.file) {
+      return res
+        .status(400)
+        .json({ error: 'No photo uploaded' });
     }
-    user.image = imageUrl;
-    await user.save();
-    res
-      .status(200)
-      .json({ message: 'Image added successfully', user });
+
+    const imageUrl = req.file.path;
+
+    const updatedUser = await exports.updateUserPhoto(
+      userId,
+      imageUrl,
+    );
+
+    res.status(200).json({
+      message: 'Photo uploaded successfully',
+      user: updatedUser,
+    });
   } catch (error) {
-    res.status(500).send('Server error: ' + error.message);
+    console.error('Error:', error.message);
+    res.status(500).json({ error: 'Photo upload failed' });
   }
 };
 
+exports.updateUserPhoto = async (userId, imageUrl) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { image: imageUrl },
+      { new: true },
+    );
+
+    if (!updatedUser) {
+      throw new Error('User not found');
+    }
+
+    return updatedUser;
+  } catch (error) {
+    console.error(
+      'Error updating user photo:',
+      error.message,
+    );
+    throw error;
+  }
+};
 exports.addPhoneNumber = async (req, res) => {
   try {
     const { userId, PhoneNumber } = req.body;
@@ -45,8 +78,6 @@ exports.addPhoneNumber = async (req, res) => {
     res.status(500).send('Server error: ' + error.message);
   }
 };
-   
-
 
 exports.updateName = async (req, res) => {
   try {
@@ -58,7 +89,7 @@ exports.updateName = async (req, res) => {
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).send('User not found'); 
+      return res.status(404).send('User not found');
     }
 
     user.name = name;
@@ -66,15 +97,12 @@ exports.updateName = async (req, res) => {
 
     res.status(200).json({
       message: 'Name updated successfully',
-      user
+      user,
     });
-
   } catch (error) {
     res.status(500).send('Server error: ' + error.message);
   }
 };
-
-  
 
 exports.updateEmail = async (req, res) => {
   try {
@@ -86,7 +114,9 @@ exports.updateEmail = async (req, res) => {
 
     const emailExists = await User.findOne({ email });
     if (emailExists) {
-      return res.status(400).send('This email is already in use');
+      return res
+        .status(400)
+        .send('This email is already in use');
     }
 
     const user = await User.findById(userId);
@@ -99,11 +129,9 @@ exports.updateEmail = async (req, res) => {
 
     res.status(200).json({
       message: 'Email updated successfully',
-      user
+      user,
     });
-
   } catch (error) {
     res.status(500).send('Server error: ' + error.message);
   }
 };
-
