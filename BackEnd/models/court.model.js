@@ -36,7 +36,7 @@ const reviewSchema = new mongoose.Schema(
 const courtSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
-    contactEmail: {
+    email: {
       type: String,
       trim: true,
       lowercase: true,
