@@ -1,0 +1,16 @@
+.otp-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .otp-container input {
+    margin: 10px;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  .error {
+    color: red;
+    margin-top: 10px;
+  }
+  

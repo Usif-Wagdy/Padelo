@@ -13,7 +13,12 @@ export default function Header() {
 
   // update active link based on current location
   useEffect(() => {
-    setActiveLink(location.pathname);
+    // check if the current location is under "/profile"
+    if (location.pathname.startsWith("/profile")) {
+      setActiveLink("/profile");
+    } else {
+      setActiveLink(location.pathname);
+    }
   }, [location]);
 
   // get token from cookie
@@ -22,7 +27,6 @@ export default function Header() {
 
   // initialize user to set the data onto (we got the data from the cookie)
   const [user, setUser] = useState({});
-  console.log(user);
 
   useEffect(() => {
     if (token && token !== "undefined") {
