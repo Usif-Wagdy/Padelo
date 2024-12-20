@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../Styles/AdminPage.css";
-import Header3 from "../Components/HeaderAdminPage";
 import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
-
 
 const AdminPage = () => {
   const [activeSection, setActiveSection] = useState("add");
@@ -16,11 +14,10 @@ const AdminPage = () => {
     location: "",
     email: "",
     contactNumber: "",
-    
+
     image: "",
   });
   const cookie = new Cookies();
-  
 
   // Fetch courts from the backend
   useEffect(() => {
@@ -40,21 +37,20 @@ const AdminPage = () => {
     const { name, value } = e.target;
     setNewCourt((prevState) => ({
       ...prevState,
-      [name]: value, 
+      [name]: value,
     }));
   };
-  
 
   const handleAddCourt = async (e) => {
     e.preventDefault();
     console.log("Adding court: Payload", newCourt);
-  
+
     const token = cookie.get("JWT");
     if (!token) {
       alert("You are not authorized. Please log in.");
       return;
     }
-  
+
     try {
       const response = await fetch("http://localhost:3000/admin/courts/", {
         method: "POST",
@@ -64,10 +60,10 @@ const AdminPage = () => {
         },
         body: JSON.stringify(newCourt),
       });
-  
+
       const responseBody = await response.json();
       console.log("Backend response:", responseBody);
-  
+
       if (response.ok) {
         setCourts((prevCourts) => [...prevCourts, responseBody]);
         alert("Court added successfully!");
@@ -81,15 +77,16 @@ const AdminPage = () => {
           image: "",
         });
       } else {
-        alert(`Failed to add court: ${responseBody.message || "Unknown error"}`);
+        alert(
+          `Failed to add court: ${responseBody.message || "Unknown error"}`
+        );
       }
     } catch (error) {
       console.error("Error adding court:", error);
       alert("An unexpected error occurred. Please try again.");
     }
   };
-  
-  
+
   const filteredCourts = search
     ? courts.filter((court) => {
         const query = search.toLowerCase().trim();
@@ -103,7 +100,6 @@ const AdminPage = () => {
   return (
     <body className="admin-page">
       <div className="admin-container">
-        <Header3 />
         <h1 className="admin-header">Admin Panel</h1>
         <div className="buttons-container">
           <button
@@ -124,36 +120,43 @@ const AdminPage = () => {
           </button>
         </div>
         {activeSection === "update" && (
-  <div className="update-section">
-    <h2>Search for Delete or Update Court</h2>
-    <div className="search-container">
-      <input
-        type="text"
-        placeholder="Search by Court Name or Location"
-        className="search-input"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <button className="search-button" onClick={() => setSearch("")}>
-        Clear
-      </button>
-    </div>
-    <div className="courts-grid">
-      {filteredCourts.map((court) => (
-        <div key={court._id} className="admin-court-card">
-          <Link to={`/Admin/${court._id}`} state={{ token: cookie.get("JWT") }}>
-          <img src={court.image} alt={court.name} className="court-image" />
-          </Link>
-          <div className="court-details">
-            <p className="court-name">{court.name}</p>
-            <p className="court-address">{court.location}</p>
-            <p className="court-phone">{court.phone}</p>
+          <div className="update-section">
+            <h2>Search for Delete or Update Court</h2>
+            <div className="search-container">
+              <input
+                type="text"
+                placeholder="Search by Court Name or Location"
+                className="search-input"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <button className="search-button" onClick={() => setSearch("")}>
+                Clear
+              </button>
+            </div>
+            <div className="courts-grid">
+              {filteredCourts.map((court) => (
+                <div key={court._id} className="admin-court-card">
+                  <Link
+                    to={`/Admin/${court._id}`}
+                    state={{ token: cookie.get("JWT") }}
+                  >
+                    <img
+                      src={court.image}
+                      alt={court.name}
+                      className="court-image"
+                    />
+                  </Link>
+                  <div className="court-details">
+                    <p className="court-name">{court.name}</p>
+                    <p className="court-address">{court.location}</p>
+                    <p className="court-phone">{court.phone}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
-  </div>
-)}
+        )}
 
         {activeSection === "add" && (
           <div className="add-section">
@@ -167,7 +170,7 @@ const AdminPage = () => {
                 onChange={handleInputChange}
                 required
               />
-               <input
+              <input
                 type="number"
                 name="price"
                 placeholder="Enter Court Price per hour"
@@ -188,14 +191,13 @@ const AdminPage = () => {
                 placeholder="Enter Court description"
                 value={newCourt.description}
                 onChange={handleInputChange}
-                
               />
-                <input
+              <input
                 type="tel"
                 name="contactNumber"
                 placeholder="Phone Number"
                 value={newCourt.contactNumber}
-                onChange={handleInputChange} 
+                onChange={handleInputChange}
                 required
               />
               <input

@@ -77,7 +77,7 @@ const RegisterForm = ({ userNow }) => {
         validationErrors.password = "Password must contain a number.";
     }
 
-    if (password !== confirmPassword)
+    if (password !== confirmPassword || confirmPassword.length < 8)
       validationErrors.confirmPassword = "Passwords do not match.";
 
     setErrors(validationErrors);
@@ -116,8 +116,11 @@ const RegisterForm = ({ userNow }) => {
       userNow.setAuth({ token, userDetails: res.data.user });
       navigate("/");
     } catch (err) {
-      if (err.response?.data) {
-        setErrors((prev) => ({ ...prev, email: err.response.data }));
+      if (err.response?.status === 400) {
+        setErrors((prev) => ({
+          ...prev,
+          email: "This email is already registered",
+        }));
       } else {
         setErrors((prev) => ({
           ...prev,
@@ -156,7 +159,7 @@ const RegisterForm = ({ userNow }) => {
                 : null
             }
             className={`validation-icon ${errors.name ? "error" : "success"}`}
-            title={errors.name}
+            title={errors.name || ""}
           />
         )}
       </div>
@@ -188,7 +191,7 @@ const RegisterForm = ({ userNow }) => {
                 : null
             }
             className={`validation-icon ${errors.email ? "error" : "success"}`}
-            title={errors.email}
+            title={errors.email || ""}
           />
         )}
       </div>
@@ -197,7 +200,6 @@ const RegisterForm = ({ userNow }) => {
         <div className="icon">
           <FontAwesomeIcon icon={faLock} />
         </div>
-
         <div className="col">
           <label htmlFor="password">Password</label>
           <div className="row">
@@ -229,7 +231,7 @@ const RegisterForm = ({ userNow }) => {
             className={`validation-icon ${
               errors.password ? "error" : "success"
             }`}
-            title={errors.password}
+            title={errors.password || ""}
           />
         )}
       </div>
@@ -238,7 +240,6 @@ const RegisterForm = ({ userNow }) => {
         <div className="icon">
           <FontAwesomeIcon icon={faLock} />
         </div>
-
         <div className="col">
           <label htmlFor="confirmPassword">Confirm your password</label>
           <div className="row">
@@ -270,7 +271,7 @@ const RegisterForm = ({ userNow }) => {
             className={`validation-icon ${
               errors.confirmPassword ? "error" : "success"
             }`}
-            title={errors.confirmPassword}
+            title={errors.confirmPassword || ""}
           />
         )}
       </div>

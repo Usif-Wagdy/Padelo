@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../Styles/ProfilePage.css";
-import Header2 from "../Components/Header2";
+
 import { FaStar } from "react-icons/fa";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
@@ -14,7 +14,7 @@ const ProfilePage = () => {
   const [comment, setComment] = useState("");
   const [ratings, setRatings] = useState({});
   const [hoverRatings, setHoverRatings] = useState({});
-const cookie = new Cookies();
+  const cookie = new Cookies();
   const userId = jwtDecode(cookie.get("JWT"));
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -44,7 +44,6 @@ const cookie = new Cookies();
 
   const fetchBookingHistory = async () => {
     try {
-      
       const response = await fetch(
         `http://127.0.0.1:3000/api/reservations/user/${userId.id}`
       );
@@ -79,7 +78,6 @@ const cookie = new Cookies();
 
   return (
     <div className="profile-page">
-      <Header2 />
       <div className="background-image"></div>
       <div className="profile-container">
         <header className="profile-header">
@@ -105,7 +103,11 @@ const cookie = new Cookies();
                 <tr key={booking._id}>
                   <td>{booking._id}</td>
                   <td>{booking.court.schedule[0]?.day || "N/A"}</td>
-                  <td>{booking.court.schedule[0]?.slots?.find((slot) => slot.number === booking.slotNumber)?.number || "N/A"}</td>
+                  <td>
+                    {booking.court.schedule[0]?.slots?.find(
+                      (slot) => slot.number === booking.slotNumber
+                    )?.number || "N/A"}
+                  </td>
                   <td>{booking.court.name}</td>
                   <td>{booking.status || "Reserved"}</td>
                   <td>

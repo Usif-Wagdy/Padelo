@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../Components/Header";
 import "../Styles/ContactUs.css";
 import {
   FaFacebook,
@@ -33,7 +32,6 @@ function ContactUs() {
 
   return (
     <div className="contact-us-page">
-      <Header />
       <div className="background-image"></div>
       <div className="contact-us-content">
         <h1>Get in touch</h1>

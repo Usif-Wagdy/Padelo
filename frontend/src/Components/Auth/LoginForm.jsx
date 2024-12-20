@@ -170,7 +170,7 @@ const LoginForm = ({ userNow }) => {
             className={`validation-icon ${
               errors.password ? "error" : "success"
             }`}
-            title={errors.password}
+            title={errors.password || ""}
           />
         )}
       </div>

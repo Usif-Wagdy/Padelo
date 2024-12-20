@@ -67,7 +67,7 @@
 //         });
 //         if (response.ok) {
 //           alert("Court deleted successfully!");
-//           navigate("/admin"); 
+//           navigate("/admin");
 //         } else {
 //           alert("Failed to delete court. Please try again.");
 //         }
@@ -187,7 +187,6 @@ const Admin2 = () => {
       .catch((error) => console.error("Error fetching court:", error));
   }, [id]);
 
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUpdatedCourt((prev) => ({
@@ -222,12 +221,15 @@ const Admin2 = () => {
   const handleDeleteCourt = async () => {
     if (window.confirm("Are you sure you want to delete this court?")) {
       try {
-        const response = await fetch(`http://localhost:3000/admin/courts/${id}`, {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `http://localhost:3000/admin/courts/${id}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.ok) {
           alert("Court deleted successfully!");
