@@ -114,7 +114,8 @@ const RegisterForm = ({ userNow }) => {
       const token = res.data.token;
       cookie.set("JWT", token);
       userNow.setAuth({ token, userDetails: res.data.user });
-      navigate("/");
+      alert("Please check your email!");    
+      navigate(`/verify-email/`, { state: { email: formData.email } }); 
     } catch (err) {
       if (err.response?.status === 400) {
         setErrors((prev) => ({

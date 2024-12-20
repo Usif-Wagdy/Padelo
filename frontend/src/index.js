@@ -22,6 +22,7 @@ import Profile from "./Pages/ProfilePage";
 import Admin from "./Pages/AdminsPage";
 import Admin2 from "./Pages/adminPage2";
 import Reservation from "./Pages/ReservationPage";
+import OtpCheckPage from "./Pages/OTPcheck";
 
 // Layouts, main with header, auth without
 const MainLayout = () => (
@@ -49,11 +50,14 @@ root.render(
             <Route element={<RequireNoAuth />}>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              
+
             </Route>
           </Route>
 
           {/* Main Routes (With Header) */}
           <Route element={<MainLayout />}>
+          <Route path="/verify-email/" element={<OtpCheckPage />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/courts" element={<Courts />} />
             <Route path="/contactUs" element={<ContactUs />} />
