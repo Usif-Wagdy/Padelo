@@ -13,9 +13,10 @@ const PadelBooking = () => {
   const [slotsReserved, setSlots1] = useState([]);
 
   const cookie = new Cookies();
-  const userId = jwtDecode(cookie.get("JWT"));
+  const token = cookie.get("JWT");
+  const userId = jwtDecode(token);
   const [minDate, setMinDate] = useState("");
-
+  console.log(userId);
   const user = userId.id;
 
   const bookduration = async () => {
@@ -53,6 +54,7 @@ const PadelBooking = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: token,
           },
           body: JSON.stringify(payload),
         });
