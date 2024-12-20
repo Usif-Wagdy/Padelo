@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../Components/Header";
 import "../Styles/Courts.css";
 import defaultCourtImage from "../assets/OIP.jpg";
 import { Link } from "react-router-dom";
@@ -9,7 +8,6 @@ function Courts() {
   const [courts, setCourts] = useState([]);
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     fetch("http://127.0.0.1:3000/api/courts")
       .then((response) => response.json())
@@ -36,9 +34,6 @@ function Courts() {
 
   return (
     <div className="courts-page">
-      {/* Header */}
-      <Header />
-
       {/* Image Section */}
       <div className="image-container">
         <div className="main-text">Book now in 3 steps with:</div>
@@ -66,22 +61,16 @@ function Courts() {
       <div className="courts-container">
         {filteredCourts.length > 0 ? (
           filteredCourts.map((court) => (
-
-
             <div key={court.__id} className="Courts-court-card">
-          <Link to={`/Reservation/${court._id}`}>
-                              
-
-              <img
-                src={court.image || defaultCourtImage}
-                alt={court.name}
-                className="court-image"
-              />
-
-            </Link>
+              <Link to={`/Reservation/${court._id}`}>
+                <img
+                  src={court.image || defaultCourtImage}
+                  alt={court.name}
+                  className="court-image"
+                />
+              </Link>
 
               <div className="court-info">
-
                 <h3 className="court-name">Court {court.name}</h3>
                 <p className="court-location">Location: {court.location}</p>
                 <p className="court-phone">Phone: {court.contactNumber}</p>

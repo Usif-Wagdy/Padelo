@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Header from "../Components/Header";
 import "../Styles/HomePage.css";
 import defaultCourtImage from "../assets/OIP.jpg";
 
@@ -32,7 +31,6 @@ function HomePage() {
 
   return (
     <div className="App">
-      <Header />
       <div className="home-page1">
         <div className="hero">
           <div className="hero-text">
@@ -57,23 +55,43 @@ function HomePage() {
         </div>
 
         <section className="most-picked">
-  <h2>Most Picked</h2>
-  <div className="picked-cards">
-    {courts
-      .filter((court) => court.bookingCount ) 
-      .map((court) => (
-        <div key={court._id} className="card" style={{ backgroundImage: `url(${court.image || defaultCourtImage})`,backgroundSize: "cover"}}>
-          <Link to={`/Reservation/${court._id}`} style={{ textDecoration: "none" }}>
-
-                  <div style={{ display: "flex", flexDirection: "column" ,fontFamily: "Poppins",color: "white",padding: "15px",borderRadius: "10px",textAlign: "center",fontSize: "2rem",width: "150px"}} >
-                    <h3>{court.name}</h3>
-                    
-                  </div>
-          </Link>
-        </div>
-      ))}
-  </div>
-</section>
+          <h2>Most Picked</h2>
+          <div className="picked-cards">
+            {courts
+              .filter((court) => court.bookingCount)
+              .map((court) => (
+                <div
+                  key={court._id}
+                  className="card"
+                  style={{
+                    backgroundImage: `url(${court.image || defaultCourtImage})`,
+                    backgroundSize: "cover",
+                  }}
+                >
+                  <Link
+                    to={`/Reservation/${court._id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        fontFamily: "Poppins",
+                        color: "white",
+                        padding: "15px",
+                        borderRadius: "10px",
+                        textAlign: "center",
+                        fontSize: "2rem",
+                        width: "150px",
+                      }}
+                    >
+                      <h3>{court.name}</h3>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+          </div>
+        </section>
 
         <section className="locations">
           <div
@@ -102,18 +120,15 @@ function HomePage() {
           </div>
 
           <div className="location-cards">
-
             {filteredCourts.map((court) => (
-
               <div key={court._id} className="court-card">
-          <Link to={`/Reservation/${court._id}`}>
-
-                <img
-                  src={court.image || defaultCourtImage}
-                  alt={court.name}
-                  className="court-image"
-                 />
-              </Link>
+                <Link to={`/Reservation/${court._id}`}>
+                  <img
+                    src={court.image || defaultCourtImage}
+                    alt={court.name}
+                    className="court-image"
+                  />
+                </Link>
 
                 {/* <img src={court.photo} alt={court.name} className="court-image" /> */}
                 <div className="court-name">{court.name}</div>
@@ -121,7 +136,6 @@ function HomePage() {
                 <div className="court-phone">{court.phone}</div>
               </div>
             ))}
-            
           </div>
         </section>
 
