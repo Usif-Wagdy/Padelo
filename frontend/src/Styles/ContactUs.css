@@ -1,91 +1,103 @@
 /* Overall page styling */
 .contact-us-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Ensure content pushes the footer to the bottom */
-    align-items: center;
-    min-height: 100vh;
-    position: relative;
-    background-color: rgba(255, 255, 255, 0.5); /* Fallback background color */
-    color: #08260F;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Background image styling */
-  .background-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('../assets/aichat-image-2024-12-04T21_02_37.972Z.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    z-index: -1; /* Place behind all other content */
-  }
-  
-  /* Main content styling */
-  .contact-us-content {
-    margin-top: 30px; /* Space for the header */
-    text-align: center;
-    padding: 30px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 600px;
-    position: relative;
-    z-index: 1; /* Ensure it is above the background */
-  }
-  
-  /* Styling for content */
-  .contact-us-content h1 {
-    font-size: 5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  .contact-us-content p {
-    font-size: 3rem;
-    font-weight: bold;
-    margin: 15px 0;
-  }
-  
-  .contact-detail {
-    font-size: 1.8rem;
-  }
-  
-  /* Footer styling */
-  .contact-us-footer {
-    margin-top: auto; /* Pushes footer to the bottom */
-    text-align: center;
-    padding: 20px;
-    /* background-color: rgba(255, 255, 255, 0.8); */
-    color: #08260F;
-    width: 100%;
-    position: relative;
-    z-index: 1;
-  }
-  
-  .contact-us-footer p {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .social-links {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-  }
-  
-  .social-links a {
-    font-size: 1.5rem;
-    color: #08260F; /* Ensure icons are visible */
-    text-decoration: none;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensure content pushes the footer to the bottom */
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.5); /* Fallback background color */
+  color: #08260F;
+  font-family: Arial, sans-serif;
+}
+
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/aichat-image-2024-12-04T21_02_37.972Z.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  z-index: -1; /* Place behind all other content */
+}
+
+/* Main content styling */
+.contact-us-content {
+  margin-top: 30px; /* Space for the header */
+  text-align: center;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  z-index: 1; /* Ensure it is above the background */
+}
+
+/* Styling for content */
+.contact-us-content h1 {
+  font-size: 5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.contact-us-content p {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.contact-detail {
+  font-size: 1.8rem;
+}
+
+/* Footer styling */
+.contact-us-footer {
+  margin-top: auto; /* Pushes footer to the bottom */
+  text-align: center;
+  padding: 20px;
+  color: #08260F;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-us-footer p {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.social-links a {
+  font-size: 1.5rem;
+  color: #08260F; /* Ensure icons are visible */
+  text-decoration: none;
+  transition: transform 0.3s, color 0.3s; /* Add transitions */
+}
 
 .social-links a:hover {
-  text-decoration: underline;
+  color: #156A28; /* Change color on hover */
+  transform: scale(1.2); /* Slight zoom effect */
+  text-decoration: none; /* Ensure no underline on hover */
+}
+
+/* Add hover effect for icons */
+.social-links span {
+  transition: transform 0.3s, color 0.3s;
+  cursor: pointer;
+}
+
+.social-links span:hover {
+  color: #156A28;
+  transform: scale(1.2);
 }
 
 /* Prevent horizontal scrolling */
@@ -101,6 +113,76 @@ img, .content {
   width: 100%;
   display: block;
 }
+
 .green-icon {
   color: #008000; /* Green color */
+}
+
+.email-link {
+  color: #008000; /* Green color for the link */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.email-link:hover {
+  text-decoration: underline;
+}
+
+.phone-number {
+  color: #008000; /* Green color */
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.phone-number:hover {
+  color: #004d00; /* Darker green on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .contact-us-content {
+      padding: 20px;
+  }
+
+  .contact-us-content h1 {
+      font-size: 4rem;
+  }
+
+  .contact-us-content p {
+      font-size: 2.5rem;
+  }
+
+  .contact-detail {
+      font-size: 1.5rem;
+  }
+
+  .contact-us-footer p {
+      font-size: 2.5rem;
+  }
+
+  .social-links a {
+      font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-us-content h1 {
+      font-size: 3rem;
+  }
+
+  .contact-us-content p {
+      font-size: 2rem;
+  }
+
+  .contact-detail {
+      font-size: 1.2rem;
+  }
+
+  .contact-us-footer p {
+      font-size: 2rem;
+  }
+
+  .social-links a {
+      font-size: 1rem;
+  }
 }

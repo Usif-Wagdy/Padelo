@@ -52,6 +52,7 @@ exports.getCourts = async (req, res) => {
           reserved: slot.reserved,
         })),
       })),
+      reviewCount: court.reviews.length,
     }));
 
     const totalCourts = await Court.countDocuments();
