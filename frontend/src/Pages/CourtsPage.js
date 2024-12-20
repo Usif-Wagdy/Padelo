@@ -74,11 +74,15 @@ function Courts() {
                 alt={court.name}
                 className="court-image"
               />
-               <div className="reviews-island">
-    <span className="average-rating">{court.averageRating.toFixed(1)}</span>
-    <i className="fas fa-star reviews-icon"></i>
-    <span className="reviews-count">({court.reviews.length || 0})</span>
-  </div>
+              <div className="reviews-island">
+                <span className="average-rating">
+                  {court.averageRating.toFixed(1)}
+                </span>
+                <i className="fas fa-star reviews-icon"></i>
+                <span className="reviews-count">
+                  ({court.reviews.length || 0})
+                </span>
+              </div>
               <div className="court-info">
                 <h3 className="court-name">{court.name}</h3>
                 <p className="court-location">Location: {court.location}</p>
