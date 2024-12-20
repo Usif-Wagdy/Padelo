@@ -1,3 +1,7 @@
+// This file contains admin routes for managing users
+// DELETE /:email - Delete user by email (requires auth & admin)
+// GET / - Get all users (requires auth & admin)
+
 const express = require('express');
 const router = express.Router();
 const {
