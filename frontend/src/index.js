@@ -18,11 +18,13 @@ import Register from "./Pages/Auth/RegisterPage";
 import HomePage from "./Pages/HomePage";
 import Courts from "./Pages/CourtsPage";
 import ContactUs from "./Pages/ContactUsPage";
-import Profile from "./Pages/ProfilePage";
+import Profile from "./Pages/Profile/ProfilePage";
 import Admin from "./Pages/AdminsPage";
 import Admin2 from "./Pages/adminPage2";
 import Reservation from "./Pages/ReservationPage";
 import OtpCheckPage from "./Pages/OTPcheck";
+import History from "./Components/Profile/History";
+import AccountSettings from "./Components/Profile/AccountSettings";
 
 // Layouts, main with header, auth without
 const MainLayout = () => (
@@ -64,7 +66,10 @@ root.render(
             {/* Protected Paths: Requires Auth */}
             <Route element={<PersistLogin />}>
               <Route element={<RequireAuth />}>
-                <Route path="/profile" element={<Profile />} />
+                <Route path="/profile" element={<Profile />}>
+                  <Route path="history" element={<History />} />
+                  <Route path="settings" element={<AccountSettings />} />
+                </Route>
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/Admin/:id" element={<Admin2 />} />
                 <Route path="/reservation/:id" element={<Reservation />} />
