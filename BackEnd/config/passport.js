@@ -10,11 +10,10 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL:
         process.env.GOOGLE_CALLBACK_URL ||
-        '/auth/google/callback', // Use env variable for flexibility
+        '/auth/google/callback',
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        // Check if Google profile has an email
         const email = profile.emails?.[0]?.value;
 
         if (!email) {
@@ -26,42 +25,37 @@ passport.use(
           );
         }
 
-        // Find user in the database
         let user = await User.findOne({ email });
 
-        // If user does not exist, create a new one
         if (!user) {
           user = await User.create({
             googleId: profile.id,
             email,
             name: `${profile.name.givenName} ${profile.name.familyName}`,
-            role: 'user', // Assign default role
+            role: 'user',
           });
         }
 
-        return done(null, user); // User found or created successfully
+        return done(null, user);
       } catch (error) {
         console.error('Error in GoogleStrategy:', error);
-        return done(error, null); // Pass error to Passport
+        return done(error, null);
       }
     },
   ),
 );
 
-// Serialize user into the session (if using sessions)
 passport.serializeUser((user, done) => {
-  done(null, user.id); // Save only user ID in the session
+  done(null, user.id);
 });
 
-// Deserialize user from the session (if using sessions)
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await User.findById(id); // Find user by ID
-    done(null, user); // Attach user to the request object
+    const user = await User.findById(id);
+    done(null, user);
   } catch (error) {
-    done(error, null); // Handle errors
+    done(error, null);
   }
 });
 
-// Export configured passport
 module.exports = passport;

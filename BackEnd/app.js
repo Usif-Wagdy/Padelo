@@ -26,4 +26,8 @@ app.use('/admin/users', adminUserRouter);
 app.use('/admin/courts', adminCourtRouter);
 app.use('/auth', authRouter);
 
+app.get('/', (req, res) => {
+  res.send('hello from Server');
+});
+
 module.exports = app;
