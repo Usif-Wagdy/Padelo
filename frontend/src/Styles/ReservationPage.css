@@ -9,7 +9,7 @@
 .padel-page-container {
   max-width: 1300px;
   margin: 0 auto;
-  background: rgba(0, 0, 0, 0.692);
+  background: #343a3f;
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 30px;
@@ -28,7 +28,7 @@
 .padel-court-contact-info {
   background: rgba(0, 0, 0, 0.7);
   padding: 90px;
-background-image: url('../assets/fotor-ai-2024120862244.jpg');
+/* background-image: url('../assets/fotor-ai-2024120862244.jpg'); */
 background-size: cover;
 background-position: center;
   border-radius: 15px;
@@ -40,12 +40,14 @@ background-position: center;
   font-size: 3rem;
   margin: 0;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
 }
 
 .padel-court-contact-info p {
-  color: #fff;
-  font-size: 1.2rem;
+  color: #602f2f;
+  font-size: 1.9rem;
   margin: 10px 0;
+  font-weight: bold;
 }
 
 .padel-booking-section {
@@ -169,6 +171,7 @@ background-position: center;
   color: white;
   cursor: pointer;
   animation: pulse 2s infinite;
+  font-size: 15px;
   
 }
 

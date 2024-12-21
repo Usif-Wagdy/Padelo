@@ -16,7 +16,7 @@ const ForgetPassword = () => {
     setLoading(true);
     try {
       // Call the API endpoint for forgot password
-      const response = await axios.post("http://127.0.0.1:3000/api/users/forget-password", {
+      const response = await axios.post("https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/users/forget-password", {
         email: email,
       });
 

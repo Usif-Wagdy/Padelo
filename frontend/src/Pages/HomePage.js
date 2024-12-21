@@ -8,7 +8,9 @@ function HomePage() {
   const [courts, setCourts] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:3000/api/courts")
+    fetch(
+      "https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/courts"
+    )
       .then((response) => response.json())
       .then((data) => setCourts(data.courts))
       .catch((error) => console.error("Error fetching courts:", error));
@@ -23,8 +25,8 @@ function HomePage() {
   const filteredCourts = selectedLocation
     ? courts.filter(
         (court) =>
-          court.location &&
-          court.location.trim().toLowerCase() ===
+          court.place &&
+          court.place.trim().toLowerCase() ===
             selectedLocation.trim().toLowerCase()
       )
     : courts;
@@ -109,10 +111,10 @@ function HomePage() {
               style={{ padding: "10px", borderRadius: "5px", width: "200px" }}
             >
               <option value="">Select a Location</option>
-              {[...new Set(courts.map((court) => court.location))].map(
-                (location, index) => (
-                  <option key={index} value={location}>
-                    {location}
+              {[...new Set(courts.map((court) => court.place))].map(
+                (place, index) => (
+                  <option key={index} value={place}>
+                    {place}
                   </option>
                 )
               )}
@@ -132,7 +134,7 @@ function HomePage() {
 
                 {/* <img src={court.photo} alt={court.name} className="court-image" /> */}
                 <div className="court-name">{court.name}</div>
-                <div className="court-address">{court.location}</div>
+                <div className="court-address">{court.place}</div>
                 <div className="court-phone">{court.phone}</div>
               </div>
             ))}
