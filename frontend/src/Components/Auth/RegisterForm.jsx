@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import OtpPopup from "../Popup/OtpPopup";
 import axios from "axios";
+import { FaGoogle } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEye,
@@ -13,10 +14,12 @@ import {
   faEnvelope,
   faLock,
 } from "@fortawesome/free-solid-svg-icons";
+import Cookies from "universal-cookie";
 
 const RegisterForm = ({ userNow }) => {
   const navigate = useNavigate();
 
+  const cookie = new Cookies();
   // data which will be sent to the API
   const [formData, setFormData] = useState({
     name: "",
@@ -132,6 +135,19 @@ const RegisterForm = ({ userNow }) => {
         }));
       }
     }
+  }
+
+  async function googleRegister() {
+    try {
+      const res = await axios.get(
+        "https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/auth/google"
+      );
+
+      if (res.status === 200) {
+        cookie.set("JWT", res.token);
+        navigate("/");
+      }
+    } catch (err) {}
   }
 
   const closeOtpPopup = () => {
@@ -290,6 +306,7 @@ const RegisterForm = ({ userNow }) => {
         <button type="submit" className="main-btn" disabled={!isFormValid}>
           Register
         </button>
+        <FaGoogle className="google" onClick={googleRegister} />
       </form>
       {isOtpPopupOpen && (
         <OtpPopup

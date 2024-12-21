@@ -14,6 +14,7 @@ const OtpPopup = ({ email, message, onClose }) => {
 
   async function verify() {
     try {
+      setError("");
       const res = await axios.post(
         "https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/users/verify_email",
         {
@@ -42,8 +43,8 @@ const OtpPopup = ({ email, message, onClose }) => {
 
   async function resendVerification() {
     try {
-      const res = await axios.post(
-        "http://127.0.0.1:3000/api/users/resend_verification",
+      await axios.post(
+        "https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/users/resend_verification",
         {
           email: email,
         },
@@ -53,10 +54,12 @@ const OtpPopup = ({ email, message, onClose }) => {
           },
         }
       );
+      setSuccess("Verification code resent successfully!");
     } catch (err) {
-      setError("Invalid or expired verification code");
+      setError("Failed to resend verification code. Please try again.");
     }
   }
+
   return (
     <div className={`popup-container ${onClose ? "active" : ""}`}>
       <div className="popup">
@@ -82,7 +85,7 @@ const OtpPopup = ({ email, message, onClose }) => {
             Resend Code
           </button>
           {error && <p className="error">{error}</p>}
-          {success && <p className="succes">{success}</p>}
+          {success && <p className="success">{success}</p>}
         </div>
       </div>
     </div>

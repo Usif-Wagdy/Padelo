@@ -16,6 +16,11 @@ body {
 }
 
 .container {
+  .forgot-password {
+    cursor: pointer;
+    color: $primary-color;
+  }
+
   .auth-box {
     height: 100vh;
     display: flex;
@@ -51,7 +56,6 @@ body {
         flex-direction: column;
         align-items: flex-start;
         gap: 20px;
-
         .back-to-home {
           cursor: pointer;
           border: none;
@@ -79,6 +83,7 @@ body {
           width: 500px;
           min-height: 280px;
           gap: 15px;
+          position: relative;
 
           .input-container {
             display: flex;
@@ -179,6 +184,13 @@ body {
             &.visible {
               opacity: 1;
             }
+          }
+          .google {
+            display: block;
+            width: 100%;
+            color: $dark-primary-color;
+            font-size: 30px;
+            cursor: pointer;
           }
         }
       }

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { User } from "../../Context/UserContext";
 import Cookies from "universal-cookie";
-import LoadingScreen from "../../Components/Loading";
+import { FaSpinner } from "react-icons/fa";
 
 export default function PersistLogin() {
   // Loading Screen
@@ -17,25 +17,40 @@ export default function PersistLogin() {
   useEffect(() => {
     // Refresh user's data if token exists in cookies
     async function refresh() {
-      // Retrieve Token From Cookies
-      const getToken = cookie.get("JWT");
+      try {
+        // Retrieve Token From Cookies
+        const getToken = cookie.get("JWT");
 
-      if (getToken) {
-        // Simulating refreshing token
-        const fetchedUserData = user.auth.userData || {}; // Use existing data if available
+        if (getToken) {
+          // Simulate refreshing user data
+          const fetchedUserData = user.auth.userData || {}; // Use existing data if available
 
-        // Update context & send it back (to keep the user logged-in, because the context data deleted on every refresh)
-        user.setAuth({ token: getToken, userData: fetchedUserData });
-        console.log("Updated user context with token and data.");
-      } else {
-        console.log("No token found in cookies. User remains unauthenticated.");
+          // Update context & maintain authentication
+          user.setAuth({ token: getToken, userData: fetchedUserData });
+          console.log("Updated user context with token and data.");
+        } else {
+          console.log(
+            "No token found in cookies. User remains unauthenticated."
+          );
+        }
+      } catch (error) {
+        console.error("Error during token refresh:", error);
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     }
 
     refresh();
   }, []);
 
-  return loading ? <LoadingScreen /> : <Outlet />;
+  // If loading, show the spinner
+  if (loading) {
+    return (
+      <div className="main-spinner-container">
+        <FaSpinner className="main-spinner" />
+        <p>Loading...</p>
+      </div>
+    );
+  }
+  return <Outlet />;
 }

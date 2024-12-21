@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import '../Styles/ResetPasswordPage.css';
+import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import "../Styles/ResetPasswordPage.css";
 
 const ResetPasswordPage = () => {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [errors, setErrors] = useState({ password: '', confirmPassword: '' });
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errors, setErrors] = useState({ password: "", confirmPassword: "" });
   const [isSuccess, setIsSuccess] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -29,19 +29,20 @@ const ResetPasswordPage = () => {
     let valid = true;
     let errors = {};
 
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/;
 
     if (!password) {
-      errors.password = 'Password is required';
+      errors.password = "Password is required";
       valid = false;
     } else if (!passwordRegex.test(password)) {
       errors.password =
-        'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.';
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
       valid = false;
     }
 
     if (confirmPassword !== password) {
-      errors.confirmPassword = 'Passwords do not match';
+      errors.confirmPassword = "Passwords do not match";
       valid = false;
     }
 
@@ -62,15 +63,17 @@ const ResetPasswordPage = () => {
         { password }
       );
 
-      setMessage(response.data.message || 'Password reset successful.');
+      setMessage(response.data.message || "Password reset successful.");
       setIsSuccess(true);
       setLoading(false);
 
       // Navigate to login page after a delay
-      setTimeout(() => navigate('/login'), 2000);
+      setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
       setLoading(false);
-      setMessage(error.response?.data?.message || 'An error occurred. Please try again.');
+      setMessage(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
     }
   };
 
@@ -82,7 +85,9 @@ const ResetPasswordPage = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">
-            <label htmlFor="password" className="label">New Password</label>
+            <label htmlFor="password" className="label">
+              New Password
+            </label>
             <input
               type="password"
               id="password"
@@ -91,11 +96,15 @@ const ResetPasswordPage = () => {
               onChange={handlePasswordChange}
               placeholder="Enter your new password"
             />
-            {errors.password && <p className="error-message">{errors.password}</p>}
+            {errors.password && (
+              <p className="error-message">{errors.password}</p>
+            )}
           </div>
 
           <div className="input-group">
-            <label htmlFor="confirm-password" className="label">Confirm Password</label>
+            <label htmlFor="confirm-password" className="label">
+              Confirm Password
+            </label>
             <input
               type="password"
               id="confirm-password"
@@ -104,17 +113,23 @@ const ResetPasswordPage = () => {
               onChange={handleConfirmPasswordChange}
               placeholder="Confirm your new password"
             />
-            {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
+            {errors.confirmPassword && (
+              <p className="error-message">{errors.confirmPassword}</p>
+            )}
           </div>
 
-          {message && <p className={`message ${isSuccess ? 'success' : 'error'}`}>{message}</p>}
+          {message && (
+            <p className={`message ${isSuccess ? "success" : "error"}`}>
+              {message}
+            </p>
+          )}
 
           <button
             type="submit"
             className="verify-btn"
             disabled={loading || isSuccess}
           >
-            {loading ? 'Resetting...' : 'Reset Password'}
+            {loading ? "Resetting..." : "Reset Password"}
           </button>
         </form>
       </div>

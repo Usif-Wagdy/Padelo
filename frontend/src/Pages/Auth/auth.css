@@ -5,20 +5,10 @@ body {
   padding: 0;
 }
 
-  .forgot-password {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .forgot-link {
-    color: #007bff;
-    cursor: pointer;
-    text-decoration: unset;
-  }
-  
-  .forgot-link:hover {
-    color: #0056b3;
-  }
+.container .forgot-password {
+  cursor: pointer;
+  color: #3282b8;
+}
 .container .auth-box {
   height: 100vh;
   display: flex;
@@ -75,6 +65,7 @@ body {
   width: 500px;
   min-height: 280px;
   gap: 15px;
+  position: relative;
 }
 .container .auth-box .box-content .form .form-control .input-container {
   display: flex;
@@ -169,6 +160,13 @@ body {
 }
 .container .auth-box .box-content .form .form-control .error-general.visible {
   opacity: 1;
+}
+.container .auth-box .box-content .form .form-control .google {
+  display: block;
+  width: 100%;
+  color: #185a8b;
+  font-size: 30px;
+  cursor: pointer;
 }
 .container .auth-box .box-content .auth-switch {
   width: 50%;

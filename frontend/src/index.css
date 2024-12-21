@@ -168,7 +168,7 @@ button:disabled {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #3282b8; /* Scrollbar handle color */
+  background-color: #767676; /* Scrollbar handle color */
   border-radius: 10px; /* Rounded edges */
   border: 2px solid #f5f7f8; /* Border around the scrollbar handle */
 }
@@ -179,11 +179,65 @@ button:disabled {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #0f4c75; /* Darker color on hover */
+  background-color: #504e4e; /* Darker color on hover */
 }
 
 /* For Firefox */
 body {
-  scrollbar-color: #3282b8 #f5f7f8; /* Thumb color Track color */
+  scrollbar-color: #767676 #f5f7f8; /* Thumb color Track color */
   scrollbar-width: thin; /* Makes the scrollbar thinner */
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 420px;
+  background-color: transparent;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-top: 5px solid #767676;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.spinner-container p {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.main-spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.main-spinner {
+  font-size: 50px;
+  color: #767676;
+  animation: spin 1s linear infinite;
+}
+
+.main-spinner-container p {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #555;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

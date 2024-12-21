@@ -31,7 +31,9 @@ const LoginPage = () => {
                 <span
                   className="forgot-link"
                   onClick={() =>
-                    navigate("/ForgetPassword", { state: { email: emailInput } })
+                    navigate("/ForgetPassword", {
+                      state: { email: emailInput },
+                    })
                   }
                 >
                   Forgot Password?
