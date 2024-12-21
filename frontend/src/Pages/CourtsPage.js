@@ -3,19 +3,26 @@ import { useNavigate } from "react-router-dom";
 import "../Styles/Courts.css";
 import defaultCourtImage from "../assets/OIP.jpg";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { FaSpinner } from "react-icons/fa";
 
 function Courts() {
   const [searchQuery, setSearchQuery] = useState("");
   const [courts, setCourts] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true); // Set loading to true before fetching
     fetch("https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/courts")
       .then((response) => response.json())
       .then((data) => {
         setCourts(data.courts);
+        setLoading(false); // Set loading to false after fetching
       })
-      .catch((error) => console.error("Error fetching courts:", error));
+      .catch((error) => {
+        console.error("Error fetching courts:", error);
+        setLoading(false); // Set loading to false even on error
+      });
   }, []);
 
   // Filter courts based on the search query
@@ -33,6 +40,8 @@ function Courts() {
   const handleCourtClick = (courtId) => {
     navigate(`/reservation/${courtId}`);
   };
+
+
 
   return (
     <div className="courts-page">
@@ -60,7 +69,9 @@ function Courts() {
       </div>
 
       {/* Courts List */}
+      
       <div className="courts-container">
+        
         {filteredCourts.length > 0 ? (
           filteredCourts.map((court) => (
             <div

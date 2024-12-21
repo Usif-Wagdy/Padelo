@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
 import { use } from "react";
+import { User } from "../../Context/UserContext";
 
 const AccountSettings = () => {
   const [user, setUser] = useState({
@@ -16,6 +17,7 @@ const AccountSettings = () => {
   const [profilePicture, setProfilePicture] = useState(null);
   const cookies = new Cookies();
   const token = cookies.get("JWT");
+  const data =useContext(User);
 
 
   useEffect(() => {
@@ -51,7 +53,7 @@ const AccountSettings = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ name: newName }), // Send the updated name in the body
+        body: JSON.stringify({ userId: user.id, name: newName }), // Send the updated name in the body
       });
   
       if (response.ok) {

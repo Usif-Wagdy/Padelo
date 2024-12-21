@@ -4,29 +4,18 @@
   flex-direction: column;
   justify-content: space-between; /* Ensure content pushes the footer to the bottom */
   align-items: center;
-  min-height: 100vh;
-  position: relative;
   background-color: rgba(255, 255, 255, 0.5);
-  color: #08260F;
+  color: white;
   font-family: Arial, sans-serif;
-}
-
-.background-img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('../assets/fotor-ai-2024120862244.jpg');
+  height: calc(100vh - 80px);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    /* Gradient overlay */ url("../assets/contact.avif"); /* Background image */
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
-  z-index: 0; /* Place behind all other content */
 }
 
 /* Main content styling */
 .contact-us-content {
-  margin-top: 30px; /* Space for the header */
   text-align: center;
   padding: 30px;
   border-radius: 10px;
@@ -58,7 +47,7 @@
   margin-top: auto; /* Pushes footer to the bottom */
   text-align: center;
   padding: 20px;
-  color: #08260F;
+  color: white;
   width: 100%;
   position: relative;
   z-index: 1;
@@ -78,13 +67,13 @@
 
 .social-links a {
   font-size: 1.5rem;
-  color: #08260F; /* Ensure icons are visible */
+  color: #08260f; /* Ensure icons are visible */
   text-decoration: none;
   transition: transform 0.3s, color 0.3s; /* Add transitions */
 }
 
 .social-links a:hover {
-  color: #156A28; /* Change color on hover */
+  color: #156a28; /* Change color on hover */
   transform: scale(1.2); /* Slight zoom effect */
   text-decoration: none; /* Ensure no underline on hover */
 }
@@ -96,93 +85,47 @@
 }
 
 .social-links span:hover {
-  color: #156A28;
+  color: #6ADBED;
   transform: scale(1.2);
 }
 
 /* Prevent horizontal scrolling */
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
 }
 
 /* Ensure images and content do not overflow */
-img, .content {
+img,
+.content {
   max-width: 100%;
   width: 100%;
   display: block;
 }
 
 .green-icon {
-  color: #008000; /* Green color */
+  color: white; /* Green color */
 }
 
 .email-link {
-  color: #008000; /* Green color for the link */
+  color: white; /* Green color for the link */
   text-decoration: none;
   font-weight: bold;
 }
 
 .email-link:hover {
   text-decoration: underline;
+  color: #6ADBED;
 }
 
 .phone-number {
-  color: #008000; /* Green color */
+  color: white; /* Green color */
   font-weight: bold;
   transition: color 0.3s;
 }
 
 .phone-number:hover {
-  color: #004d00; /* Darker green on hover */
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .contact-us-content {
-      padding: 20px;
-  }
-
-  .contact-us-content h1 {
-      font-size: 4rem;
-  }
-
-  .contact-us-content p {
-      font-size: 2.5rem;
-  }
-
-  .contact-detail {
-      font-size: 1.5rem;
-  }
-
-  .contact-us-footer p {
-      font-size: 2.5rem;
-  }
-
-  .social-links a {
-      font-size: 1.2rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .contact-us-content h1 {
-      font-size: 3rem;
-  }
-
-  .contact-us-content p {
-      font-size: 2rem;
-  }
-
-  .contact-detail {
-      font-size: 1.2rem;
-  }
-
-  .contact-us-footer p {
-      font-size: 2rem;
-  }
-
-  .social-links a {
-      font-size: 1rem;
-  }
+  color: #6ADBED; /* Darker green on hover */
 }

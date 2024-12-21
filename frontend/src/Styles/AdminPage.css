@@ -20,6 +20,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  min-width: 280px;
 }
 
 .sidebar ul {
@@ -56,10 +57,11 @@ body {
   margin-bottom: 20px;
 }
 
-form {
+.admin-container form {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-width: 400px;
 }
 
 form input {
@@ -195,37 +197,62 @@ button {
   border-radius: 4px;
 }
 
-/* Responsive Design */
+.court-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.court-table th,
+.court-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.court-table th {
+  background-color: #f2f2f2;
+  text-align: center;
+}
+
+/* Responsive Wrapper */
+.table-responsive {
+  max-width: 1200px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 20px;
+  border: 1px solid #ddd; /* Optional for better visibility */
+  border-radius: 8px;
+}
+
+/* Smaller Screen Styles */
 @media (max-width: 768px) {
   .court-table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
+    font-size: 14px; /* Reduce font size for smaller screens */
   }
 
   .court-table th,
   .court-table td {
-    padding: 8px;
+    padding: 6px;
   }
 
+  .court-table img {
+    width: 40px; /* Reduce image size for smaller screens */
+    height: 40px;
+  }
+}
+
+/* Extra Small Screens */
+@media (max-width: 480px) {
+  .court-table th,
   .court-table td {
-    display: block;
-    text-align: right;
-    position: relative;
-    padding-left: 50%;
+    font-size: 12px; /* Further reduce font size */
+    padding: 4px;
   }
 
-  .court-table td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 10px;
-    top: 10px;
-    font-weight: bold;
-  }
-
-  /* Adjust buttons on smaller screens */
-  button {
-    font-size: 14px;
-    padding: 4px 8px;
+  .court-table img {
+    width: 30px;
+    height: 30px;
   }
 }

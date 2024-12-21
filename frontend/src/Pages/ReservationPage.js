@@ -3,7 +3,7 @@ import "../Styles/ReservationPage.css";
 import { useParams } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
-import { Fa500Px, FaList } from "react-icons/fa";
+
 
 const PadelBooking = () => {
   const court1 = useParams();
@@ -40,7 +40,7 @@ const PadelBooking = () => {
 
     if (!isAvailable) {
       alert("Selected slots are not all available");
-      setLoading(false);
+      setLoading(false);  
       return;
     }
 
@@ -78,11 +78,12 @@ const PadelBooking = () => {
 
       fetchCourt();
     } catch (error) {
-      alert("Failed to book the court. Please try again.".error(error));
+      alert("Selected slots are not all available");
+      // console.error("Booking error:", error);
       setLoading(false);
-      console.error("Booking error:", error);
     }
-  };
+};
+
 
   const fetchCourt = async () => {
     const today = new Date();
@@ -98,7 +99,7 @@ const PadelBooking = () => {
         setSlots(getAvailableSlots(data.court.schedule));
         setSlots1(getReservedSlots(data.court.schedule));
       })
-      .catch((error) => console.error("Error fetching court:", error));
+      .catch((error) => console.error("Error fetching court:"));
   };
   useEffect(() => {
     fetchCourt();

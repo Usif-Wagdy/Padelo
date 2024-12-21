@@ -32,7 +32,6 @@ function ContactUs() {
 
   return (
     <div className="contact-us-page">
-      <div className="background-img"></div>
       <div className="contact-us-content">
         <h1>Get in touch</h1>
         <p>
