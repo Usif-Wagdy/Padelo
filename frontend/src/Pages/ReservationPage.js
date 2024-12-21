@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
 
-
 const PadelBooking = () => {
   const court1 = useParams();
   const court = court1.id;
@@ -40,7 +39,7 @@ const PadelBooking = () => {
 
     if (!isAvailable) {
       alert("Selected slots are not all available");
-      setLoading(false);  
+      setLoading(false);
       return;
     }
 
@@ -82,8 +81,7 @@ const PadelBooking = () => {
       // console.error("Booking error:", error);
       setLoading(false);
     }
-};
-
+  };
 
   const fetchCourt = async () => {
     const today = new Date();
@@ -170,8 +168,13 @@ const PadelBooking = () => {
       ? courtData.image
       : require("../assets/fotor-ai-2024120862244.jpg");
   return (
-    <div className="padel-body">
-      <div className="padel-page-container">
+    <div
+      className="padel-body"
+      style={{
+        backgroundImage: `url(${require("../assets/R.jpg")})`,
+      }}
+    >
+      <div className="padel-page-container" style={{}}>
         <div className="padel-court-header">
           <div
             className="padel-court-contact-info"
@@ -309,7 +312,6 @@ const PadelBooking = () => {
         </section>
 
         <section className="padel-map-section">
-
           <p className="padel-map-footer">
             <a
               href={courtData ? courtData.location : "https://maps.google.com"}
