@@ -58,7 +58,7 @@ const ResetPasswordPage = () => {
 
     setLoading(true);
     try {
-      const response = await axios.post(
+      const response = await axios.patch(
         `https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/users/reset-password/${token}`,
         { password }
       );
