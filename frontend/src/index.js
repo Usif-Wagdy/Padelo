@@ -54,8 +54,10 @@ root.render(
               <Route path="/register" element={<Register />} />
               <Route path="/ForgetPassword" element={<ForgetPassword />} />
               <Route path="/ResetPassword" element={<ResetPassword />} />
-              <Route path="/reset-password/:token" element={<ResetPassword />} />
-              <Route path="/reset-password/:token" element={<ResetPassword />} />
+              <Route
+                path="/reset-password/:token"
+                element={<ResetPassword />}
+              />
             </Route>
           </Route>
 
@@ -66,14 +68,13 @@ root.render(
             <Route path="/contactUs" element={<ContactUs />} />
             {/* Protected Paths: Requires Auth */}
             <Route element={<PersistLogin />}>
-            
               <Route element={<RequireAuth />}>
                 <Route path="/profile" element={<Profile />}>
                   <Route path="history" element={<History />} />
                   <Route path="settings" element={<AccountSettings />} />
                 </Route>
                 <Route path="/admin" element={<Admin />} />
-                
+
                 <Route path="/reservation/:id" element={<Reservation />} />
               </Route>
             </Route>
