@@ -1,21 +1,27 @@
 {
   "files": {
-    "main.css": "/Padelo/static/css/main.1f405319.css",
-    "main.js": "/Padelo/static/js/main.052d66a8.js",
-    "static/js/453.8ab44547.chunk.js": "/Padelo/static/js/453.8ab44547.chunk.js",
-    "static/media/R.jpg": "/Padelo/static/media/R.8d0d88c7d5e5db9d25fe.jpg",
-    "static/media/Logo.png": "/Padelo/static/media/Logo.7b8862cd89acfe9a55ba.png",
-    "static/media/fotor-ai-2024120862244.jpg": "/Padelo/static/media/fotor-ai-2024120862244.5fa7a835b8de84c95d3c.jpg",
-    "static/media/OIP.jpg": "/Padelo/static/media/OIP.4f848ce2ba4faa7f7667.jpg",
-    "static/media/aichat-image-2024-12-04T20_08_38.041Z.jpg": "/Padelo/static/media/aichat-image-2024-12-04T20_08_38.041Z.3b41767d77c8243bc362.jpg",
-    "static/media/aichat-image-2024-12-04T21_02_37.972Z.jpg": "/Padelo/static/media/aichat-image-2024-12-04T21_02_37.972Z.246b2c1f50958b28561d.jpg",
-    "index.html": "/Padelo/index.html",
-    "main.1f405319.css.map": "/Padelo/static/css/main.1f405319.css.map",
-    "main.052d66a8.js.map": "/Padelo/static/js/main.052d66a8.js.map",
-    "453.8ab44547.chunk.js.map": "/Padelo/static/js/453.8ab44547.chunk.js.map"
+    "main.css": "/Padelo/frontend/static/css/main.458e806f.css",
+    "main.js": "/Padelo/frontend/static/js/main.0a95de19.js",
+    "static/media/auth-bg.jpg": "/Padelo/frontend/static/media/auth-bg.5702f1a0c32fe67e2599.jpg",
+    "static/media/fa-solid-900.ttf": "/Padelo/frontend/static/media/fa-solid-900.2582b0e4bcf85eceead0.ttf",
+    "static/media/contact.avif": "/Padelo/frontend/static/media/contact.a5291cd854ffbc6dda7d.avif",
+    "static/media/Logo.png": "/Padelo/frontend/static/media/Logo.7b8862cd89acfe9a55ba.png",
+    "static/media/fa-brands-400.ttf": "/Padelo/frontend/static/media/fa-brands-400.1815e00441357e01619e.ttf",
+    "static/media/fa-solid-900.woff2": "/Padelo/frontend/static/media/fa-solid-900.2463b90d9a316e4e5294.woff2",
+    "static/media/fotor-ai-2024120862244.jpg": "/Padelo/frontend/static/media/fotor-ai-2024120862244.5fa7a835b8de84c95d3c.jpg",
+    "static/media/fa-brands-400.woff2": "/Padelo/frontend/static/media/fa-brands-400.c210719e60948b211a12.woff2",
+    "static/media/OIP.jpg": "/Padelo/frontend/static/media/OIP.4f848ce2ba4faa7f7667.jpg",
+    "static/media/aichat-image-2024-12-04T20_08_38.041Z.jpg": "/Padelo/frontend/static/media/aichat-image-2024-12-04T20_08_38.041Z.3b41767d77c8243bc362.jpg",
+    "static/media/fa-regular-400.ttf": "/Padelo/frontend/static/media/fa-regular-400.914997e1bdfc990d0897.ttf",
+    "static/media/fa-regular-400.woff2": "/Padelo/frontend/static/media/fa-regular-400.89999bdf5d835c012025.woff2",
+    "static/media/fa-v4compatibility.ttf": "/Padelo/frontend/static/media/fa-v4compatibility.da94ef451f4969af06e6.ttf",
+    "static/media/fa-v4compatibility.woff2": "/Padelo/frontend/static/media/fa-v4compatibility.ea8f94e1d22e0d35ccd4.woff2",
+    "index.html": "/Padelo/frontend/index.html",
+    "main.458e806f.css.map": "/Padelo/frontend/static/css/main.458e806f.css.map",
+    "main.0a95de19.js.map": "/Padelo/frontend/static/js/main.0a95de19.js.map"
   },
   "entrypoints": [
-    "static/css/main.1f405319.css",
-    "static/js/main.052d66a8.js"
+    "static/css/main.458e806f.css",
+    "static/js/main.0a95de19.js"
   ]
 }
