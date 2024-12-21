@@ -10,7 +10,7 @@ function Courts() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://127.0.0.1:3000/api/courts")
+    fetch("https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/courts")
       .then((response) => response.json())
       .then((data) => {
         setCourts(data.courts);
@@ -24,7 +24,7 @@ function Courts() {
         const query = searchQuery.trim().toLowerCase();
         return (
           court.name.toLowerCase().includes(query) ||
-          court.location.toLowerCase().includes(query)
+          court.place.toLowerCase().includes(query)
         );
       })
     : courts;
@@ -85,7 +85,7 @@ function Courts() {
               </div>
               <div className="court-info">
                 <h3 className="court-name">{court.name}</h3>
-                <p className="court-location">Location: {court.location}</p>
+                <p className="court-location">Location: {court.place}</p>
                 <p className="court-phone">Phone: {court.contactNumber}</p>
                 <p className="court-price">
                   Price: <strong>{court.price} EGP</strong>

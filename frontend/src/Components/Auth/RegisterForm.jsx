@@ -110,7 +110,7 @@ const RegisterForm = ({ userNow }) => {
 
     try {
       const res = await axios.post(
-        "http://127.0.0.1:3000/api/users/register",
+        "https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/users/register",
         formData
       );
 

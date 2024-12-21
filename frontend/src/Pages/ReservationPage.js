@@ -3,6 +3,7 @@ import "../Styles/ReservationPage.css";
 import { useParams } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
+import { Fa500Px, FaList } from "react-icons/fa";
 
 const PadelBooking = () => {
   const court1 = useParams();
@@ -11,7 +12,8 @@ const PadelBooking = () => {
   const [courtData, setCourt] = useState(null);
   const [slots, setSlots] = useState([]);
   const [slotsReserved, setSlots1] = useState([]);
-
+  const [isLoading, setLoading] = useState(false);
+  const place = "on";
   const cookie = new Cookies();
   const token = cookie.get("JWT");
   const userId = jwtDecode(token);
@@ -21,7 +23,7 @@ const PadelBooking = () => {
 
   const bookduration = async () => {
     const { day, time, duration } = formData;
-
+    setLoading(true);
     const isAvailable = () => {
       for (let i = 0; i < parseInt(duration); i++) {
         const currentSlot = parseInt(time) + i;
@@ -38,6 +40,7 @@ const PadelBooking = () => {
 
     if (!isAvailable) {
       alert("Selected slots are not all available");
+      setLoading(false);
       return;
     }
 
@@ -47,17 +50,21 @@ const PadelBooking = () => {
           user,
           court,
           day,
+          place,
           slotNumber: parseInt(time) + i,
         };
 
-        const response = await fetch("http://127.0.0.1:3000/api/reservations", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token,
-          },
-          body: JSON.stringify(payload),
-        });
+        const response = await fetch(
+          "https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/reservations",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+            body: JSON.stringify(payload),
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Booking failed");
@@ -67,9 +74,12 @@ const PadelBooking = () => {
       alert(
         `Booking Successful!\nDate: ${day}\nTime: ${time}\nDuration: ${duration}`
       );
+      setLoading(false);
+
       fetchCourt();
     } catch (error) {
-      alert("Failed to book the court. Please try again.");
+      alert("Failed to book the court. Please try again.".error(error));
+      setLoading(false);
       console.error("Booking error:", error);
     }
   };
@@ -79,7 +89,9 @@ const PadelBooking = () => {
     const formattedToday = today.toISOString().split("T")[0];
     setMinDate(formattedToday);
 
-    fetch(`http://127.0.0.1:3000/api/courts/${court}`)
+    fetch(
+      `https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/courts/${court}`
+    )
       .then((response) => response.json())
       .then((data) => {
         setCourt(data.court);
@@ -155,18 +167,20 @@ const PadelBooking = () => {
   );
 
   return (
-    <div
-      className="padel-body"
-    >
+    <div className="padel-body">
       <div className="padel-page-container">
         <div
-          className="padel-court-header"
-          style={{ backgroundImage: `url(${require("../assets/R.jpg")})` }}
+         className="padel-court-header"
         >
-          <div className="padel-court-contact-info">
+          <div className="padel-court-contact-info"  
+          style={{
+            backgroundImage: `url(${courtData ? courtData.image : require("../assets/fotor-ai-2024120862244.jpg")})`,
+            // backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}>
             <h2>{courtData ? courtData.name : "Loading..."}</h2>
-            <p>{courtData ? courtData.location : "Loading location..."}</p>
-            <p>+201120966038</p>
+            <p>{courtData ? courtData.place : "Loading location..."}</p>
+            <p>+{courtData ? courtData.contactNumber : "Loading..."}</p>
           </div>
         </div>
 
@@ -228,11 +242,13 @@ const PadelBooking = () => {
               ))}
             </select>
 
-            <p style={{ fontSize: "20px",color:"white" }}>
+            <p style={{ fontSize: "20px", color: "white" }}>
               Price:{" "}
-              <strong style={{ color: "green" }}>{courtData ? courtData.price : "Loading..."} LE</strong>
+              <strong style={{ color: "green" }}>
+                {courtData ? courtData.price : "Loading..."} LE
+              </strong>
             </p>
-            <button type="submit">Book</button>
+            <button type="submit">{isLoading ? "Loading..." : "Book"}</button>
           </form>
         </section>
 
@@ -298,7 +314,7 @@ const PadelBooking = () => {
           ></iframe>
           <p className="padel-map-footer">
             <a
-              href="https://maps.google.com"
+              href={courtData ? courtData.location : "https://maps.google.com"}
               target="_blank"
               rel="noopener noreferrer"
             >

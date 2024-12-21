@@ -25,7 +25,7 @@ const ProfilePage = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "https://jsonplaceholder.typicode.com/posts",
+        "https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/posts",
         {
           method: "POST",
           headers: {
@@ -45,7 +45,7 @@ const ProfilePage = () => {
   const fetchBookingHistory = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:3000/api/reservations/user/${userId.id}`
+        `https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/reservations/user/${userId.id}`
       );
       const data = await response.json();
       setBookingHistory(data.reservations);
