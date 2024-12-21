@@ -10,11 +10,8 @@ exports.addCourt = async (req, res) => {
       place,
       email,
       contactNumber,
+      image,
     } = req.body;
-
-    const image = req.file
-      ? `/uploads/${req.file.filename}`
-      : '';
 
     const newCourt = new Court({
       name,
