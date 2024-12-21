@@ -1,50 +1,85 @@
 import React, { useState, useEffect } from "react";
-import "../Styles/AdminPage.css";
-import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
+import { FaTrashAlt, FaEdit } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
+import "../Styles/AdminPage.css"; // Import styles
 
 const AdminPage = () => {
-  const [activeSection, setActiveSection] = useState("add");
-  const [search, setSearch] = useState("");
+  const location = useLocation();
+  const [activeLink, setActiveLink] = useState(location.pathname);
+  const [activeSection, setActiveSection] = useState("add"); // Active section for tabs
   const [courts, setCourts] = useState([]);
   const [newCourt, setNewCourt] = useState({
     name: "",
-    description: "",
-    price: "",
     location: "",
+    price: "",
     email: "",
     contactNumber: "",
-
     image: "",
+    place:""
   });
+  const [editingCourt, setEditingCourt] = useState(null); // Track the court being edited
+  const [updatedCourt, setUpdatedCourt] = useState({
+    name: "",
+    location: "",
+    price: "",
+    email: "",
+    contactNumber: "",
+    image: "",
+    place:""
+  });
+  const [search, setSearch] = useState("");
   const cookie = new Cookies();
 
-  // Fetch courts from the backend
   useEffect(() => {
-    fetch("http://127.0.0.1:3000/api/courts")
-      .then((response) => response.json())
-      .then((data) => {
-        setCourts(data.courts);
-      })
-      .catch((error) => console.error("Error fetching courts:", error));
+    setActiveLink(location.pathname);
+  }, [location]);
+
+  useEffect(() => {
+    fetchCourts();
   }, []);
 
-  const handleSectionChange = (section) => {
-    setActiveSection(section);
+  const fetchCourts = async () => {
+    try {
+      const response = await fetch("https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/courts");
+      const data = await response.json();
+      setCourts(data.courts);
+    } catch (error) {
+      console.error("Error fetching courts:", error);
+    }
   };
+  const handleUpdate = async (courtId) => {
+    const { name, location, price,email, contactNumber, image } = updatedCourt;
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewCourt((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleAddCourt = async (e) => {
-    e.preventDefault();
-    console.log("Adding court: Payload", newCourt);
-
+    // Perform validation checks
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const isValidLink = /^https:\/\/(www\.)?google\.com\/maps\/.+/.test(location);
+    const isValidNumber = /^01\d{9}$/.test(contactNumber || "");
+    const isValidPrice = /^\d+$/.test(price);
+  
+    if (!name.trim()) {
+      alert("Court name cannot be empty.");
+      return;
+    }
+    if (!isValidEmail) {
+      alert("Invalid email format. Please provide a valid email.");
+      return;
+    }
+    if (!isValidLink) {
+      alert("Invalid Google Maps link. Please provide a valid link.");
+      return;
+    }
+    if (!isValidNumber) {
+      alert("Invalid phone number. Must start with '01' and be exactly 11 digits.");
+      return;
+    }
+    if (!isValidPrice) {
+      alert("Price must be a valid number.");
+      return;
+    }
+  
+    
+    console.log("Updating court:", courtId, updatedCourt);
     const token = cookie.get("JWT");
     if (!token) {
       alert("You are not authorized. Please log in.");
@@ -52,20 +87,98 @@ const AdminPage = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/admin/courts/", {
+      
+      await fetch(`https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/admin/courts/${courtId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedCourt),
+      });
+
+      alert("Court updated successfully!");
+      fetchCourts();
+      setEditingCourt(null);
+      setUpdatedCourt({
+        name: "",
+        location: "",
+        price: "",
+        email: "",
+        contactNumber: "",
+        image: "",
+        place:""
+      });
+    } catch (error) {
+      console.error("Error updating court:", error);
+    }
+  };
+  const handleEdit = (court) => {
+    setEditingCourt(court._id);
+    setUpdatedCourt({
+      name: court.name,
+      location: court.location,
+      price: court.price,
+      email: court.email || "",
+      contactNumber: court.contactNumber || "",
+      image: court.image || "",
+    });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewCourt((prev) => ({ ...prev, [name]: value }));
+  };
+
+
+  const handleAddCourt = async (e) => {
+    e.preventDefault(); // Prevent the form from submitting
+
+  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newCourt.email);
+  const isValidLink = /^https:\/\/(www\.)?google\.com\/maps\/.+/.test(newCourt.location);
+  const isValidNumber = /^01\d{9}$/.test(newCourt.contactNumber || "");
+  const isValidPrice = /^\d+$/.test(newCourt.price);
+
+  // Display error messages or focus on the invalid field
+  if (!isValidEmail) {
+    alert("Invalid email format. Please provide a valid email.");
+    return;
+  }
+  if (!isValidLink) {
+    alert("Invalid Google Maps link. Please provide a valid link.");
+    return;
+  }
+  if (!isValidNumber) {
+    alert("Invalid phone number. Must start with '01' and be exactly 11 digits.");
+    return;
+  }
+  if (!isValidPrice) {
+    alert("Price must be a valid number.");
+    return;
+  }
+
+  // Proceed with adding the court
+  console.log("Court added successfully!", newCourt);
+    const token = cookie.get("JWT");
+    if (!token) {
+      alert("You are not authorized. Please log in.");
+      return;
+    }
+
+    try {
+      
+      const response = await fetch("https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/admin/courts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(newCourt),
+        body: JSON.stringify({
+          ...newCourt,
+        }),
       });
 
-      const responseBody = await response.json();
-      console.log("Backend response:", responseBody);
-
       if (response.ok) {
-        setCourts((prevCourts) => [...prevCourts, responseBody]);
         alert("Court added successfully!");
         setNewCourt({
           name: "",
@@ -75,171 +188,358 @@ const AdminPage = () => {
           email: "",
           contactNumber: "",
           image: "",
+          place:""
         });
+        fetchCourts();
       } else {
-        alert(
-          `Failed to add court: ${responseBody.message || "Unknown error"}`
-        );
+        const errorData = await response.json();
+        alert(`Failed to add court: ${errorData.message}`);
       }
     } catch (error) {
-      console.error("Error adding court:", error);
-      alert("An unexpected error occurred. Please try again.");
+      alert("An unexpected error occurred.");
     }
   };
 
-  const filteredCourts = search
-    ? courts.filter((court) => {
-        const query = search.toLowerCase().trim();
+  const handleDeleteCourt = async (courtId) => {
+    try {
+      const token = cookie.get("JWT");
+      const response = await fetch(`https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/admin/courts/${courtId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        alert("Court deleted successfully!");
+        fetchCourts();
+      } else {
+        alert("Failed to delete court.");
+      }
+    } catch (error) {
+      console.error("Error deleting court:", error);
+    }
+  };
+
+  const filteredCourts = courts.filter((court) =>
+    court.name.toLowerCase().includes(search.toLowerCase())
+  );
+  const handleCancelEdit = () => {
+    // Reset the updatedCourt state to avoid partial or invalid changes
+    setUpdatedCourt({});
+    // Exit the editing mode
+    setEditingCourt(null);
+  };
+  
+
+  const renderSection = () => {
+    switch (activeSection) {
+      case "add":
+        
         return (
-          court.name.toLowerCase().includes(query) ||
-          court.location.toLowerCase().includes(query)
-        );
-      })
-    : courts;
-
-  return (
-    <body className="admin-page">
-      <div className="admin-container">
-        <h1 className="admin-header">Admin Panel</h1>
-        <div className="buttons-container">
-          <button
-            className={`toggle-button ${
-              activeSection === "update" ? "active" : ""
-            }`}
-            onClick={() => handleSectionChange("update")}
-          >
-            Delete & Update
-          </button>
-          <button
-            className={`toggle-button ${
-              activeSection === "add" ? "active" : ""
-            }`}
-            onClick={() => handleSectionChange("add")}
-          >
-            Add
-          </button>
-        </div>
-        {activeSection === "update" && (
-          <div className="update-section">
-            <h2>Search for Delete or Update Court</h2>
-            <div className="search-container">
-              <input
-                type="text"
-                placeholder="Search by Court Name or Location"
-                className="search-input"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <button className="search-button" onClick={() => setSearch("")}>
-                Clear
-              </button>
-            </div>
-            <div className="courts-grid">
-              {filteredCourts.map((court) => (
-                <div key={court._id} className="admin-court-card">
-                  <Link
-                    to={`/Admin/${court._id}`}
-                    state={{ token: cookie.get("JWT") }}
-                  >
-                    <img
-                      src={court.image}
-                      alt={court.name}
-                      className="court-image"
-                    />
-                  </Link>
-                  <div className="court-details">
-                    <p className="court-name">{court.name}</p>
-                    <p className="court-address">{court.location}</p>
-                    <p className="court-phone">{court.phone}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {activeSection === "add" && (
-          <div className="add-section">
-            <h2>ADD COURT</h2>
-            <form className="add-form" onSubmit={handleAddCourt}>
+          <div className="active-section">
+            <h2>Add New Court</h2>
+            <form onSubmit={handleAddCourt}>
               <input
                 type="text"
                 name="name"
-                placeholder="Enter Court Name"
+                placeholder="Court Name"
                 value={newCourt.name}
+                onChange={handleInputChange}
+                required
+              />
+              <input
+                type="text"
+                name="place"
+                placeholder="city Name"
+                value={newCourt.place}
                 onChange={handleInputChange}
                 required
               />
               <input
                 type="number"
                 name="price"
-                placeholder="Enter Court Price per hour"
+                placeholder="Price per hour"
                 value={newCourt.price}
-                onChange={handleInputChange}
+                onChange={(e) => {
+                  if (/^\d*$/.test(e.target.value)) handleInputChange(e);
+                }}
                 required
               />
-              <input
-                type="text"
-                name="email"
-                placeholder="Enter Court email"
-                value={newCourt.email}
-                onChange={handleInputChange}
-              />
-              <input
-                type="text"
-                name="description"
-                placeholder="Enter Court description"
-                value={newCourt.description}
-                onChange={handleInputChange}
-              />
-              <input
-                type="tel"
-                name="contactNumber"
-                placeholder="Phone Number"
-                value={newCourt.contactNumber}
-                onChange={handleInputChange}
-                required
-              />
-              <input
-                type="text"
-                name="location"
-                placeholder="Court Location"
-                value={newCourt.location}
-                onChange={handleInputChange}
-                required
-              />
-              <input
-                type="text"
-                name="image"
-                placeholder="Image URL (or upload below)"
-                value={newCourt.image}
-                onChange={handleInputChange}
-              />
-              <label className="upload-label">
-                Upload Court Image:
+              <div style={{ position: "relative", marginBottom: "1em" }}>
                 <input
-                  type="file"
-                  accept="image/*"
+                  type="text"
+                  name="email"
+                  placeholder="Contact Email"
+                  value={newCourt.email}
+                  onChange={handleInputChange}
+                  onBlur={(e) => {
+                    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.target.value);
+                    e.target.style.border = isValidEmail ? "2px solid green" : "2px solid red";
+                  }}
+                  required
+                />
+              </div>
+              <div style={{ position: "relative", marginBottom: "1em" }}>
+                <input
+                  type="text"
+                  name="location"
+                  placeholder="Google Maps Link"
+                  value={newCourt.location}
+                  onChange={handleInputChange}
+                  onBlur={(e) => {
+                    const isValidLink = /^https:\/\/(www\.)?google\.com\/maps\/.+/.test(e.target.value);
+                    e.target.style.border = isValidLink ? "2px solid green" : "2px solid red";
+                  }}
+                  required
+                />
+              </div>
+              <div style={{ position: "relative", marginBottom: "1em" }}>
+                <input
+                  type="text"
+                  name="contactNumber"
+                  placeholder="Phone Number"
+                  value={newCourt.contactNumber || ""}
                   onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                      const reader = new FileReader();
-                      reader.onload = () => {
-                        setNewCourt({ ...newCourt, image: reader.result });
-                      };
-                      reader.readAsDataURL(file);
+                    if (/^\d*$/.test(e.target.value)) {
+                      setNewCourt((prev) => ({ ...prev, contactNumber: e.target.value }));
                     }
                   }}
+                  onBlur={(e) => {
+                    const isValidNumber = /^01\d{9}$/.test(e.target.value);
+                    e.target.style.border = isValidNumber ? "2px solid green" : "2px solid red";
+                  }}
+                  required
                 />
-              </label>
-              <button type="submit" className="add-court-button">
+              </div>
+              <input
+  type="text"
+  name="imageURL"
+  placeholder="Enter Image URL"
+  value={newCourt.image || ""}
+  onChange={(e) => {
+    setNewCourt((prev) => ({ ...prev, image: e.target.value }));
+  }}  
+/>
+
+
+              
+              <button type="submit" className="save-button">
                 Add Court
               </button>
             </form>
           </div>
-        )}
+        );
+        
+      case "manage":
+        return (
+          <div className="active-section">
+            <h2>Manage Courts</h2>
+            <input
+              type="text"
+              placeholder="Search by Court Name"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <table className="court-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>City</th>
+                  <th>Location</th>
+                  <th>Price</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Image</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredCourts.map((court) => (
+                  <tr key={court._id}>
+                    <td>
+                      {editingCourt === court._id ? (
+                        <input
+                          type="text"
+                          value={updatedCourt.name}
+                          onChange={(e) =>
+                            setUpdatedCourt({ ...updatedCourt, name: e.target.value })
+                          }
+                        />
+                      ) : (
+                        court.name
+                      )}
+                    </td>
+                    <tb>
+                      {editingCourt === court._id ? (
+                        <input
+                          type="text"
+                          value={updatedCourt.place}
+                          onChange={(e) =>
+                            setUpdatedCourt({ ...updatedCourt, city: e.target.value })
+                          }
+                        />
+                      ) : (
+                        court.place // City
+                      )}
+                    </tb>
+                    <td>
+                      {editingCourt === court._id ? (
+                        <input
+                          type="text"
+                          value={updatedCourt.location}
+                          onChange={(e) =>
+                            setUpdatedCourt({
+                              ...updatedCourt,
+                              location: e.target.value,
+                            })
+                          }
+                        />
+                      ) : (
+                        court.location.split(",")[0] // Shortened location (e.g., City)
+                      )}
+                    </td>
+                    <td>
+                      {editingCourt === court._id ? (
+
+                        <input
+                          type="number"
+                          value={updatedCourt.price}
+                          onChange={(e) =>{
+                            if (/^\d*$/.test(e.target.value))
+                            setUpdatedCourt({ ...updatedCourt, price: e.target.value })
+                          }}
+                        />
+                      ) : (
+                        `$${court.price}`
+                      )}
+                    </td>
+                    <td>
+                      {editingCourt === court._id ? (
+                        <input
+                          type="email"
+                          value={updatedCourt.email}
+                          onChange={(e) =>
+                            setUpdatedCourt({
+                              ...updatedCourt,
+                              email: e.target.value,
+                            })
+                          }
+                        />
+                      ) : (
+                        court.email || "Not Provided"
+                      )}
+                    </td>
+                    <td>
+                      {editingCourt === court._id ? (
+                        <input
+                          type="tel"
+                          value={updatedCourt.contactNumber}
+                          onChange={(e) =>
+                            setUpdatedCourt({
+                              ...updatedCourt,
+                              contactNumber: e.target.value,
+                            })
+                          }
+                        />
+                      ) : (
+                        court.contactNumber || "Not Provided"
+                      )}
+                    </td>
+                    <td>
+                      {editingCourt === court._id ? (
+                        <input
+                          type="text"
+                          value={updatedCourt.image}
+                          onChange={(e) =>
+                            setUpdatedCourt({
+                              ...updatedCourt,
+                              image: e.target.value,
+                            })
+                          }
+                        />
+                      ) : (
+                        court.image && (
+                          <img
+                            src={court.image}
+                            alt={court.name}
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              objectFit: "cover",
+                            }}
+                          />
+                        )
+                      )}
+                    </td>
+                    <td>
+  {editingCourt === court._id ? (
+    <>
+      <button
+        className="save-button"
+        onClick={() => handleUpdate(court._id)}
+      >
+        Save
+      </button>
+      <button
+        className="cancel-button"
+        onClick={() => handleCancelEdit()}
+      >
+        Cancel
+      </button>
+    </>
+  ) : (
+    <button
+      className="edit-button"
+      onClick={() => handleEdit(court)}
+    >
+      <FaEdit />
+    </button>
+  )}
+  <button
+    className="delete-button"
+    onClick={() => handleDeleteCourt(court._id)}
+  >
+    <FaTrashAlt />
+  </button>
+</td>
+
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="admin-page">
+      <div className="admin-container">
+        <div className="sidebar">
+          <ul>
+            <li
+              className={activeSection === "add" ? "active" : ""}
+              onClick={() => setActiveSection("add")}
+            >
+              Add Court
+            </li>
+            <li
+              className={activeSection === "manage" ? "active" : ""}
+              onClick={() => setActiveSection("manage")}
+            >
+              Manage Courts
+            </li>
+          </ul>
+        </div>
+
+        <div className="content">
+          {renderSection()}
+        </div>
       </div>
-    </body>
+    </div>
   );
 };
 

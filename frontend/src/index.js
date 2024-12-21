@@ -20,7 +20,6 @@ import Courts from "./Pages/CourtsPage";
 import ContactUs from "./Pages/ContactUsPage";
 import Profile from "./Pages/Profile/ProfilePage";
 import Admin from "./Pages/AdminsPage";
-import Admin2 from "./Pages/adminPage2";
 import Reservation from "./Pages/ReservationPage";
 import History from "./Components/Profile/History";
 import AccountSettings from "./Components/Profile/AccountSettings";
@@ -74,7 +73,7 @@ root.render(
                   <Route path="settings" element={<AccountSettings />} />
                 </Route>
                 <Route path="/admin" element={<Admin />} />
-                <Route path="/Admin/:id" element={<Admin2 />} />
+                
                 <Route path="/reservation/:id" element={<Reservation />} />
               </Route>
             </Route>
