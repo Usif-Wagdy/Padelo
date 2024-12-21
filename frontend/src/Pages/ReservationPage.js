@@ -165,19 +165,25 @@ const PadelBooking = () => {
   const filteredSlotsReserved = slotsReserved.filter(
     (slot) => slot.day === day
   );
-
+  const imageUrl =
+    courtData && courtData.image
+      ? courtData.image
+      : require("../assets/fotor-ai-2024120862244.jpg");
   return (
     <div className="padel-body">
       <div className="padel-page-container">
-        <div
-         className="padel-court-header"
-        >
-          <div className="padel-court-contact-info"  
-          style={{
-            backgroundImage: `url(${courtData ? courtData.image : require("../assets/fotor-ai-2024120862244.jpg")})`,
-            // backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}>
+        <div className="padel-court-header">
+          <div
+            className="padel-court-contact-info"
+            style={{
+              // Check if court image exists
+
+              backgroundImage: `url(${imageUrl})`,
+              // backgroundImage: `url(${courtData &&courtData ? courtData.image : require("../assets/aichat-image-2024-12-04T21_03_30.190Z.jpg")})`,
+              // backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
             <h2>{courtData ? courtData.name : "Loading..."}</h2>
             <p>{courtData ? courtData.place : "Loading location..."}</p>
             <p>+{courtData ? courtData.contactNumber : "Loading..."}</p>
