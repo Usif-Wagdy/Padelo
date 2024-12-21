@@ -15,7 +15,7 @@ const OtpPopup = ({ email, message, onClose }) => {
   async function verify() {
     try {
       const res = await axios.post(
-        "http://127.0.0.1:3000/api/users/verify_email",
+        "https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/users/verify_email",
         {
           email: email,
           code: otp.trim(),
