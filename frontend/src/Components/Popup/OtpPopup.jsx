@@ -43,7 +43,7 @@ const OtpPopup = ({ email, message, onClose }) => {
   async function resendVerification() {
     try {
       const res = await axios.post(
-        "http://127.0.0.1:3000/api/users/resend_verification",
+        "https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/users/resend_verification",
         {
           email: email,
         },
