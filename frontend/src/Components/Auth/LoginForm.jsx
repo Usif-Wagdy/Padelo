@@ -13,6 +13,7 @@ import {
   faLock,
 } from "@fortawesome/free-solid-svg-icons";
 import OtpPopup from "../Popup/OtpPopup";
+import { FaGoogle } from "react-icons/fa";
 
 const LoginForm = ({ userNow }) => {
   const navigate = useNavigate();
@@ -115,6 +116,19 @@ const LoginForm = ({ userNow }) => {
     }
   }
 
+  async function googleLogin() {
+    try {
+      const res = await axios.get(
+        "https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/auth/google"
+      );
+
+      if (res.status === 200) {
+        cookie.set("JWT", res.token);
+        navigate("/");
+      }
+    } catch (err) {}
+  }
+
   const closeOtpPopup = () => {
     setIsOtpPopupOpen(false); // Close OTP popup
   };
@@ -199,6 +213,7 @@ const LoginForm = ({ userNow }) => {
         <button type="submit" className="main-btn" disabled={!isFormValid}>
           Login
         </button>
+        <FaGoogle className="google" onClick={googleLogin} />
 
         {errors.email && (
           <span

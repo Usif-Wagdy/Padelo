@@ -60,7 +60,6 @@ root.render(
               />
             </Route>
           </Route>
-
           {/* Main Routes (With Header) */}
           <Route element={<MainLayout />}>
             <Route path="/" element={<HomePage />} />
@@ -74,7 +73,6 @@ root.render(
                   <Route path="settings" element={<AccountSettings />} />
                 </Route>
                 <Route path="/admin" element={<Admin />} />
-
                 <Route path="/reservation/:id" element={<Reservation />} />
               </Route>
             </Route>
