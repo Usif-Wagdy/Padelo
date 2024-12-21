@@ -222,4 +222,18 @@
     border-bottom: 17px solid #ddd;
     z-index: -1;
   }
+}
+
+.logout-icon {
+  font-size: 30px;
+  color: #343a40;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-left: 50px;
+}
+
+.logout-icon:hover {
+  color: red;
+  transform: translateX(2px);
 }/*# sourceMappingURL=header.css.map */

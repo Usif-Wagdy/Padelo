@@ -64,7 +64,7 @@ body {
   max-width: 400px;
 }
 
-form input {
+.active-section form input {
   padding: 10px;
   font-size: 14px;
   border: 1px solid #ced4da;
@@ -72,7 +72,7 @@ form input {
   width: 100%;
 }
 
-form button.save-button {
+.active-section form button.save-button {
   padding: 10px;
   background-color: #007bff;
   color: #fff;
@@ -135,8 +135,8 @@ table tbody tr:nth-child(odd) {
   background-color: #c82333;
 }
 
-input[type="text"],
-input[type="number"] {
+.active-section input[type="text"],
+.active-section input[type="number"] {
   max-width: 500px;
 }
 

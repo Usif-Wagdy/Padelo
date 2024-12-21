@@ -251,3 +251,15 @@ $bg-color: $light-color;
     }
   }
 }
+.logout-icon {
+  font-size: 30px;
+  color: $text-color;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-left: 50px;
+}
+.logout-icon:hover {
+  color: red;
+  transform: translateX(2px);
+}

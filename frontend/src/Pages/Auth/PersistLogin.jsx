@@ -10,7 +10,7 @@ export default function PersistLogin() {
 
   // User Context (to get current token & data from)
   const user = useContext(User);
-
+  console.log(user);
   // Define Cookie to get the token from (Token has been already saved to cookies on Login / Register)
   const cookie = new Cookies();
 

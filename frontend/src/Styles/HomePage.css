@@ -4,7 +4,6 @@
   color: #333;
   margin: 0 auto;
   padding-top: 70px;
-  background-color: #e9fbee;
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* Ensures footer stays at the bottom */
@@ -37,6 +36,7 @@
   font-size: 1.2rem;
   line-height: 1.6;
   margin-top: 10px;
+  color: #343a40;
 }
 
 /* Overlapping Images */
@@ -92,10 +92,10 @@
 
 .picked-cards .card {
   background-color: #02b875;
- 
+
   background-position: center;
   background-size: cover;
-  
+
   color: white;
   padding: 15px;
   border-radius: 10px;
@@ -103,7 +103,6 @@
   font-size: 1rem;
   width: 150px;
 }
-
 
 /* Locations Section */
 .locations {
@@ -134,8 +133,6 @@
   align-items: flex-start;
   flex-wrap: wrap;
   gap: 15px;
-  
-  
 }
 
 .location-cards .card {
@@ -148,7 +145,6 @@
   width: 100px;
 }
 
-
 .court-card {
   width: 170px;
   background-color: white;
@@ -158,14 +154,12 @@
   box-shadow: inset;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;  
+  cursor: pointer;
 }
 
 .court-card:hover {
   transform: translateY(-5px);
 }
-
-
 
 .footer {
   background-color: #02b875;

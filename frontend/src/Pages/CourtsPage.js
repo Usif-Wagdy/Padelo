@@ -13,7 +13,9 @@ function Courts() {
 
   useEffect(() => {
     setLoading(true); // Set loading to true before fetching
-    fetch("https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/courts")
+    fetch(
+      "https://padelo-mohamed-hosams-projects-2e84c2a8.vercel.app/api/courts"
+    )
       .then((response) => response.json())
       .then((data) => {
         setCourts(data.courts);
@@ -41,8 +43,6 @@ function Courts() {
     navigate(`/reservation/${courtId}`);
   };
 
-
-
   return (
     <div className="courts-page">
       {/* Image Section */}
@@ -69,10 +69,13 @@ function Courts() {
       </div>
 
       {/* Courts List */}
-      
       <div className="courts-container">
-        
-        {filteredCourts.length > 0 ? (
+        {loading ? (
+          <div className="main-spinner-container">
+            <FaSpinner className="main-spinner" />
+            <p>Loading courts...</p>
+          </div>
+        ) : filteredCourts.length > 0 ? (
           filteredCourts.map((court) => (
             <div
               key={court._id}
