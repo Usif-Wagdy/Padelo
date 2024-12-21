@@ -57,7 +57,7 @@ body {
   margin-bottom: 20px;
 }
 
-form {
+.admin-container form {
   display: flex;
   flex-direction: column;
   gap: 10px;

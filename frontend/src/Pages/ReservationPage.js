@@ -148,7 +148,6 @@ const PadelBooking = () => {
     setFormData((prev) => {
       const updatedData = { ...prev, [name]: value };
 
-      // If the date is being changed, update the day based on the selected date
       if (name === "date" && value) {
         const selectedDay = new Date(value).toLocaleString("en-us", {
           weekday: "long",
@@ -305,27 +304,19 @@ const PadelBooking = () => {
           </div>
         </section>
 
-        {/* Ratings Section
         <section className="padel-ratings-section">
           <h3>Ratings & Comments</h3>
-          <p>Share your experience here!</p>
-        </section> */}
+        </section>
 
-        {/* Map Section */}
         <section className="padel-map-section">
-          <h3>Find us now</h3>
-          <iframe
-            src="https://maps.google.com/maps?q=6%20October%20City,%20Egypt&t=&z=13&ie=UTF8&iwloc=&output=embed"
-            title="Google Map"
-            frameBorder="0"
-          ></iframe>
+
           <p className="padel-map-footer">
             <a
               href={courtData ? courtData.location : "https://maps.google.com"}
               target="_blank"
               rel="noopener noreferrer"
             >
-              Get Directions
+              Get Location
             </a>
           </p>
         </section>

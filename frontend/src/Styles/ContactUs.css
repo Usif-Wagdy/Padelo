@@ -85,7 +85,7 @@
 }
 
 .social-links span:hover {
-  color: #156a28;
+  color: #6ADBED;
   transform: scale(1.2);
 }
 
@@ -117,6 +117,7 @@ img,
 
 .email-link:hover {
   text-decoration: underline;
+  color: #6ADBED;
 }
 
 .phone-number {
@@ -126,5 +127,5 @@ img,
 }
 
 .phone-number:hover {
-  color: #004d00; /* Darker green on hover */
+  color: #6ADBED; /* Darker green on hover */
 }

@@ -18,7 +18,7 @@ const AdminPage = () => {
     image: "",
     place: "",
   });
-  const [editingCourt, setEditingCourt] = useState(null); // Track the court being edited
+  const [editingCourt, setEditingCourt] = useState(null); 
   const [updatedCourt, setUpdatedCourt] = useState({
     name: "",
     location: "",
