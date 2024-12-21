@@ -254,7 +254,7 @@ const PadelBooking = () => {
             <p style={{ fontSize: "20px", color: "white" }}>
               Price:{" "}
               <strong style={{ color: "green" }}>
-                {courtData ? courtData.price : "Loading..."} LE
+                {courtData ? courtData.price * formData.duration : "Loading..."} LE
               </strong>
             </p>
             <button type="submit">{isLoading ? "Loading..." : "Book"}</button>

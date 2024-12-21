@@ -47,10 +47,17 @@ export default function Header() {
   // Logout function
   const navigate = useNavigate();
   const logout = () => {
-    cookie.remove("JWT");
-    setUser({});
-    navigate("/login"); // Redirect to home page or login page
+    try {
+      cookie.remove("JWT", { path: "/" }); // Ensure the cookie is removed globally
+      setUser({}); // Clear user state
+      alert("You have been logged out."); // Notify the user (optional)
+      navigate("/login"); // Redirect to login page
+    } catch (error) {
+      console.error("Error during logout:", error);
+      alert("An error occurred while logging out. Please try again.");
+    }
   };
+  
 
   return (
     <div className="header">

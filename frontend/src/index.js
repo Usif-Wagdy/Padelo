@@ -53,11 +53,7 @@ root.render(
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/ForgetPassword" element={<ForgetPassword />} />
-              <Route path="/ResetPassword" element={<ResetPassword />} />
-              <Route
-                path="/reset-password/:token"
-                element={<ResetPassword />}
-              />
+              <Route path="/ResetPassword/:token" element={<ResetPassword />} />
             </Route>
           </Route>
           {/* Main Routes (With Header) */}
