@@ -148,7 +148,6 @@ const PadelBooking = () => {
     setFormData((prev) => {
       const updatedData = { ...prev, [name]: value };
 
-      // If the date is being changed, update the day based on the selected date
       if (name === "date" && value) {
         const selectedDay = new Date(value).toLocaleString("en-us", {
           weekday: "long",
