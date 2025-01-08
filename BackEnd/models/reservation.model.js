@@ -23,7 +23,7 @@ const reservationSchema = new mongoose.Schema(
         'Friday',
         'Saturday',
         'Sunday',
-      ], // Enum to ensure valid days
+      ],
     },
     slotNumber: {
       type: Number,

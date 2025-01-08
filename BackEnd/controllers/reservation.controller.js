@@ -1,9 +1,12 @@
 const Reservation = require('../models/reservation.model');
 const Court = require('../models/court.model');
 const User = require('../models/user.model');
-
+const sendEmail = require('./../email');
+const axios = require('axios');
 const mongoose = require('mongoose');
 const { startSession } = mongoose;
+const fs = require('fs');
+const path = require('path');
 
 exports.addReservation = async (req, res) => {
   const session = await startSession();
@@ -69,7 +72,47 @@ exports.addReservation = async (req, res) => {
       slotNumber,
       status,
     });
+    const userExists =
+      await User.findById(user).session(session);
+    if (!userExists) {
+      return res.status(404).json({
+        message: 'User not found',
+      });
+    }
     await newReservation.save({ session });
+    const invoiceData = {
+      data: {
+        name: userExists.name,
+        invoice_nr: newReservation._id,
+        date: day,
+        items: [
+          {
+            item_name: `Court Reservation - Court ${courtExists.name}`,
+            hours: 1,
+            hourly_price: courtExists.price,
+          },
+        ],
+        subtotal: courtExists.price,
+        tax: courtExists.price * 0.1,
+        total: courtExists.price * 1.1,
+      },
+    };
+    console.log(invoiceData);
+
+    const pdfBuffer = await generateInvoice(invoiceData);
+    await sendEmail({
+      email: userExists.email,
+      subject: 'Your Reservation Invoice',
+      text: `Thank you for reserving Court ${courtExists.name} on ${day}. Your invoice is attached }`,
+      attachments: [
+        {
+          filename: 'invoice.pdf',
+          content: pdfBuffer,
+          encoding: 'base64',
+          contentType: 'application/pdf',
+        },
+      ],
+    });
 
     await session.commitTransaction();
     res.status(201).json({
@@ -332,6 +375,7 @@ exports.addOrUpdateReview = async (req, res) => {
         .json({ message: 'Reservation not found' });
     }
     if (reservation.status !== 'completed') {
+      /*************  ✨ Codeium Command 🌟  *************/
       return res.status(400).json({
         message:
           'Only completed reservations can be reviewed',
@@ -352,3 +396,28 @@ exports.addOrUpdateReview = async (req, res) => {
     });
   }
 };
+async function generateInvoice(data) {
+  try {
+    const response = await axios.post(
+      'https://pdf-api.io/api/templates/508413018910861/pdf',
+      data,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer 2QmImsWty7DsrwMIWI5Xwy5TyliJnvvNdFSylfWN7934c579`,
+        },
+        responseType: 'arraybuffer',
+      },
+    );
+
+    console.log('Invoice PDF generated successfully');
+
+    return Buffer.from(response.data);
+  } catch (error) {
+    console.error(
+      'Error generating invoice:',
+      error.message,
+    );
+    throw new Error('Failed to generate invoice');
+  }
+}

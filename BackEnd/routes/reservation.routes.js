@@ -20,8 +20,8 @@ router.get(
 
 router.post(
   '/',
-  authMiddleware,
-  checkVerified,
+  // authMiddleware,
+  // checkVerified,
   reservationController.addReservation,
 );
 
