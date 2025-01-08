@@ -43,7 +43,7 @@ function ContactUs() {
         </p>
         <p
           className="contact-detail phone-number"
-          onClick={() => copyToClipboard("+201555948232")}
+          onClick={() => copyToClipboard("+201146370900")}
           style={{ cursor: "pointer" }}
         >
           +201555948232

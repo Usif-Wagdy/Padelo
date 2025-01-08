@@ -47,4 +47,53 @@ router.get(
     }
   },
 );
+
+router.get(
+  '/facebook',
+  passport.authenticate('facebook', {
+    scope: ['email'],
+    session: false,
+  }),
+);
+
+router.get(
+  '/facebook/callback',
+  passport.authenticate('facebook', {
+    failureRedirect: '/login',
+    session: false,
+  }),
+  async (req, res) => {
+    try {
+      const token = jwt.sign(
+        {
+          userId: req.user._id,
+          email: req.user.email,
+          role: req.user.role,
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: '7d' },
+      );
+
+      res.status(200).json({
+        message: 'Facebook authentication successful',
+        token,
+        user: {
+          email: req.user.email,
+          name: req.user.name,
+          role: req.user.role,
+        },
+      });
+    } catch (error) {
+      console.error(
+        'Error during Facebook callback:',
+        error,
+      );
+      res.status(500).json({
+        message: 'Facebook authentication failed',
+        error: error.message,
+      });
+    }
+  },
+);
+
 module.exports = router;
