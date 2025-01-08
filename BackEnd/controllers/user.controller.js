@@ -75,7 +75,9 @@ exports.addPhoneNumber = async (req, res) => {
       user,
     });
   } catch (error) {
-    res.status(500).send('Server error: ' + error.message);
+    res
+      .status(500)
+      .send('Server error: ' + escapeHtml(error.message));
   }
 };
 
@@ -100,8 +102,19 @@ exports.updateName = async (req, res) => {
       user,
     });
   } catch (error) {
-    res.status(500).send('Server error: ' + error.message);
+    res
+      .status(500)
+      .send('Server error: ' + escapeHtml(error.message));
   }
+};
+
+const escapeHtml = (str) => {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 };
 
 exports.updateEmail = async (req, res) => {
@@ -132,6 +145,8 @@ exports.updateEmail = async (req, res) => {
       user,
     });
   } catch (error) {
-    res.status(500).send('Server error: ' + error.message);
+    res
+      .status(500)
+      .send('Server error: ' + escapeHtml(error.message));
   }
 };
