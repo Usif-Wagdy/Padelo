@@ -26,5 +26,5 @@ Padelo is a reservation system designed to manage and streamline the booking pro
 
 ## Contact
 
-For inquiries or support, please contact the development team at [support@padelo.com](mailto\:padeloteamcs@gmail.com).
+For inquiries or support, please contact the development team at [support@padelo.com](mailto\:Padeloteamcs@gmail.com).
 
