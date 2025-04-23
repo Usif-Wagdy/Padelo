@@ -12,7 +12,7 @@ router.post(
   '/resend_verification',
   authController.resendVerificationCode,
 );
-
+router.post("/checkAuth", authMiddleware, userController.checkAuth);
 router.post('/login', authController.login);
 router.post(
   '/forget-password',
