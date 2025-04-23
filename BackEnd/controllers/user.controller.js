@@ -56,57 +56,8 @@ exports.updateUserPhoto = async (userId, imageUrl) => {
     throw error;
   }
 };
-exports.addPhoneNumber = async (req, res) => {
-  try {
-    const { userId, PhoneNumber } = req.body;
 
-    if (!validator.isMobilePhone(PhoneNumber, 'any')) {
-      return res.status(400).send('Invalid phone number');
-    }
 
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).send('User not found');
-    }
-    user.PhoneNumber = PhoneNumber;
-    await user.save();
-    res.status(200).json({
-      message: 'PhoneNumber added successfully',
-      user,
-    });
-  } catch (error) {
-    res
-      .status(500)
-      .send('Server error: ' + escapeHtml(error.message));
-  }
-};
-
-exports.updateName = async (req, res) => {
-  try {
-    const { userId, name } = req.body;
-
-    if (!name) {
-      return res.status(400).send('Name is required');
-    }
-
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).send('User not found');
-    }
-
-    user.name = name;
-    await user.save();
-
-    res.status(200).json({
-      message: 'Name updated successfully',
-      user,
-    });
-  } catch (error) {
-    res
-      .status(500)
-      .send('Server error: ' + escapeHtml(error.message));
-  }
-};
 
 const escapeHtml = (str) => {
   return str
@@ -117,39 +68,50 @@ const escapeHtml = (str) => {
     .replace(/'/g, '&#039;');
 };
 
-exports.updateEmail = async (req, res) => {
+exports.updateUser = async (req, res) => {
   try {
-    const { userId, email } = req.body;
-
-    if (!email || !validator.isEmail(email)) {
-      return res.status(400).send('Invalid email format');
+    userId = req.user.id;
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ error: 'Invalid user ID format' });
     }
-
-    const emailExists = await User.findOne({ email });
-    if (emailExists) {
-      return res
-        .status(400)
-        .send('This email is already in use');
+    if (!userId) {
+      return res.status(400).json({ error: 'User ID is required' });
     }
+    const updatedData = req.body;
 
-    const user = await User.findById(userId);
+
+    const restrictedFields = ['password', '_id', 'googleId', 'isVerified', 'role'];
+    restrictedFields.forEach(field => delete updateData[field]);
+    const sanitizedData = {};
+    Object.keys(updatedData).forEach(key => {
+      if (restrictedFields.includes(key)) {
+        return;
+      }
+      sanitizedData[key] = escapeHtml(updatedData[key]);
+    });
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $set: sanitizedData },
+      { new: true, runValidators: true },
+    );
+
     if (!user) {
-      return res.status(404).send('User not found');
+      return res.status(404).json({ error: 'User not found' });
     }
-
-    user.email = email;
-    await user.save();
 
     res.status(200).json({
-      message: 'Email updated successfully',
+      message: 'User updated successfully',
       user,
     });
+
+
   } catch (error) {
-    res
-      .status(500)
-      .send('Server error: ' + escapeHtml(error.message));
+    console.error('Error:', error.message);
+    res.status(500).json({ error: 'Server Error' });
   }
-};
+
+}
 
 
 
@@ -183,3 +145,4 @@ exports.checkAuth = async (req, res) => {
   }
 
 }
+

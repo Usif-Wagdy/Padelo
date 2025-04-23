@@ -28,23 +28,5 @@ router.patch(
   upload.single('photo'),
   userController.addImage,
 );
-router.put(
-  '/add-phone-number',
-  authMiddleware,
-  checkVerified,
-  userController.addPhoneNumber,
-);
-router.put(
-  '/change-name',
-  authMiddleware,
-  checkVerified,
-  userController.updateName,
-);
-router.put(
-  '/change-email',
-  authMiddleware,
-  checkVerified,
-  userController.updateEmail,
-);
-
+router.patch("/updateUser", authMiddleware, userController.updateUser);
 module.exports = router;
