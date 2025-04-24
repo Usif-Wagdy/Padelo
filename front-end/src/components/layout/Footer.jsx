@@ -42,7 +42,7 @@ export default function Footer() {
       <div className="container mx-auto px-4 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 justify-items-center">
           {/* Logo / About */}
-          <div className="flex flex-col items-center text-center lg:text-start">
+          <div className="flex flex-col items-center text-center ">
             <Logo />
             <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
               Your favorite place to book padel courts, stay updated with blogs,

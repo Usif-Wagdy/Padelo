@@ -9,3 +9,8 @@ export const authItems = [
   { path: "/login", label: "Login" },
   { path: "/register", label: "Register" },
 ];
+
+export const profileItems = [
+  { path: "/profile", label: "Profile" },
+  { path: "history", label: "History" },
+];

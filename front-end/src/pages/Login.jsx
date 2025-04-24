@@ -41,29 +41,31 @@ export default function Login() {
   };
 
   return (
-    <BaseForm
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      <InputField
-        name="email"
-        label="Email"
-        type="email"
-        placeholder="you@example.com"
-      />
-      <InputField
-        name="password"
-        label="Password"
-        type="password"
-        placeholder="••••••••"
-      />
-      <button
-        type="submit"
-        className="w-full py-2 bg-[#009c85] text-white rounded-md hover:bg-[#007e6d] transition cursor-pointer"
+    <div className="mt-27">
+      <BaseForm
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
       >
-        {mutation.isPending ? "Logging in..." : "Login"}
-      </button>
-    </BaseForm>
+        <InputField
+          name="email"
+          label="Email"
+          type="email"
+          placeholder="you@example.com"
+        />
+        <InputField
+          name="password"
+          label="Password"
+          type="password"
+          placeholder="••••••••"
+        />
+        <button
+          type="submit"
+          className="w-full py-2 bg-[#009c85] text-white rounded-md hover:bg-[#007e6d] transition cursor-pointer"
+        >
+          {mutation.isPending ? "Logging in..." : "Login"}
+        </button>
+      </BaseForm>
+    </div>
   );
 }

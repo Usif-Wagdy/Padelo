@@ -24,12 +24,19 @@ export default function InputField({ label, type = "text", ...props }) {
         <input
           {...field}
           {...props}
+          disabled={props.disabled}
           type={isPassword ? (showPassword ? "text" : "password") : type}
           className={`w-full px-4 py-2 rounded border pr-10 ${
             meta.touched && meta.error
               ? "border-red-500"
               : "border-gray-300 dark:border-gray-600"
-          } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500`}
+          } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500
+          ${
+            props.disabled
+              ? "opacity-60 cursor-not-allowed bg-gray-100 dark:bg-gray-700"
+              : ""
+          }
+          `}
         />
         {isPassword && (
           <button

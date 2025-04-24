@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { useUI } from "../context/UIContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { checkAuth } from "../api/User";
 
 const AuthContext = createContext();
 
@@ -18,14 +19,30 @@ export const AuthProvider = ({ children }) => {
 
   // Sync auth from cookies on refresh
   useEffect(() => {
-    const token = Cookies.get("authToken");
-    const user = Cookies.get("userData");
+    const verifyAuth = async () => {
+      setLoading(true);
+      const token = Cookies.get("authToken");
+      const user = Cookies.get("userData");
+      setTimeout(() => {
+        setLoading(false);
+      }, 1500);
+      if (!token || !user) return setAuth(null);
+      try {
+        const { user } = await checkAuth();
+        Cookies.set("userData", JSON.stringify(user));
+        setAuth({ token, user });
+        setTimeout(() => {
+          setLoading(false);
+        }, 1500);
+      } catch (error) {
+        console.error("Auth check failed:", error);
+        Cookies.remove("authToken");
+        Cookies.remove("userData");
+        setAuth(null);
+      }
+    };
 
-    if (token && user) {
-      setAuth({ token, user: JSON.parse(user) });
-    } else {
-      setAuth(null);
-    }
+    verifyAuth();
   }, []);
 
   const login = (token, user) => {
@@ -51,12 +68,23 @@ export const AuthProvider = ({ children }) => {
     }, 1500);
   };
 
+  // Update auth to reflect only changes to specific parts of the state
+  const setAuthState = (newState) => {
+    setAuth((prevState) => ({
+      ...prevState, // Retain previous state
+      user: { ...prevState.user, ...newState.user }, // Update only the user object
+      token: newState.token ?? prevState.token, // Optionally update the token
+    }));
+  };
+
   const value = useMemo(
     () => ({
       auth,
       isAuthenticated: !!auth,
       login,
       logout,
+      setAuth,
+      setAuthState,
     }),
     [auth]
   );

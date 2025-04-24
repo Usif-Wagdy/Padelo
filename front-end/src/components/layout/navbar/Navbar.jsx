@@ -21,7 +21,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    setIsOpen(false); // close mobile menu on route change
+    setIsOpen(false);
   }, [pathname]);
 
   if (isDashboard) return null;

@@ -11,7 +11,7 @@ export default function Layout() {
     <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
       <Navbar />
       {loading && <Loader />}
-      <main className="flex-1 container mx-auto px-4 py-6 my-20">
+      <main className="flex-1 container mx-auto px-4 py-6 my-15">
         <Outlet />
       </main>
       <Footer />

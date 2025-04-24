@@ -13,7 +13,7 @@ export default function MenuToggleButton({ isOpen, toggle, isLogin, user }) {
         alt="Profile"
         className="w-8 h-8 rounded-full object-cover"
       />
-      <span>{user?.name || "User"}</span>
+      <span className="w-21 truncate">{user?.name || "User"}</span>
     </button>
   ) : (
     <button

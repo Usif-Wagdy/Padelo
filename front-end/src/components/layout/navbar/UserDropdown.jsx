@@ -31,11 +31,11 @@ export default function UserDropdown({ user, logout, isDashboard }) {
         hover:bg-neutral-200 dark:hover:bg-gray-600 items-center gap-2 hidden md:flex`}
       >
         <img
-          src={user.image || "/default-avatar.png"}
+          src={user.image || "https://www.viverefermo.it/images/user.png"}
           alt="Profile"
           className="w-8 h-8 rounded-full object-cover"
         />
-        <span>{user.name}</span>
+        <span className="w-21 truncate">{user.name || "User"}</span>
       </button>
 
       {open && (

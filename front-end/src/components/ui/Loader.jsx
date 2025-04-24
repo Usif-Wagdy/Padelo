@@ -1,6 +1,6 @@
 export default function Loader() {
   return (
-    <div className="fixed inset-0 bg-black/50 dark:bg-black/60 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/40 dark:bg-black/60 flex items-center justify-center z-50">
       <div className="flex space-x-1">
         {[...Array(5)].map((_, i) => (
           <div

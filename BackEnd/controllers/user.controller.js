@@ -81,7 +81,7 @@ exports.updateUser = async (req, res) => {
 
 
     const restrictedFields = ['password', '_id', 'googleId', 'isVerified', 'role'];
-    restrictedFields.forEach(field => delete updateData[field]);
+    restrictedFields.forEach(field => delete updatedData[field]);
     const sanitizedData = {};
     Object.keys(updatedData).forEach(key => {
       if (restrictedFields.includes(key)) {

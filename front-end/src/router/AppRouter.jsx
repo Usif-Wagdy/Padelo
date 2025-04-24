@@ -4,8 +4,9 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Layout from "../components/layout/Layout";
 import NotFound from "../pages/NotFound";
-import Profile from "../pages/Profile";
-import UnderMaintenance from "../pages/Maintance";
+import Profile from "../pages/profile/Profile";
+import UnderMaintenance from "../pages/UnderMaintenance";
+import ProfileForm from "../pages/profile/ProfileForm";
 
 export default function AppRouter() {
   return (
@@ -14,10 +15,12 @@ export default function AppRouter() {
       <Route element={<Layout />}>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<Profile />}>
+          <Route index element={<ProfileForm />} />
+        </Route>
 
         {/* under maintance pages */}
         <Route path="/" element={<UnderMaintenance />} />
-        <Route path="/profile" element={<UnderMaintenance />} />
         <Route path="/dashboard" element={<UnderMaintenance />} />
         <Route path="/courts" element={<UnderMaintenance />} />
         <Route path="/blogs" element={<UnderMaintenance />} />

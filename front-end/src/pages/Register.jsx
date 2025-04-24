@@ -61,36 +61,38 @@ export default function Register() {
   };
 
   return (
-    <BaseForm
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      <InputField name="name" label="Name" placeholder="John Doe" />
-      <InputField
-        name="email"
-        label="Email"
-        type="email"
-        placeholder="you@example.com"
-      />
-      <InputField
-        name="password"
-        label="Password"
-        type="password"
-        placeholder="••••••••"
-      />
-      <InputField
-        name="confirmPassword"
-        label="Confirm Password"
-        type="password"
-        placeholder="••••••••"
-      />
-      <button
-        type="submit"
-        className="w-full py-2 bg-[#009c85] text-white rounded-md hover:bg-[#007e6d] transition cursor-pointer"
+    <div className="mt-12">
+      <BaseForm
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
       >
-        {mutation.isPending ? "Registering..." : "Register"}
-      </button>
-    </BaseForm>
+        <InputField name="name" label="Name" placeholder="John Doe" />
+        <InputField
+          name="email"
+          label="Email"
+          type="email"
+          placeholder="you@example.com"
+        />
+        <InputField
+          name="password"
+          label="Password"
+          type="password"
+          placeholder="••••••••"
+        />
+        <InputField
+          name="confirmPassword"
+          label="Confirm Password"
+          type="password"
+          placeholder="••••••••"
+        />
+        <button
+          type="submit"
+          className="w-full py-2 bg-[#009c85] text-white rounded-md hover:bg-[#007e6d] transition cursor-pointer"
+        >
+          {mutation.isPending ? "Registering..." : "Register"}
+        </button>
+      </BaseForm>
+    </div>
   );
 }
