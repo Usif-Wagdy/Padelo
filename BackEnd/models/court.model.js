@@ -1,20 +1,24 @@
 const mongoose = require('mongoose');
 
+// Default 16 slots per day
 const defaultSlots = Array.from({ length: 16 }, (_, i) => ({
   number: i + 1,
   reserved: false,
 }));
 
+// Slot schema
 const slotSchema = new mongoose.Schema({
   number: { type: Number, required: true },
   reserved: { type: Boolean, default: false },
 });
 
+// Day schedule schema
 const daySchema = new mongoose.Schema({
   day: { type: String, required: true },
   slots: [slotSchema],
 });
 
+// Review schema
 const reviewSchema = new mongoose.Schema(
   {
     user: {
@@ -33,14 +37,11 @@ const reviewSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+// Court schema
 const courtSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
-    email: {
-      type: String,
-      trim: true,
-      lowercase: true,
-    },
+    email: { type: String, trim: true, lowercase: true },
     contactNumber: {
       type: String,
       required: true,
@@ -63,22 +64,30 @@ const courtSchema = new mongoose.Schema(
       ],
     },
     bookingCount: { type: Number, default: 0 },
+
+    // Reviews & Ratings
     reviews: [reviewSchema],
     averageRating: { type: Number, default: 0 },
   },
   { timestamps: true },
 );
 
+// Calculate average rating before saving
 courtSchema.pre('save', function (next) {
-  if (this.reviews.length > 0) {
-    const totalRating = this.reviews.reduce(
-      (sum, review) => sum + review.rating,
+  const validReviews = this.reviews.filter(
+    (r) => typeof r.rating === 'number',
+  );
+
+  if (validReviews.length > 0) {
+    const totalRating = validReviews.reduce(
+      (sum, r) => sum + r.rating,
       0,
     );
-    this.averageRating = totalRating / this.reviews.length;
+    this.averageRating = totalRating / validReviews.length;
   } else {
     this.averageRating = 0;
   }
+
   next();
 });
 

@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { authItems } from "../../../constants/navItems";
+import { authItems } from "../../../constants/index";
 
 export default function AuthButtons() {
   return (

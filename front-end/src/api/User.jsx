@@ -28,7 +28,12 @@ export const resendVerificationCode = async (userData) => {
 export const updateUser = async (userData) => {
   const { data } = await Axios.patch("/api/users/updateUser", userData);
   return data;
-};
+}; //Done
+
+export const updatePassword = async (userData) => {
+  const { data } = await Axios.patch(`/api/users/change-password`, userData);
+  return data;
+}; //Done
 
 export const updateUserImage = async (userId, image) => {
   const form_Data = new FormData();
@@ -38,4 +43,4 @@ export const updateUserImage = async (userId, image) => {
     form_Data
   );
   return data;
-};
+}; //Done

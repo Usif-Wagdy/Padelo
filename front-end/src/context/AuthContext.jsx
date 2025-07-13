@@ -21,24 +21,32 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const verifyAuth = async () => {
       setLoading(true);
+
       const token = Cookies.get("authToken");
       const user = Cookies.get("userData");
-      setTimeout(() => {
-        setLoading(false);
-      }, 1500);
-      if (!token || !user) return setAuth(null);
-      try {
-        const { user } = await checkAuth();
-        Cookies.set("userData", JSON.stringify(user));
-        setAuth({ token, user });
+
+      if (!token || !user) {
+        setAuth(null);
         setTimeout(() => {
-          setLoading(false);
+          setLoading(false); // Additional setLoading(false)
+          return;
         }, 1500);
+      }
+
+      try {
+        const { user: freshUser } = await checkAuth();
+        Cookies.set("userData", JSON.stringify(freshUser));
+        setAuth({ token, user: freshUser });
       } catch (error) {
         console.error("Auth check failed:", error);
         Cookies.remove("authToken");
         Cookies.remove("userData");
         setAuth(null);
+      } finally {
+        // Ensures loading always ends after request finishes
+        setTimeout(() => {
+          setLoading(false);
+        }, 1500);
       }
     };
 

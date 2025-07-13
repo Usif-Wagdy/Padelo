@@ -7,7 +7,7 @@ export default function BaseForm({
   children,
 }) {
   return (
-    <div className="flex items-center justify-center px-4 py-3">
+    <div className="flex items-center justify-center px-4 py-3 w-full">
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

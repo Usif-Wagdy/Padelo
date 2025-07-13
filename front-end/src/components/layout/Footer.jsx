@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaFacebookF, FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi";
+import { navItems, footerItems } from "../../constants/index";
 import Logo from "../ui/Logo";
 
 function FooterSection({ title, children }) {
@@ -52,44 +53,23 @@ export default function Footer() {
 
           {/* Links Section */}
           <FooterSection title="Quick Links">
-            <li>
-              <a href="/" className="hover:text-[#009c85]">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="/courts" className="hover:text-[#009c85]">
-                Courts
-              </a>
-            </li>
-            <li>
-              <a href="/blogs" className="hover:text-[#009c85]">
-                Blogs
-              </a>
-            </li>
-            <li>
-              <a href="/about" className="hover:text-[#009c85]">
-                About
-              </a>
-            </li>
+            {navItems.map((item) => (
+              <li key={item.path}>
+                <a href={item.path} className="hover:text-[#009c85]">
+                  {item.label}
+                </a>
+              </li>
+            ))}
           </FooterSection>
 
           <FooterSection title="Resources">
-            <li>
-              <a href="/privacy" className="hover:text-[#009c85]">
-                Privacy Policy
-              </a>
-            </li>
-            <li>
-              <a href="/terms" className="hover:text-[#009c85]">
-                Terms of Service
-              </a>
-            </li>
-            <li>
-              <a href="/support" className="hover:text-[#009c85]">
-                Support
-              </a>
-            </li>
+            {footerItems.map((item) => (
+              <li key={item.path}>
+                <a href={item.path} className="hover:text-[#009c85]">
+                  {item.label}
+                </a>
+              </li>
+            ))}
           </FooterSection>
 
           <FooterSection title="Connect">

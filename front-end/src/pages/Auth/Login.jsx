@@ -1,11 +1,11 @@
 import * as Yup from "yup";
-import BaseForm from "../components/ui/Form/BaseForm";
-import InputField from "../components/ui/Form/InputField";
+import BaseForm from "../../components/ui/Form/BaseForm";
+import InputField from "../../components/ui/Form/InputField";
 import { useMutation } from "@tanstack/react-query";
-import { login } from "../api/User";
+import { login } from "../../api/User";
 import { toast } from "react-toastify";
-import { useAuth } from "../context/AuthContext";
-import { useUI } from "../context/UIContext";
+import { useAuth } from "../../context/AuthContext";
+import { useUI } from "../../context/UIContext";
 
 const initialValues = {
   email: "",
@@ -41,7 +41,7 @@ export default function Login() {
   };
 
   return (
-    <div className="mt-27">
+    <div className="min-h-screen flex items-center justify-center ">
       <BaseForm
         initialValues={initialValues}
         validationSchema={validationSchema}

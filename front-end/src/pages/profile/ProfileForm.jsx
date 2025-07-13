@@ -120,7 +120,7 @@ export default function ProfileForm() {
         </div>
 
         {isEditing ? (
-          <div className="flex justify-end flex-col-reverse md:flex-row gap-4 mt-6">
+          <div className="flex justify-end flex-col-reverse md:flex-row gap-4">
             <button
               type="button"
               onClick={(e) => {
@@ -134,7 +134,7 @@ export default function ProfileForm() {
 
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md"
+              className="bg-neutral-200 dark:bg-gray-700 hover:bg-neutral-300 dark:hover:bg-gray-600 dark:text-blue-400 text-white px-4 py-2 rounded-md cursor-pointer"
               disabled={isUpdatingUser}
             >
               {isUpdatingUser ? "Updating..." : "Save Changes"}
@@ -144,7 +144,7 @@ export default function ProfileForm() {
           <div className="flex justify-end">
             <button
               onClick={() => setIsEditing(true)}
-              className="text-blue-600 font-semibold cursor-pointer px-4 py-2 rounded-md bg-neutral-200 dark:bg-gray-700 hover:bg-neutral-300 dark:hover:bg-gray-600"
+              className="text-blue-600 dark:text-blue-400 font-semibold cursor-pointer px-4 py-2 rounded-md bg-neutral-200 dark:bg-gray-700 hover:bg-neutral-300 dark:hover:bg-gray-600"
             >
               Edit
             </button>

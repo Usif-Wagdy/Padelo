@@ -12,15 +12,28 @@ router.post(
   '/resend_verification',
   authController.resendVerificationCode,
 );
-router.post("/checkAuth", authMiddleware, userController.checkAuth);
+router.post(
+  '/checkAuth',
+  authMiddleware,
+  userController.checkAuth,
+);
+
 router.post('/login', authController.login);
+
 router.post(
   '/forget-password',
   authController.forgetPassword,
 );
+
 router.patch(
   '/reset-password/:token',
   authController.ResetPassword,
+);
+
+router.patch(
+  '/change-password',
+  authMiddleware,
+  authController.changePassword,
 );
 
 router.patch(
@@ -28,5 +41,10 @@ router.patch(
   upload.single('photo'),
   userController.addImage,
 );
-router.patch("/updateUser", authMiddleware, userController.updateUser);
+
+router.patch(
+  '/updateUser',
+  authMiddleware,
+  userController.updateUser,
+);
 module.exports = router;

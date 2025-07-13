@@ -71,24 +71,36 @@ exports.getCourts = async (req, res) => {
 
 exports.addReview = async (req, res) => {
   try {
-    const { courtId, userId, rating, comment } = req.body;
+    const { id } = req.params;
+    let { userId, rating, comment } = req.body;
 
-    const court = await Court.findById(courtId);
+    rating = Number(rating);
+
+    if (!userId || !rating || !comment) {
+      return res.status(400).json({
+        message:
+          'userId, rating, and comment are all required.',
+      });
+    }
+
+    if (isNaN(rating) || rating < 1 || rating > 5) {
+      return res.status(400).json({
+        message: 'Rating must be a number between 1 and 5.',
+      });
+    }
+
+    const court = await Court.findById(id);
     if (!court) {
       return res
         .status(404)
         .json({ message: 'Court not found' });
     }
 
-    const newReview = {
-      user: userId,
-      rating,
-      comment,
-    };
+    const newReview = { user: userId, rating, comment };
     court.reviews.push(newReview);
 
     const totalRatings = court.reviews.reduce(
-      (acc, review) => acc + review.rating,
+      (acc, review) => acc + (review.rating || 0),
       0,
     );
     court.averageRating =
@@ -110,12 +122,13 @@ exports.addReview = async (req, res) => {
 
 exports.getReviews = async (req, res) => {
   try {
-    const { courtId } = req.params;
+    const { id } = req.params;
 
-    const court = await Court.findById(courtId).populate(
+    const court = await Court.findById(id).populate(
       'reviews.user',
       'name email',
     );
+
     if (!court) {
       return res
         .status(404)

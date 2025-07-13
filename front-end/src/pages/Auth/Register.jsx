@@ -1,9 +1,9 @@
 import * as Yup from "yup";
-import BaseForm from "../components/ui/Form/BaseForm";
-import InputField from "../components/ui/Form/InputField";
+import BaseForm from "../../components/ui/Form/BaseForm";
+import InputField from "../../components/ui/Form/InputField";
 import { useMutation } from "@tanstack/react-query";
-import { register } from "../api/User";
-import { useUI } from "../context/UIContext";
+import { register } from "../../api/User";
+import { useUI } from "../../context/UIContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -61,7 +61,7 @@ export default function Register() {
   };
 
   return (
-    <div className="mt-12">
+    <div className="min-h-screen flex items-center justify-center ">
       <BaseForm
         initialValues={initialValues}
         validationSchema={validationSchema}

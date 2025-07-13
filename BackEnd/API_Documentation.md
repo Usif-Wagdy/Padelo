@@ -2,14 +2,14 @@
 
 ## Authentication API
 
-
 ### `POST /api/users/register`
+
 Registers a new user and sends a verification email.
+
 - **Body**:
   - `name` (string, required): User's full name.
   - `email` (string, required): User's email address.
   - `password` (string, required): User's password (must be strong).
-  
 - **Success Response**:
   - **Code**: `201`
   - **Content**:
@@ -26,11 +26,12 @@ Registers a new user and sends a verification email.
     ```
 
 ### `POST /api/users/verify_email`
+
 Verifies a user's email using the verification code sent during registration.
+
 - **Body**:
   - `email` (string, required): User's email address.
   - `code` (string, required): The verification code sent to the user.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -42,10 +43,11 @@ Verifies a user's email using the verification code sent during registration.
     ```
 
 ### `POST /api/users/resend_verification`
+
 Resends the verification code to the user's email if the previous code expired or was not used.
+
 - **Body**:
   - `email` (string, required): User's email address.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -56,11 +58,12 @@ Resends the verification code to the user's email if the previous code expired o
     ```
 
 ### `POST /api/users/login`
+
 Logs in a user with email and password.
+
 - **Body**:
   - `email` (string, required): User's email.
   - `password` (string, required): User's password.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -76,13 +79,13 @@ Logs in a user with email and password.
     ```
 
 ### `PATCH /api/users/reset-password/:token`
+
 Resets the user's password using a valid reset token.
+
 - **Params**:
   - `token` (string, required): The reset token received via email.
-  
 - **Body**:
   - `password` (string, required): New password.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -94,13 +97,13 @@ Resets the user's password using a valid reset token.
     ```
 
 ### `PATCH /api/users/update-image/:id`
+
 Allows the user to upload a profile image.
+
 - **Params**:
   - `id` (string, required): User's ID.
-  
 - **Body**:
   - `file` (file, required): The new profile image.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -117,11 +120,12 @@ Allows the user to upload a profile image.
     ```
 
 ### `PUT /api/users/add-phone-number`
+
 Adds or updates a user's phone number.
+
 - **Body**:
   - `userId` (string, required): User's ID.
   - `PhoneNumber` (string, required): User's phone number.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -136,11 +140,12 @@ Adds or updates a user's phone number.
     ```
 
 ### `PUT /api/users/change-name`
+
 Updates the user's name.
+
 - **Body**:
   - `userId` (string, required): User's ID.
   - `name` (string, required): New name for the user.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -155,11 +160,12 @@ Updates the user's name.
     ```
 
 ### `PUT /api/users/change-email`
+
 Updates the user's email.
+
 - **Body**:
   - `userId` (string, required): User's ID.
   - `email` (string, required): New email for the user.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -178,6 +184,7 @@ Updates the user's email.
 # Google Authentication APIs
 
 ## Google Login
+
 - **URL**: `/api/auth/google`
 - **Method**: `GET`
 - **Description**: Initiates the Google OAuth2 authentication flow.
@@ -185,13 +192,16 @@ Updates the user's email.
 - **Response**: Redirects the user to the Google login page.
 
 ## Google Callback
+
 - **URL**: `/api/auth/google/callback`
 - **Method**: `GET`
 - **Description**: Handles the callback from Google after authentication.
+
   - Verifies the user and generates a JWT token.
   - If authentication fails, the user is redirected to `/login`.
 
 - **Response (Success)**:
+
   ```json
   {
     "message": "Google authentication successful",
@@ -211,12 +221,15 @@ Updates the user's email.
     "error": "string"
   }
   ```
+
 ---
 
 ## Court API
 
 ### `GET /api/courts`
+
 Gets a list of all courts.
+
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -233,10 +246,11 @@ Gets a list of all courts.
     ```
 
 ### `GET /api/courts/search`
+
 Search courts by name.
+
 - **Query Parameters**:
   - `q` (string, required): Search query.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -252,10 +266,11 @@ Search courts by name.
     ```
 
 ### `GET /api/courts/:id`
+
 Get a specific court by ID.
+
 - **Params**:
   - `id` (string, required): Court's ID.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -275,14 +290,15 @@ Get a specific court by ID.
       }
     }
     ```
-### `POST /api/courts/reviews`
+
+### `POST /api/courts/:id/reviews`
+
 Adds a review for a court.
+
 - **Body**:
-  - `courtId` (string, required): Court's ID.
   - `userId` (string, required): User's ID.
   - `rating` (number, required): Rating from 1 to 5.
   - `comment` (string, optional): Review comment.
-  
 - **Success Response**:
   - **Code**: `201`
   - **Content**:
@@ -298,10 +314,11 @@ Adds a review for a court.
     ```
 
 ### `GET /api/courts/:id/reviews`
+
 Gets all reviews for a specific court.
+
 - **Params**:
   - `id` (string, required): Court's ID.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -323,13 +340,14 @@ Gets all reviews for a specific court.
 ## Reservation API
 
 ### `POST /api/reservations`
+
 Creates a new reservation.
+
 - **Body**:
   - `user` (string, required): User's ID.
   - `court` (string, required): Court's ID.
   - `day` (string, required): Reserved day.
   - `slotNumber` (number, required): Slot number.
-  
 - **Success Response**:
   - **Code**: `201`
   - **Content**:
@@ -346,10 +364,11 @@ Creates a new reservation.
     ```
 
 ### `GET /api/reservations/user/:user`
+
 Gets all reservations for a user.
+
 - **Params**:
   - `user` (string, required): User's ID.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -366,10 +385,11 @@ Gets all reservations for a user.
     ```
 
 ### `GET /api/reservations/court/:courtId`
+
 Gets all reservations for a specific court.
+
 - **Params**:
   - `courtId` (string, required): Court's ID.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -388,10 +408,11 @@ Gets all reservations for a specific court.
     ```
 
 ### `PATCH /api/reservations/:id/cancel`
+
 Cancels a reservation.
+
 - **Params**:
   - `id` (string, required): Reservation's ID.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -404,8 +425,11 @@ Cancels a reservation.
       }
     }
     ```
+
 ### `GET /api/reservations/search`
+
 Search reservations by various parameters.
+
 - **Query Parameters**:
   - `user` (string, optional): User's ID to filter reservations.
   - `court` (string, optional): Court's ID to filter reservations.
@@ -414,7 +438,6 @@ Search reservations by various parameters.
   - `slotNumber` (number, optional): Slot number.
   - `page` (number, optional): Page number (default: 1).
   - `limit` (number, optional): Number of results per page (default: 10).
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -435,14 +458,14 @@ Search reservations by various parameters.
     ```
 
 ### `PATCH /api/reservations/:id/review`
+
 Adds or updates a review for a completed reservation.
+
 - **Params**:
   - `id` (string, required): Reservation's ID.
-  
 - **Body**:
   - `rating` (number, required): Rating from 1 to 5.
   - `comment` (string, optional): Review comment.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -460,10 +483,11 @@ Adds or updates a review for a completed reservation.
     ```
 
 ### `PATCH /api/reservations/:id/complete`
+
 Marks a reservation as completed.
+
 - **Params**:
   - `id` (string, required): Reservation's ID.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -478,7 +502,6 @@ Marks a reservation as completed.
     }
     ```
 
-
 ---
 
 ## Admin API
@@ -486,7 +509,9 @@ Marks a reservation as completed.
 # Admin Court API
 
 ### `POST /api/admin/courts`
+
 Adds a new court (Admin only).
+
 - **Body**:
   - `name` (string, required): Court's name.
   - `location` (string, required): Court's location.
@@ -495,7 +520,6 @@ Adds a new court (Admin only).
   - `contactNumber` (string, optional): Contact number for the court.
   - `description` (string, optional): Description of the court.
   - `image` (file, optional): Image of the court.
-  
 - **Success Response**:
   - **Code**: `201`
   - **Content**:
@@ -512,13 +536,13 @@ Adds a new court (Admin only).
     ```
 
 ### `PATCH /api/admin/courts/:id`
+
 Updates an existing court (Admin only).
+
 - **Params**:
   - `id` (string, required): Court's ID.
-  
 - **Body**:
   - Fields like `name`, `location`, `price`, etc., can be updated.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -533,10 +557,11 @@ Updates an existing court (Admin only).
     ```
 
 ### `DELETE /api/admin/courts/:id`
+
 Deletes an existing court (Admin only).
+
 - **Params**:
   - `id` (string, required): Court's ID.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -549,10 +574,11 @@ Deletes an existing court (Admin only).
 ## Admin User API
 
 ### `DELETE /api/admin/users/:email`
+
 Deletes a user by email (Admin only).
+
 - **Params**:
   - `email` (string, required): User's email to delete.
-  
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -563,7 +589,9 @@ Deletes a user by email (Admin only).
     ```
 
 ### `GET /api/admin/users`
+
 Gets a list of all users (Admin only).
+
 - **Success Response**:
   - **Code**: `200`
   - **Content**:
@@ -579,4 +607,3 @@ Gets a list of all users (Admin only).
       ]
     }
     ```
-

@@ -4,13 +4,30 @@ import BaseForm from "../components/ui/Form/BaseForm";
 import InputField from "../components/ui/Form/InputField";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
+import { updatePassword } from "../api/User";
+import { useMutation } from "@tanstack/react-query";
 
 export default function PasswordChangeModal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const changePasswordMutation = useMutation({
+    mutationFn: ({ userData }) => updatePassword(userData),
+    onSuccess: () => {
+      toast.success("Changed password successfully!");
+      setIsModalOpen(false);
+    },
+    onError: (error) => {
+      const message = error?.response?.data.error || "Change password failed.";
+      toast.error(message);
+    },
+  });
+
   const changePassword = (values) => {
-    toast.success("Password changed successfully!");
-    setIsModalOpen(false);
+    const userData = {
+      currentPassword: values.currentPassword,
+      newPassword: values.newPassword,
+    };
+    changePasswordMutation.mutate({ userData });
   };
 
   const passwordSchema = Yup.object({
@@ -31,7 +48,7 @@ export default function PasswordChangeModal() {
     <div>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="text-blue-600 font-semibold text-sm mt-2 cursor-pointer"
+        className="text-blue-600 dark:text-blue-400 font-semibold text-sm mt-2 cursor-pointer px-3 py-2 rounded-md transition duration-300 hover:bg-blue-100 dark:hover:bg-blue-900"
       >
         Change Password
       </button>
@@ -94,8 +111,9 @@ export default function PasswordChangeModal() {
                 <button
                   type="submit"
                   className="w-1/2 bg-[#009c85] text-white py-2 rounded-md ml-2 transition duration-300 ease-in-out hover:bg-[#007c6b] cursor-pointer"
+                  disabled={changePasswordMutation.isPending}
                 >
-                  Change
+                  {changePasswordMutation.isPending ? "Changing..." : "Change"}
                 </button>
               </div>
             </BaseForm>

@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import MobileMenuSection from "../../components/layout/navbar/MobileMenuSection";
-import { profileItems } from "../../constants/navItems";
+import { profileItems } from "../../constants/index";
 
 export default function ProfileSidebar() {
   return (
@@ -17,7 +17,7 @@ export default function ProfileSidebar() {
                   `block py-2 px-3 rounded-md transition ${
                     isActive
                       ? "bg-[#009c85] text-white font-semibold"
-                      : "text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                      : "text-gray-800 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700"
                   }`
                 }
               >

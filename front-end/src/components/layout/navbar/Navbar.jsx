@@ -6,7 +6,7 @@ import Logo from "../../ui/Logo";
 import ThemeToggler from "../../ui/ThemeToggler";
 import UserDropdown from "./UserDropdown";
 
-import { navItems, authItems } from "../../../constants/navItems";
+import { navItems, authItems } from "../../../constants/index";
 import DesktopNavLinks from "./DesktopNavLinks";
 import AuthButtons from "./AuthButtons";
 import MenuToggleButton from "./MenuToggleButton";
