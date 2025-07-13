@@ -10,7 +10,7 @@ import Register from "../pages/Auth/Register";
 import Login from "../pages/Auth/Login";
 import Profile from "../pages/profile/Profile";
 import ProfileForm from "../pages/profile/ProfileForm";
-// import Courts from "../pages/Courts/Coutrs";
+import Courts from "../pages/Courts/Courts";
 
 export default function AppRouter() {
   return (
@@ -24,7 +24,7 @@ export default function AppRouter() {
         </Route>
         {/* under maintance pages */}
         <Route path="/dashboard" element={<UnderMaintenance />} />
-        {/* <Route path="/courts" element={<Courts />} /> */}
+        <Route path="/courts" element={<Courts />} />
         <Route path="/blogs" element={<UnderMaintenance />} />
         <Route path="/about" element={<UnderMaintenance />} />
         <Route path="/privacy" element={<UnderMaintenance />} />

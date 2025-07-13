@@ -26,7 +26,7 @@ export default function UserDropdown({ user, logout, isDashboard }) {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className={`px-4 py-2 text-md font-medium rounded-full transition-all duration-200  cursor-pointer
+        className={`px-4 py-2 text-md font-medium rounded-full transition-all duration-200 cursor-pointer
         bg-neutral-100 dark:bg-gray-700 dark:text-white text-gray-800 
         hover:bg-neutral-200 dark:hover:bg-gray-600 items-center gap-2 hidden md:flex`}
       >
