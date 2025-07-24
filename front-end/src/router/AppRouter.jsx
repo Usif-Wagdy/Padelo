@@ -50,6 +50,11 @@ export default function AppRouter() {
             </PrivateRoute>
           }
         />
+      </Route>
+
+      {/* Main Layout (Full Width) */}
+      <Route element={<Layout isContainer={false} />}>
+        <Route path="/" element={<Home />} />
 
         <Route
           path="/profile"
@@ -61,11 +66,6 @@ export default function AppRouter() {
         >
           <Route index element={<ProfileForm />} />
         </Route>
-      </Route>
-
-      {/* Main Layout (Full Width) */}
-      <Route element={<Layout isContainer={false} />}>
-        <Route path="/" element={<Home />} />
       </Route>
 
       {/* Dashboard Pages */}

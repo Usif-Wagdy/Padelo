@@ -60,14 +60,11 @@ export default function ProfileForm() {
   const userDetailsSchema = Yup.object({
     name: Yup.string().required("Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
-    // phone: Yup.string()
-    //   .matches(/^[0-9]{10,15}$/, "Phone number must be 10 to 15 digits")
-    //   .nullable(),
   });
 
   return (
-    <div className="dark:bg-gray-800 p-6 rounded-xl shadow-lg bg-neutral-100 mx-auto max-w-5xl w-full space-y-6">
-      <h2 className="text-xl font-bold text-gray-800 dark:text-white">
+    <div className="mx-auto max-w-5xl w-full space-y-6">
+      <h2 className="text-xl font-bold text-gray-800 dark:text-white border-b dark:border-gray-700 pb-4">
         Edit Profile
       </h2>
 
@@ -120,7 +117,7 @@ export default function ProfileForm() {
         </div>
 
         {isEditing ? (
-          <div className="flex justify-end flex-col-reverse md:flex-row gap-4">
+          <div className="flex justify-end flex-col-reverse md:flex-row gap-4 mt-6">
             <button
               type="button"
               onClick={(e) => {
@@ -134,14 +131,14 @@ export default function ProfileForm() {
 
             <button
               type="submit"
-              className="bg-neutral-200 dark:bg-gray-700 hover:bg-neutral-300 dark:hover:bg-gray-600 dark:text-blue-400 text-white px-4 py-2 rounded-md cursor-pointer"
+              className="bg-[#009c85] hover:bg-[#007a6a] text-white px-4 py-2 rounded-md cursor-pointer font-semibold"
               disabled={isUpdatingUser}
             >
               {isUpdatingUser ? "Updating..." : "Save Changes"}
             </button>
           </div>
         ) : (
-          <div className="flex justify-end">
+          <div className="flex justify-end mt-6">
             <button
               onClick={() => setIsEditing(true)}
               className="text-blue-600 dark:text-blue-400 font-semibold cursor-pointer px-4 py-2 rounded-md bg-neutral-200 dark:bg-gray-700 hover:bg-neutral-300 dark:hover:bg-gray-600"

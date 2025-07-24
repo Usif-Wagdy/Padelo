@@ -45,22 +45,25 @@ export default function CourtCard({ court }) {
           {court.location}, {court.place}
         </p>
 
-        {/* Price */}
-        <p className="text-emerald-600 dark:text-emerald-400 font-semibold text-sm mb-2">
-          EGP {court.price} <span className="text-xs font-normal">/ hour</span>
-        </p>
+        <div className="flex justify-between items-center">
+          {/* Price */}
+          <p className="text-emerald-600 dark:text-emerald-400 font-semibold text-sm">
+            EGP {court.price}{" "}
+            <span className="text-xs font-normal">/ hour</span>
+          </p>
 
-        {/* Rating */}
-        <div className="flex items-center gap-2">
-          <div className="flex items-center">
-            {renderStars()}
-            <span className="text-gray-600 dark:text-gray-400 text-sm ml-2">
-              {court.averageRating.toFixed(1)}
+          {/* Rating */}
+          <div className="flex items-center gap-2">
+            <div className="flex items-center">
+              {renderStars()}
+              <span className="text-gray-600 dark:text-gray-400 text-sm ml-2">
+                {court.averageRating.toFixed(1)}
+              </span>
+            </div>
+            <span className="text-gray-500 text-xs">
+              ({court.reviews.length} reviews)
             </span>
           </div>
-          <span className="text-gray-500 text-xs">
-            ({court.reviews.length} reviews)
-          </span>
         </div>
       </div>
     </div>

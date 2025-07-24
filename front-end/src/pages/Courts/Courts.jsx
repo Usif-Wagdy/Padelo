@@ -26,7 +26,7 @@ export default function CourtsPage() {
   );
   const [page, setPage] = useState(1);
 
-  const perPage = view === "card" ? 6 : 4;
+  const perPage = view === "card" ? 6 : 2;
 
   useEffect(() => {
     const fetchData = async () => {
