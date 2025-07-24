@@ -16,6 +16,7 @@ import Login from "../pages/Auth/Login";
 import Profile from "../pages/profile/Profile";
 import ProfileForm from "../pages/profile/ProfileForm";
 import Courts from "../pages/Courts/Courts";
+import Dashboard from "../pages/Admin/Dashboard";
 
 export default function AppRouter() {
   return (
@@ -25,7 +26,6 @@ export default function AppRouter() {
         <Route path="/courts" element={<Courts />} />
 
         {/* Under maintenance pages */}
-        <Route path="/dashboard" element={<UnderMaintenance />} />
         <Route path="/blogs" element={<UnderMaintenance />} />
         <Route path="/about" element={<UnderMaintenance />} />
         <Route path="/privacy" element={<UnderMaintenance />} />
@@ -67,6 +67,19 @@ export default function AppRouter() {
       <Route element={<Layout isContainer={false} />}>
         <Route path="/" element={<Home />} />
       </Route>
+
+      {/* Dashboard Pages */}
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute type={"admin"}>
+            <Dashboard />
+          </PrivateRoute>
+        }
+      >
+        {/* <Route index element={<Dashboard />} /> */}
+      </Route>
+
       <Route path="*" element={<NotFound />} />
       <Route path="/Oops" element={<Oops />} />
     </Routes>

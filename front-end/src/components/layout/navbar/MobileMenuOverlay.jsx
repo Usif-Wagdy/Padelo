@@ -24,8 +24,8 @@ export default function MobileMenuOverlay({
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed top-0 left-0 h-screen w-[80%] max-w-xs bg-white dark:bg-gray-900 shadow-lg z-40 overflow-y-auto transition-opacity duration-300 ease-in-out ${
-          showMenu ? "opacity-100" : "opacity-0 pointer-events-none"
+        className={`fixed top-0 left-0 h-screen w-[80%] max-w-xs bg-white dark:bg-gray-900 shadow-lg z-40 overflow-y-auto transform transition-transform duration-300 ease-in-out ${
+          showMenu ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="p-6 flex flex-col gap-8 h-full">

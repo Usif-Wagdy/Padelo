@@ -7,7 +7,7 @@ export default function ThemeToggler({ isSettings = false }) {
 
   const [isDark, setIsDark] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
-    return savedTheme ? savedTheme === "dark" : false;
+    return savedTheme === "dark";
   });
 
   useEffect(() => {
@@ -25,20 +25,28 @@ export default function ThemeToggler({ isSettings = false }) {
     setTimeout(() => {
       setIsDark((prev) => !prev);
       setLoading(false);
-    }, 1500);
+    }, 500);
   };
 
-  return (
+  return isSettings ? (
     <button
       onClick={toggleDark}
-      className={`transition cursor-pointer ${
-        isSettings
-          ? "flex md:hidden justify-start items-center gap-3 py-2 px-3 rounded-md text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
-          : " text-xl p-2 rounded-full bg-neutral-100 dark:bg-gray-700 text-gray-600 dark:text-white hover:bg-neutral-200 dark:hover:bg-gray-600"
-      }`}
+      className="w-full flex items-center justify-center p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors cursor-pointer"
+    >
+      {isDark ? (
+        <FiSun size={20} className="text-yellow-400" />
+      ) : (
+        <FiMoon size={20} className="text-indigo-600" />
+      )}
+      <span className="ml-2">{isDark ? "Light Mode" : "Dark Mode"}</span>
+    </button>
+  ) : (
+    <button
+      onClick={toggleDark}
+      className="transition cursor-pointer text-xl p-2 rounded-full bg-neutral-100 dark:bg-gray-700 text-gray-600 dark:text-white hover:bg-neutral-200 dark:hover:bg-gray-600"
       aria-label="Toggle Theme"
     >
-      {isSettings ? "Theme: " : ""} {isDark ? <FiMoon /> : <FiSun />}
+      {isDark ? <FiSun /> : <FiMoon />}
     </button>
   );
 }

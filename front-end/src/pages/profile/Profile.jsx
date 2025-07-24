@@ -48,9 +48,13 @@ export default function Profile() {
       </div>
 
       {/* Sidebar and Main Content Section */}
-      <div className="flex flex-col w-full gap-6">
+      <div className="flex-1 flex flex-col w-full overflow-hidden">
         <ProfileSidebar />
-        <Outlet />
+        <main className="flex-1 overflow-y-auto p-6">
+          <div className="container mx-auto">
+            <Outlet />
+          </div>
+        </main>
       </div>
 
       {/* Verification Modal */}

@@ -38,15 +38,7 @@ export default function Navbar() {
             <ThemeToggler />
           </div>
 
-          {token ? (
-            <UserDropdown
-              user={auth?.user}
-              logout={logout}
-              isDashboard={isDashboard}
-            />
-          ) : (
-            <AuthButtons />
-          )}
+          {token ? <UserDropdown user={auth?.user} /> : <AuthButtons />}
 
           <MenuToggleButton
             isOpen={isOpen}
@@ -57,18 +49,16 @@ export default function Navbar() {
         </div>
       </div>
 
-      {isOpen && (
-        <MobileMenuOverlay
-          navItems={navItems}
-          authItems={authItems}
-          token={token}
-          showMenu={isOpen}
-          closeMenu={() => setIsOpen(false)}
-          logout={logout}
-          isDashboard={isDashboard}
-          role={auth?.user?.role}
-        />
-      )}
+      <MobileMenuOverlay
+        navItems={navItems}
+        authItems={authItems}
+        token={token}
+        showMenu={isOpen}
+        closeMenu={() => setIsOpen(false)}
+        logout={logout}
+        isDashboard={isDashboard}
+        role={auth?.user?.role}
+      />
     </nav>
   );
 }

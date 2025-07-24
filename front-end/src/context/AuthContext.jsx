@@ -66,12 +66,12 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setLoading(true);
+    navigate("/");
     setTimeout(() => {
+      setLoading(false);
       Cookies.remove("authToken");
       Cookies.remove("userData");
       setAuth(null);
-      navigate("/");
-      setLoading(false);
       toast.success("Logged out successfully!");
     }, 1500);
   };

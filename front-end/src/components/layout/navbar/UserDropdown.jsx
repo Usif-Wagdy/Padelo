@@ -1,7 +1,14 @@
 import { useState, useRef, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
-export default function UserDropdown({ user, logout, isDashboard }) {
+export default function UserDropdown() {
+  const { auth, logout } = useAuth();
+  const user = auth?.user;
+
+  const { pathname } = useLocation();
+  const isDashboard = pathname.startsWith("/dashboard");
+
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef();
 
@@ -65,7 +72,7 @@ export default function UserDropdown({ user, logout, isDashboard }) {
               }
               onClick={() => setOpen(false)}
             >
-              {isDashboard ? "Home" : "Admin Dashboard"}
+              {isDashboard ? "Home" : "Dashboard"}
             </NavLink>
           )}
           <button
