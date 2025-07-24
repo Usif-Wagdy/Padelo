@@ -61,7 +61,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center ">
+    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center ">
       <BaseForm
         initialValues={initialValues}
         validationSchema={validationSchema}

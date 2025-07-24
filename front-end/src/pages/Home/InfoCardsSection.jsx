@@ -10,7 +10,7 @@ export default function InfoCardsSection({
 }) {
   return (
     <section
-      className={`min-h-150 flex flex-col items-center justify-center py-20 px-6 text-center ${bgColor} bg-cover bg-center relative`}
+      className={`min-h-150 flex flex-col items-center justify-center py-20 text-center ${bgColor} bg-cover bg-center relative`}
       style={bgImage ? { backgroundImage: `url(${bgImage})` } : {}}
     >
       {bgImage && (
@@ -22,7 +22,7 @@ export default function InfoCardsSection({
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-12 md:mb-16">
           {title}
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
           {items.map((item, i) => {
             const isString = typeof item === "string";
             return (

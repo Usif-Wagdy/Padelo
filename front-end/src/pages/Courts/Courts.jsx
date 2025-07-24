@@ -84,7 +84,7 @@ export default function CourtsPage() {
   };
 
   return (
-    <section className="py-25 md:py-30 px-4 md:px-12 min-h-screen">
+    <section className="min-h-[calc(100vh-80px)] py-10">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold dark:text-white">Available Courts</h1>
         <ViewToggle view={view} setView={setView} />

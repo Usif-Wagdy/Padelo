@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }) => {
       Cookies.remove("authToken");
       Cookies.remove("userData");
       setAuth(null);
-      navigate("/login");
+      navigate("/");
       setLoading(false);
       toast.success("Logged out successfully!");
     }, 1500);

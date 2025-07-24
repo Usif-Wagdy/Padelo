@@ -5,12 +5,12 @@ import { motion } from "framer-motion";
 export default function HeroSection({ bgImage, isAuthed }) {
   return (
     <section
-      className="text-center px-6 text-gray-600 dark:text-white bg-cover bg-center min-h-screen flex flex-col items-center justify-center relative"
+      className="text-center px-6 text-gray-600 dark:text-white bg-cover bg-center min-h-[calc(100vh-80px)] flex flex-col items-center justify-center relative"
       style={
         bgImage
           ? { backgroundImage: `url(${bgImage})` }
           : {
-              /* backgroundColor: '#f0f0f0' // Example fallback */
+              // backgroundColor: "#f0f0f0",
             }
       }
     >
@@ -39,12 +39,6 @@ export default function HeroSection({ bgImage, isAuthed }) {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
         >
-          <Link
-            to="/courts"
-            className="w-full md:w-auto py-3 px-8 bg-[#009c85] text-white rounded-md hover:bg-[#007e6d] transition text-lg font-medium"
-          >
-            Explore Courts
-          </Link>
           {!isAuthed && (
             <Link
               to="/register"
@@ -53,6 +47,12 @@ export default function HeroSection({ bgImage, isAuthed }) {
               Join Now
             </Link>
           )}
+          <Link
+            to="/courts"
+            className="w-full md:w-auto py-3 px-8 bg-[#009c85] text-white rounded-md hover:bg-[#007e6d] transition text-lg font-medium"
+          >
+            Explore Courts
+          </Link>
         </motion.div>
       </div>
     </section>

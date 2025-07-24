@@ -4,7 +4,7 @@ export default function UnderMaintenance() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center text-center bg-white dark:bg-gray-900 px-6">
+    <div className="min-h-[calc(100vh-80px)] flex flex-col items-center justify-center text-center bg-white dark:bg-gray-900 px-6">
       <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4">
         🚧 Page Under Maintenance
       </h1>

@@ -18,7 +18,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="flex flex-col items-center mt-30 mb-10 gap-6">
+    <div className="flex flex-col items-center my-10 gap-6">
       <div className="flex flex-col md:flex-row md:gap-6 items-center justify-center w-full lg:w-1/2 p-4 dark:border rounded-lg shadow-md bg-neutral-100 dark:bg-gray-800">
         <img
           src={user?.image || "https://www.viverefermo.it/images/user.png"}
