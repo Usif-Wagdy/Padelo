@@ -17,8 +17,9 @@ export default function DashboardLayout() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors">
+    <div className="flex h-screen overflow-hidden bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+
       {isSidebarOpen && (
         <div
           className="fixed inset-0 z-20 bg-black opacity-50 md:hidden"
@@ -28,8 +29,9 @@ export default function DashboardLayout() {
 
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header toggleSidebar={toggleSidebar} />
-        <main className="flex-1 overflow-y-auto p-6">
-          <div className="container mx-auto">
+
+        <main className="flex-1 overflow-auto">
+          <div className="p-6 md:py-12 max-w-full">
             <Outlet context={user} />
           </div>
         </main>

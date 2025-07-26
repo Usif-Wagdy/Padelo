@@ -1,5 +1,4 @@
-import React from "react";
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+import { FaStar, FaRegStar } from "react-icons/fa";
 import { FiPhone, FiMail } from "react-icons/fi";
 
 export default function CourtListItem({ court }) {
@@ -10,13 +9,10 @@ export default function CourtListItem({ court }) {
     const numericRating = Number(rating) || 0;
     const stars = [];
     const fullStars = Math.floor(numericRating);
-    const hasHalfStar = numericRating % 1 >= 0.3;
 
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
         stars.push(<FaStar key={`full-${i}`} className="text-yellow-500" />);
-      } else if (i === fullStars && hasHalfStar) {
-        stars.push(<FaStarHalfAlt key="half" className="text-yellow-500" />);
       } else {
         stars.push(<FaRegStar key={`empty-${i}`} className="text-gray-400" />);
       }

@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-// Private
+// Private Routes
 import PrivateRoute from "./PrivateRoutes";
 
 // UI
@@ -17,6 +17,7 @@ import Profile from "../pages/profile/Profile";
 import ProfileForm from "../pages/profile/ProfileForm";
 import Courts from "../pages/Courts/Courts";
 import Dashboard from "../pages/Admin/Dashboard";
+import AdminCourts from "../pages/Admin/Courts";
 
 export default function AppRouter() {
   return (
@@ -77,7 +78,7 @@ export default function AppRouter() {
           </PrivateRoute>
         }
       >
-        {/* <Route index element={<Dashboard />} /> */}
+        <Route path="courts" element={<AdminCourts />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

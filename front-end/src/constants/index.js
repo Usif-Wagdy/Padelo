@@ -1,3 +1,5 @@
+import { BarChart2, Home, Settings, Users } from "lucide-react";
+import { FaTableTennisPaddleBall } from "react-icons/fa6";
 import {
   FaHistory,
   FaUsersCog,
@@ -85,4 +87,11 @@ export const whyPadeloFeatures = [
     description:
       "Enjoy Padelo in your preferred theme for comfortable viewing, whether it's bright daylight or late at night.",
   },
+];
+
+export const dashboardItems = [
+  { icon: Home, label: "Home", path: "home" },
+  { icon: BarChart2, label: "Analytics", path: "stat" },
+  { icon: Users, label: "Users", path: "users" },
+  { icon: FaTableTennisPaddleBall, label: "Courts", path: "courts" },
 ];

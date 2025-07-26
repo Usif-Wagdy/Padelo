@@ -9,7 +9,7 @@ import SkeletonListItem from "../../components/Court/SkeletonListItem";
 import FilterBar from "../../components/Court/FilterBar";
 import ViewToggle from "../../components/Court/ViewToggle";
 
-export default function CourtsPage() {
+export default function CourtsPage({ isDashboard = false }) {
   const [courts, setCourts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,9 +21,13 @@ export default function CourtsPage() {
   const [sort, setSort] = useState(
     () => localStorage.getItem("courtsSort") || "rating"
   );
-  const [view, setView] = useState(
-    () => localStorage.getItem("courtsView") || "card"
-  );
+  const [view, setView] = useState(() => {
+    if (!isDashboard) {
+      return localStorage.getItem("courtsView") || "card";
+    }
+    return "card"; // default in dashboard
+  });
+
   const [page, setPage] = useState(1);
 
   const perPage = view === "card" ? 6 : 2;
@@ -50,8 +54,10 @@ export default function CourtsPage() {
   }, [sort]);
 
   useEffect(() => {
-    localStorage.setItem("courtsView", view);
-  }, [view]);
+    if (!isDashboard) {
+      localStorage.setItem("courtsView", view);
+    }
+  }, [view, isDashboard]);
 
   // Get unique location list from courts
   const locations = Array.from(new Set(courts.map((c) => c.place))).filter(
@@ -84,11 +90,17 @@ export default function CourtsPage() {
   };
 
   return (
-    <section className="min-h-[calc(100vh-80px)] py-10">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold dark:text-white">Available Courts</h1>
-        <ViewToggle view={view} setView={setView} />
-      </div>
+    <section
+      className={`${isDashboard ? "" : "min-h-[calc(100vh-80px)] py-10"}`}
+    >
+      {!isDashboard && (
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold dark:text-white">
+            Available Courts
+          </h1>
+          <ViewToggle view={view} setView={setView} />
+        </div>
+      )}
 
       <FilterBar
         search={search}
@@ -128,7 +140,11 @@ export default function CourtsPage() {
         >
           {paginated.map((court) =>
             view === "card" ? (
-              <CourtCard key={court._id} court={court} />
+              <CourtCard
+                key={court._id}
+                court={court}
+                isDashboard={isDashboard}
+              />
             ) : (
               <CourtListItem key={court._id} court={court} />
             )

@@ -1,6 +1,7 @@
-import React from "react";
-import { Home, BarChart2, Users, Settings, Sun, Moon } from "lucide-react";
+import { Link } from "react-router-dom";
 import ThemeToggler from "../ui/ThemeToggler";
+import { dashboardItems } from "../../constants";
+import { FaTimes } from "react-icons/fa";
 
 export default function Sidebar({ isOpen, toggleSidebar }) {
   return (
@@ -19,26 +20,21 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
           onClick={toggleSidebar}
           className="md:hidden text-gray-600 dark:text-gray-400"
         >
-          ✕
+          <FaTimes size={24} />
         </button>
       </div>
 
       <nav className="flex-grow">
         <ul className="space-y-3">
-          {[
-            { icon: <Home size={20} />, label: "Home" },
-            { icon: <BarChart2 size={20} />, label: "Analytics" },
-            { icon: <Users size={20} />, label: "Users" },
-            { icon: <Settings size={20} />, label: "Settings" },
-          ].map((item, i) => (
-            <li key={i}>
-              <a
-                href="#"
+          {dashboardItems.map((item) => (
+            <li key={item.path}>
+              <Link
+                to={item.path}
                 className="flex items-center space-x-3 p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700 transition-colors"
               >
-                {item.icon}
+                <item.icon size={20} />
                 <span>{item.label}</span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
