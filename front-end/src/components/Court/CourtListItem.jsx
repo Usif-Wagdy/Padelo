@@ -1,10 +1,15 @@
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { FiPhone, FiMail } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 export default function CourtListItem({ court }) {
   const createdAt = new Date(court.createdAt);
   const isNew = Date.now() - createdAt.getTime() <= 7 * 24 * 60 * 60 * 1000;
+  const navigate = useNavigate();
 
+  const handleClick = () => {
+    navigate(`${court._id}`);
+  };
   const renderStars = (rating) => {
     const numericRating = Number(rating) || 0;
     const stars = [];
@@ -83,7 +88,10 @@ export default function CourtListItem({ court }) {
               {court.averageRating.toFixed(1)} ({court.reviews.length} reviews)
             </span>
           </div>
-          <button className="w-full sm:w-auto bg-emerald-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-emerald-700 cursor-pointer transition-colors">
+          <button
+            onClick={handleClick}
+            className="w-full sm:w-auto bg-emerald-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-emerald-700 cursor-pointer transition-colors"
+          >
             View Details
           </button>
         </div>
