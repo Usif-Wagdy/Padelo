@@ -42,6 +42,12 @@ const courtSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
     email: { type: String, trim: true, lowercase: true },
+    description: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      required: true,
+    },
     contactNumber: {
       type: String,
       required: true,

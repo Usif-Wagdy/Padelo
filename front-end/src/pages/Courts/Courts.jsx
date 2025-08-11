@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState, useMemo } from "react";
 import { allCourts } from "../../api/Courts";
 
 // Components
@@ -10,8 +11,26 @@ import FilterBar from "../../components/Court/FilterBar";
 import ViewToggle from "../../components/Court/ViewToggle";
 
 export default function CourtsPage({ isDashboard = false }) {
-  const [courts, setCourts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data, isFetching } = useQuery({
+    queryKey: ["courts"],
+    queryFn: allCourts,
+    refetchOnMount: true,
+  });
+
+  const courts = data?.courts || [];
+
+  const [showSkeletons, setShowSkeletons] = useState(true);
+
+  useEffect(() => {
+    if (!isFetching) {
+      const timer = setTimeout(() => {
+        setShowSkeletons(false);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setShowSkeletons(true);
+    }
+  }, [isFetching]);
 
   // Filters from localStorage
   const [search, setSearch] = useState("");
@@ -32,18 +51,6 @@ export default function CourtsPage({ isDashboard = false }) {
 
   const perPage = view === "card" ? 6 : 2;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const data = await allCourts();
-      setCourts(data.courts || []);
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-    };
-    fetchData();
-  }, []);
-
   // Update localStorage when values change
   useEffect(() => {
     localStorage.setItem("courtsLocation", location);
@@ -60,25 +67,28 @@ export default function CourtsPage({ isDashboard = false }) {
   }, [view, isDashboard]);
 
   // Get unique location list from courts
-  const locations = Array.from(new Set(courts.map((c) => c.place))).filter(
-    Boolean
-  );
+  const locations = useMemo(() => {
+    return Array.from(new Set(courts.map((c) => c.place))).filter(Boolean);
+  }, [courts]);
 
   // Filter + Sort + Paginate
-  const filtered = courts
-    .filter(
-      (court) =>
-        court.name.toLowerCase().includes(search.toLowerCase()) &&
-        (location ? court.place === location : true)
-    )
-    .sort((a, b) => {
-      if (sort === "rating") return b.averageRating - a.averageRating;
-      if (sort === "reviews") return b.reviews.length - a.reviews.length;
-      if (sort === "new") return new Date(b.createdAt) - new Date(a.createdAt);
-      if (sort === "price_asc") return a.price - b.price;
-      if (sort === "price_desc") return b.price - a.price;
-      return 0;
-    });
+  const filtered = useMemo(() => {
+    return courts
+      .filter(
+        (court) =>
+          court.name.toLowerCase().includes(search.toLowerCase()) &&
+          (location ? court.place === location : true)
+      )
+      .sort((a, b) => {
+        if (sort === "rating") return b.averageRating - a.averageRating;
+        if (sort === "reviews") return b.reviews.length - a.reviews.length;
+        if (sort === "new")
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        if (sort === "price_asc") return a.price - b.price;
+        if (sort === "price_desc") return b.price - a.price;
+        return 0;
+      });
+  }, [courts, search, location, sort]);
 
   const totalPages = Math.ceil(filtered.length / perPage);
   const paginated = filtered.slice((page - 1) * perPage, page * perPage);
@@ -98,7 +108,7 @@ export default function CourtsPage({ isDashboard = false }) {
           <h1 className="text-2xl font-bold dark:text-white">
             Available Courts
           </h1>
-          <ViewToggle view={view} setView={setView} />
+          <ViewToggle view={view} setView={setView} onPageChange={setPage} />
         </div>
       )}
 
@@ -114,9 +124,10 @@ export default function CourtsPage({ isDashboard = false }) {
         totalPages={totalPages}
         totalCourts={filtered.length}
         onPageChange={setPage}
+        isDashboard={isDashboard}
       />
 
-      {loading ? (
+      {showSkeletons ? (
         <div
           className={
             view === "card"

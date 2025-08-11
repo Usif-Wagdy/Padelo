@@ -5,8 +5,11 @@ import Header from "../../components/Admin/Header";
 // import RecentActivity from "../../components/Admin/RecentActivity";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useUI } from "../../context/UIContext";
+import Loader from "../../components/ui/Loader";
 
 export default function DashboardLayout() {
+  const { loading } = useUI();
   const { auth } = useAuth();
   const user = auth?.user;
 
@@ -29,6 +32,7 @@ export default function DashboardLayout() {
 
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header toggleSidebar={toggleSidebar} />
+        {loading && <Loader />}
 
         <main className="flex-1 overflow-auto">
           <div className="p-6 md:py-12 max-w-full">

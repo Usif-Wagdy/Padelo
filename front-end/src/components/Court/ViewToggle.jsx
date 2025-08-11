@@ -1,9 +1,12 @@
-export default function ViewToggle({ view, setView }) {
+export default function ViewToggle({ view, setView, onPageChange }) {
   return (
     <div className="flex gap-2">
       <button
         disabled={view == "card"}
-        onClick={() => setView("card")}
+        onClick={() => {
+          setView("card");
+          onPageChange(1);
+        }}
         className={`px-3 py-1 rounded text-sm font-medium cursor-pointer opacity-50 hover:bg-neutral-200 dark:hover:bg-gray-600 bg-gray-200 dark:bg-gray-700 
           ${view == "list" ? "opacity-100" : ""}
           `}
@@ -12,7 +15,10 @@ export default function ViewToggle({ view, setView }) {
       </button>
       <button
         disabled={view == "list"}
-        onClick={() => setView("list")}
+        onClick={() => {
+          setView("list");
+          onPageChange(1);
+        }}
         className={`px-3 py-1 rounded text-sm font-medium cursor-pointer opacity-50 hover:bg-neutral-200 dark:hover:bg-gray-600 bg-gray-200 dark:bg-gray-700 
         ${view == "card" ? "opacity-100" : ""}
           `}

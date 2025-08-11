@@ -13,9 +13,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
       p-6 space-y-6 transition-transform duration-300 flex flex-col shadow-lg md:shadow-none`}
     >
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-          Dashboard
-        </h1>
+        <h1 className="text-2xl font-bold text-[#009c85]">Dashboard</h1>
         <button
           onClick={toggleSidebar}
           className="md:hidden text-gray-600 dark:text-gray-400"

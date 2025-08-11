@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 export default function FilterBar({
   search,
   setSearch,
@@ -10,7 +12,9 @@ export default function FilterBar({
   totalPages,
   totalCourts,
   onPageChange,
+  isDashboard,
 }) {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col gap-6 mb-8 md:gap-4 md:flex-col lg:flex-row lg:items-center lg:justify-between">
       {/* Filters Section */}
@@ -74,7 +78,19 @@ export default function FilterBar({
       </div>
 
       {/* Pagination Info & Controls */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4 w-full lg:w-auto">
+      <div
+        className={`flex flex-col ${
+          isDashboard ? "lg:flex-row" : "sm:flex-row"
+        } items-center justify-between gap-2 sm:gap-4 w-full lg:w-auto`}
+      >
+        {isDashboard && (
+          <button
+            onClick={() => navigate("add")}
+            className="bg-[#009c85] hover:bg-[#007a6a] text-white px-4 py-2 rounded-md cursor-pointer font-semibold"
+          >
+            Add Court
+          </button>
+        )}
         <span className="text-sm text-gray-600 dark:text-gray-400">
           {totalCourts} courts found
         </span>

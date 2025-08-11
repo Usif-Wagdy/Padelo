@@ -43,6 +43,11 @@ exports.updateCourt = async (req, res) => {
     const { id } = req.params;
     const updates = req.body;
 
+    
+    if (req.file) {
+      updates.image = req.file.path;
+    }
+
     const updatedCourt = await Court.findByIdAndUpdate(
       id,
       updates,

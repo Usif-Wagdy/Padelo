@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { upload } = require('../config/cloudinaryConfig');
 const {
   addCourt,
   updateCourt,
@@ -12,7 +13,12 @@ router.post('/', authMiddleware, adminMiddleware, addCourt);
 
 router
   .route('/:id')
-  .patch(authMiddleware, adminMiddleware, updateCourt)
+  .patch(
+    authMiddleware,
+    adminMiddleware,
+    upload.single('photo'),
+    updateCourt,
+  )
   .delete(authMiddleware, adminMiddleware, deleteCourt);
 
 module.exports = router;

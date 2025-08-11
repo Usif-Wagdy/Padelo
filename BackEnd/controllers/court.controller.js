@@ -38,10 +38,7 @@ exports.getCourtById = async (req, res) => {
 
 exports.getCourts = async (req, res) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
-    const courts = await Court.find()
-      .skip((page - 1) * limit)
-      .limit(Number(limit));
+    const courts = await Court.find();
 
     const formattedCourts = courts.map((court) => ({
       ...court.toObject(),
@@ -55,12 +52,8 @@ exports.getCourts = async (req, res) => {
       reviewCount: court.reviews.length,
     }));
 
-    const totalCourts = await Court.countDocuments();
-
     res.status(200).json({
       courts: formattedCourts,
-      totalPages: Math.ceil(totalCourts / limit),
-      currentPage: page,
     });
   } catch (error) {
     res

@@ -18,6 +18,8 @@ import ProfileForm from "../pages/profile/ProfileForm";
 import Courts from "../pages/Courts/Courts";
 import Dashboard from "../pages/Admin/Dashboard";
 import AdminCourts from "../pages/Admin/Courts";
+import EditCourt from "../components/Admin/Courts/EditCourt";
+import AddCourt from "../components/Admin/Courts/AddCourt";
 
 export default function AppRouter() {
   return (
@@ -79,6 +81,8 @@ export default function AppRouter() {
         }
       >
         <Route path="courts" element={<AdminCourts />} />
+        <Route path="courts/edit/:id" element={<EditCourt />} />
+        <Route path="courts/add" element={<AddCourt />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />
