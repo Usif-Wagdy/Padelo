@@ -15,7 +15,7 @@ export default function EditCourt() {
   useEffect(() => {
     const fetch = async () => {
       const data = await getCourtById(id);
-      setCourt(data.court);
+      setCourt(data);
     };
     fetch();
   }, [id]);
@@ -43,6 +43,7 @@ export default function EditCourt() {
       toast.error("Failed to delete court. Please try again.");
     },
   });
+  console.log(court);
 
   if (!court) return <div>Loading...</div>;
 

@@ -1,4 +1,5 @@
-import { BarChart2, Home, Settings, Users } from "lucide-react";
+import { BarChart2, Home } from "lucide-react";
+import { PiUsersThreeFill } from "react-icons/pi";
 import { FaTableTennisPaddleBall } from "react-icons/fa6";
 import {
   FaHistory,
@@ -92,6 +93,6 @@ export const whyPadeloFeatures = [
 export const dashboardItems = [
   { icon: Home, label: "Home", path: "home" },
   { icon: BarChart2, label: "Analytics", path: "stat" },
-  { icon: Users, label: "Users", path: "users" },
+  { icon: PiUsersThreeFill, label: "Users", path: "users" },
   { icon: FaTableTennisPaddleBall, label: "Courts", path: "courts" },
 ];

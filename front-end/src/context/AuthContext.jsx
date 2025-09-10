@@ -20,18 +20,16 @@ export const AuthProvider = ({ children }) => {
   // Sync auth from cookies on refresh
   useEffect(() => {
     const verifyAuth = async () => {
-      setLoading(true);
-
       const token = Cookies.get("authToken");
       const user = Cookies.get("userData");
 
       if (!token || !user) {
         setAuth(null);
-        setTimeout(() => {
-          setLoading(false); // Additional setLoading(false)
-          return;
-        }, 1500);
+        setLoading(false);
+        return;
       }
+
+      setLoading(true);
 
       try {
         const { user: freshUser } = await checkAuth();
@@ -43,7 +41,6 @@ export const AuthProvider = ({ children }) => {
         Cookies.remove("userData");
         setAuth(null);
       } finally {
-        // Ensures loading always ends after request finishes
         setTimeout(() => {
           setLoading(false);
         }, 1500);

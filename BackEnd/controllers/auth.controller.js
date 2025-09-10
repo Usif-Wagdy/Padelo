@@ -242,80 +242,129 @@ exports.forgetPassword = async (req, res) => {
 
     const resetToken = user.createResetToken();
     await user.save({ validateBeforeSave: false });
-    const resetURL = `${process.env.FRONTEND_URL}/${resetToken}`;
+    const resetURL = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
     const resetEmailContent = `
-  <html>
-    <head>
-      <style>
-        body {
-          font-family: Arial, sans-serif;
-          background-color: #f4f4f4;
-          color: #333;
-          margin: 0;
-          padding: 0;
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Password Reset</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Preheader (hidden preview text in inbox) -->
+    <meta name="x-apple-disable-message-reformatting">
+    <style>
+      /* Dark mode support (some clients) */
+      @media (prefers-color-scheme: dark) {
+        .bg-body { background-color: #0b1220 !important; }
+        .bg-card { background-color: #111827 !important; }
+        .text-main { color: #e5e7eb !important; }
+        .text-muted { color: #9ca3af !important; }
+        .btn {
+          background-color: #10b981 !important;
+          color: #0b1220 !important;
         }
-        .email-container {
-          max-width: 600px;
-          margin: 30px auto;
-          padding: 20px;
-          background-color: #ffffff;
-          border-radius: 8px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .email-header {
-          text-align: center;
-          padding-bottom: 20px;
-        }
-        .email-header h1 {
-          color: #4CAF50;
-        }
-        .email-body {
-          font-size: 16px;
-          line-height: 1.6;
-        }
-        .reset-link {
-          font-size: 16px;
-          font-weight: bold;
-          color: #ffffff;
-          display: inline-block;
-          padding: 10px 20px;
-          margin: 20px 0;
-          background-color: #4CAF50;
-          border-radius: 5px;
-          text-decoration: none;
-        }
-        .footer {
-          text-align: center;
-          padding-top: 20px;
-          font-size: 14px;
-          color: #777;
-        }
-        .footer a {
-          color: #4CAF50;
-          text-decoration: none;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="email-container">
-        <div class="email-header">
-          <h1>Password Reset Request</h1>
-        </div>
-        <div class="email-body">
-          <p>Hi ${user.name},</p>
-          <p>We received a request to reset your password. You can reset your password by clicking the link below:</p>
-           <a class="reset-link" href="${resetURL}">Reset Your Password</a>
-          <p>If you did not request a password reset, please ignore this email or contact our support team.</p>
-          <p>The link is valid for only 10 minutes.</p>
-        </div>
-        <div class="footer">
-          <p>Thank you for choosing us!</p>
-          <p>If you have any questions, feel free to <a href="mailto:padeloteamcs@gmail.com">contact our support team</a>.</p>
-        </div>
-      </div>
-    </body>
-  </html>
+        .btn:hover { background-color: #0ea271 !important; }
+        .divider { border-color: #1f2937 !important; }
+      }
+      /* Mobile tweaks */
+      @media only screen and (max-width: 600px) {
+        .container { width: 100% !important; }
+        .p-24 { padding: 16px !important; }
+        .mb-24 { margin-bottom: 16px !important; }
+      }
+    </style>
+  </head>
+  <body class="bg-body" style="margin:0; padding:0; background:#f3f4f6;">
+    <!-- Preheader text (hidden) -->
+    <div style="display:none; font-size:1px; color:#f3f4f6; line-height:1px; max-height:0; max-width:0; opacity:0; overflow:hidden;">
+      Reset your password — this link expires in 10 minutes.
+    </div>
+
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+      <tr>
+        <td align="center" style="padding: 24px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" class="container" style="width:600px; max-width:100%; background:#ffffff; border-radius:14px; box-shadow:0 10px 30px rgba(0,0,0,0.06); overflow:hidden;">
+            <!-- Header -->
+            <tr>
+              <td align="center" style="padding: 24px 24px 0 24px; background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 65%);">
+                <!-- Logo (optional) -->
+                <div style="font-family: Arial, Helvetica, sans-serif; font-size:20px; font-weight:700; color:#0f172a;">
+                  Padelo
+                </div>
+                <div style="height: 8px;"></div>
+                <h1 class="text-main" style="margin:0; font-family: Arial, Helvetica, sans-serif; font-size:24px; line-height:32px; color:#111827;">
+                  Password Reset Request
+                </h1>
+                <div style="height: 16px;"></div>
+              </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+              <td class="bg-card p-24" style="padding:24px; background:#ffffff;">
+                <p class="text-main" style="margin:0 0 12px 0; font-family: Arial, Helvetica, sans-serif; font-size:16px; line-height:24px; color:#111827;">
+                  Hi <strong>${user.name}</strong>,
+                </p>
+                <p class="text-muted" style="margin:0 0 16px 0; font-family: Arial, Helvetica, sans-serif; font-size:15px; line-height:24px; color:#4b5563;">
+                  We received a request to reset your password. Click the button below to set a new one. This link is valid for <strong>10 minutes</strong>.
+                </p>
+
+                <!-- Button (with VML fallback for Outlook) -->
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:24px auto;">
+                  <tr>
+                    <td align="center">
+                      <!--[if mso]>
+                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="${resetURL}" arcsize="12%" strokecolor="#10b981" strokeweight="1px" fillcolor="#10b981" style="height:48px; v-text-anchor:middle; width:260px;">
+                          <w:anchorlock/>
+                          <center style="color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:16px; font-weight:bold;">
+                            Reset Your Password
+                          </center>
+                        </v:roundrect>
+                      <![endif]-->
+                      <!--[if !mso]><!-- -->
+                      <a href="${resetURL}" class="btn"
+                        style="display:inline-block; background:#10b981; color:#ffffff; text-decoration:none; font-family:Arial, Helvetica, sans-serif; font-weight:700; font-size:16px; line-height:48px; height:48px; padding:0 24px; border-radius:10px; border:1px solid #0ea371;">
+                        Reset Your Password
+                      </a>
+                      <!--<![endif]-->
+                    </td>
+                  </tr>
+                </table>
+
+                <!-- Fallback link -->
+                <p class="text-muted" style="margin:0 0 8px 0; font-family: Arial, Helvetica, sans-serif; font-size:13px; line-height:20px; color:#6b7280; text-align:center;">
+                  If the button doesn’t work, copy and paste this link into your browser:
+                </p>
+                <p style="margin:0 0 16px 0; font-family: Arial, Helvetica, sans-serif; font-size:13px; line-height:20px; color:#2563eb; word-break:break-all; text-align:center;">
+                  <a href="${resetURL}" style="color:#2563eb; text-decoration:underline;">${resetURL}</a>
+                </p>
+
+                <hr class="divider" style="border:none; border-top:1px solid #e5e7eb; margin:24px 0;">
+                <p class="text-muted" style="margin:0; font-family: Arial, Helvetica, sans-serif; font-size:13px; line-height:20px; color:#6b7280;">
+                  Didn’t request this change? You can safely ignore this email.
+                </p>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="padding: 20px; background:#f9fafb; text-align:center;">
+                <p class="text-muted" style="margin:0 0 8px 0; font-family: Arial, Helvetica, sans-serif; font-size:12px; line-height:18px; color:#6b7280;">
+                  Need help? <a href="mailto:padeloteamcs@gmail.com" style="color:#10b981; text-decoration:none;">Contact support</a>
+                </p>
+                <p class="text-muted" style="margin:0; font-family: Arial, Helvetica, sans-serif; font-size:12px; line-height:18px; color:#9ca3af;">
+                  © ${new Date().getFullYear()} Padelo. All rights reserved.
+                </p>
+              </td>
+            </tr>
+
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
 `;
 
     await sendEmail({
@@ -338,29 +387,54 @@ exports.forgetPassword = async (req, res) => {
 };
 
 exports.ResetPassword = async (req, res) => {
-  const hashedtoken = crypto
-    .createHash('sha256')
-    .update(req.params.token)
-    .digest('hex');
+  try {
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(req.params.token)
+      .digest('hex');
 
-  const user = await User.findOne({
-    passwordResetToken: hashedtoken,
-    passwordResetexpires: { $gt: Date.now() },
-  });
-  if (!user) {
-    return res
-      .status(400)
-      .json({ message: 'Token is invalid or expired' });
+    const user = await User.findOne({
+      passwordResetToken: hashedToken,
+      // ✅ Use the correct field name (capital E)
+      passwordResetExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: 'Token is invalid or expired' });
+    }
+
+    if (!req.body.password) {
+      return res
+        .status(400)
+        .json({ message: 'Password is required' });
+    }
+
+    // (Optional) enforce strength here as well, for safety
+    // if (!validator.isStrongPassword(req.body.password)) {
+    //   return res.status(400).json({ message: 'Password must be strong...' });
+    // }
+
+    user.password = await bcrypt.hash(
+      req.body.password,
+      10,
+    );
+
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+
+    await user.save();
+
+    // ✅ pass the full user object (or re-fetch minimal fields) to signToken
+    const token = signToken(user);
+
+    // (Optional) avoid returning password field; make sure your schema excludes it by default
+    res.status(200).json({ user, token });
+  } catch (err) {
+    console.error('ResetPassword error:', err);
+    res.status(500).json({ message: 'Server error' });
   }
-
-  user.password = await bcrypt.hash(req.body.password, 10);
-
-  user.passwordResetToken = undefined;
-  user.passwordResetexpires = undefined;
-  await user.save();
-
-  const token = signToken(user._id);
-  res.status(200).json({ user, token });
 };
 
 exports.changePassword = async (req, res) => {

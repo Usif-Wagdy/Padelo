@@ -35,6 +35,19 @@ export const updatePassword = async (userData) => {
   return data;
 }; //Done
 
+export const resetPassword = async (userData, token) => {
+  const { data } = await Axios.patch(
+    `/api/users/reset-password/${token}`,
+    userData
+  );
+  return data;
+}; //Done
+
+export const forgotPassword = async (userData) => {
+  const { data } = await Axios.post(`/api/users/forget-password`, userData);
+  return data;
+}; //Done
+
 export const updateUserImage = async (userId, image) => {
   const form_Data = new FormData();
   form_Data.append("photo", image);
@@ -44,3 +57,13 @@ export const updateUserImage = async (userId, image) => {
   );
   return data;
 }; //Done
+
+export const allUsers = async () => {
+  const { data } = await Axios.get("/admin/users");
+  return data.users;
+}; // Admin
+
+export const deleteUser = async (email) => {
+  const { data } = await Axios.delete(`/admin/users/${email}`);
+  return data;
+}; // Admin

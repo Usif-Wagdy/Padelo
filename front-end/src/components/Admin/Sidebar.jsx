@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import ThemeToggler from "../ui/ThemeToggler";
 import { dashboardItems } from "../../constants";
 import { FaTimes } from "react-icons/fa";
@@ -26,13 +26,20 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
         <ul className="space-y-3">
           {dashboardItems.map((item) => (
             <li key={item.path}>
-              <Link
+              <NavLink
                 to={item.path}
-                className="flex items-center space-x-3 p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700 transition-colors"
+                end={item.path === "home"} // exact match only for home
+                className={({ isActive }) =>
+                  `flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                    isActive
+                      ? "bg-indigo-100 text-indigo-600 dark:bg-gray-700 dark:text-white"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700"
+                  }`
+                }
               >
                 <item.icon size={20} />
                 <span>{item.label}</span>
-              </Link>
+              </NavLink>
             </li>
           ))}
         </ul>

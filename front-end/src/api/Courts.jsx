@@ -7,7 +7,7 @@ export const allCourts = async () => {
 
 export const getCourtById = async (courtId) => {
   const { data } = await Axios.get(`/api/courts/${courtId}`);
-  return data;
+  return data.court;
 }; //Done
 
 export const deleteCourt = async (courtId) => {

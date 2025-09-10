@@ -284,7 +284,13 @@ export default function CourtForm({
                 </button>
               </div>
             ) : (
-              <div />
+              <button
+                type="button"
+                onClick={handleCancel}
+                className="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white px-4 py-2 rounded-md transition cursor-pointer"
+              >
+                Cancel
+              </button>
             )}
 
             <button
