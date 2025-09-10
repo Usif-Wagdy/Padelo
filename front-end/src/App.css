@@ -2,3 +2,24 @@
 @custom-variant dark (&:where(.dark, .dark *));
 @import "slick-carousel/slick/slick.css";
 @import "slick-carousel/slick/slick-theme.css";
+
+/* NProgress theme */
+#nprogress .bar {
+  background: #009c85 !important;
+  height: 3px !important;
+}
+#nprogress .peg {
+  box-shadow: 0 0 10px #009c85, 0 0 5px #009c85 !important;
+}
+#nprogress .spinner-icon {
+  border-top-color: #009c85 !important;
+  border-left-color: #009c85 !important;
+}
+
+/* Optional: slightly different in dark mode (Tailwind's .dark class) */
+.dark #nprogress .bar {
+  background: #10b981 !important;
+}
+.dark #nprogress .peg {
+  box-shadow: 0 0 10px #10b981, 0 0 5px #10b981 !important;
+}
