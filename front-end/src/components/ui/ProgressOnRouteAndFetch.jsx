@@ -11,7 +11,7 @@ export default function ProgressOnRouteAndFetch() {
   const isFetching = useIsFetching();
 
   const startDelayMs = 120;
-  const minRouteShowMs = 400;
+  const minRouteShowMs = 1200;
 
   const [routePulse, setRoutePulse] = useState(false);
   useEffect(() => {

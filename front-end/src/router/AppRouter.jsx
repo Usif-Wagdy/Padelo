@@ -29,6 +29,7 @@ import EditCourt from "../components/Admin/Courts/EditCourt";
 import AddCourt from "../components/Admin/Courts/AddCourt";
 import Users from "../pages/Admin/Users";
 import AdminHome from "../pages/Admin/Home";
+import Support from "../pages/Resources/Support";
 
 export default function AppRouter() {
   return (
@@ -43,7 +44,6 @@ export default function AppRouter() {
         <Route path="/about" element={<UnderMaintenance />} />
         <Route path="/privacy" element={<UnderMaintenance />} />
         <Route path="/terms" element={<UnderMaintenance />} />
-        <Route path="/support" element={<UnderMaintenance />} />
 
         {/* Private Routes */}
         <Route
@@ -98,6 +98,7 @@ export default function AppRouter() {
         <Route path="users" element={<Users />} />
       </Route>
 
+      <Route path="/support" element={<Support />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password/:token" element={<ResetPassword />} />
       <Route path="*" element={<NotFound />} />
