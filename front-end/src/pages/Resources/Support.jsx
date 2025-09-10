@@ -1,8 +1,6 @@
-// src/pages/Support.jsx
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
-// --- Mock FAQ data (edit freely) ---
 const FAQS = [
   // Players
   {

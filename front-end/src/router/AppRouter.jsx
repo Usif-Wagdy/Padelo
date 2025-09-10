@@ -30,6 +30,9 @@ import AddCourt from "../components/Admin/Courts/AddCourt";
 import Users from "../pages/Admin/Users";
 import AdminHome from "../pages/Admin/Home";
 import Support from "../pages/Resources/Support";
+import About from "../pages/Resources/About";
+import Privacy from "../pages/Resources/Privacy";
+import Terms from "../pages/Resources/TermsOfService";
 
 export default function AppRouter() {
   return (
@@ -41,9 +44,6 @@ export default function AppRouter() {
 
         {/* Under maintenance pages */}
         <Route path="/blogs" element={<UnderMaintenance />} />
-        <Route path="/about" element={<UnderMaintenance />} />
-        <Route path="/privacy" element={<UnderMaintenance />} />
-        <Route path="/terms" element={<UnderMaintenance />} />
 
         {/* Private Routes */}
         <Route
@@ -98,9 +98,14 @@ export default function AppRouter() {
         <Route path="users" element={<Users />} />
       </Route>
 
+      <Route path="/terms" element={<Terms />} />
+      <Route path="/privacy" element={<Privacy />} />
+      <Route path="/about" element={<About />} />
       <Route path="/support" element={<Support />} />
+
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password/:token" element={<ResetPassword />} />
+
       <Route path="*" element={<NotFound />} />
       <Route path="/Oops" element={<Oops />} />
     </Routes>
