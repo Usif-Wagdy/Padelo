@@ -91,8 +91,7 @@ export const whyPadeloFeatures = [
 ];
 
 export const dashboardItems = [
-  { icon: Home, label: "Home", path: "home" },
-  { icon: BarChart2, label: "Analytics", path: "stat" },
+  { icon: Home, label: "Home", path: "" },
   { icon: PiUsersThreeFill, label: "Users", path: "users" },
   { icon: FaTableTennisPaddleBall, label: "Courts", path: "courts" },
 ];

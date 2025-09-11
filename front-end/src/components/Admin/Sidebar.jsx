@@ -28,7 +28,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
             <li key={item.path}>
               <NavLink
                 to={item.path}
-                end={item.path === "home"} // exact match only for home
+                end={item.path === ""} // exact match only for home
                 className={({ isActive }) =>
                   `flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     isActive

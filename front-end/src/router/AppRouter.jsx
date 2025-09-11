@@ -91,7 +91,7 @@ export default function AppRouter() {
         }
       >
         <Route index element={<AdminHome />} />
-
+        <Route path="home" element={<AdminHome />} />
         <Route path="courts" element={<AdminCourts />} />
         <Route path="courts/edit/:id" element={<EditCourt />} />
         <Route path="courts/add" element={<AddCourt />} />
@@ -103,8 +103,22 @@ export default function AppRouter() {
       <Route path="/about" element={<About />} />
       <Route path="/support" element={<Support />} />
 
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/reset-password/:token" element={<ResetPassword />} />
+      <Route
+        path="/forgot-password"
+        element={
+          <PrivateRoute type={"requireNoAuth"}>
+            <ForgotPassword />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/reset-password/:token"
+        element={
+          <PrivateRoute type={"requireNoAuth"}>
+            <ResetPassword />
+          </PrivateRoute>
+        }
+      />
 
       <Route path="*" element={<NotFound />} />
       <Route path="/Oops" element={<Oops />} />
