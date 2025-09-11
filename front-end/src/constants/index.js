@@ -29,7 +29,7 @@ export const authItems = [
 ];
 
 export const profileItems = [
-  { path: "/profile", label: "Profile" },
+  { path: "", label: "Profile" },
   { path: "history", label: "History" },
 ];
 

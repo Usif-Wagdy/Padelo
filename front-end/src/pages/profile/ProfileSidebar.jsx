@@ -62,10 +62,11 @@ export default function ProfileSidebar() {
             <NavLink
               key={path}
               to={path}
+              end={path == ""}
               className={({ isActive }) =>
                 `block py-2.5 px-4 rounded-md transition-colors text-sm font-medium ${
                   isActive
-                    ? "bg-[#009c85] text-white shadow"
+                    ? "bg-[#009c85]/80 dark:bg-[#009c85]/40 text-white shadow"
                     : "text-gray-700 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700"
                 }`
               }

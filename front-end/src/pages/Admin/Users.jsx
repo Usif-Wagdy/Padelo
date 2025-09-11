@@ -17,10 +17,9 @@ export default function Users() {
   const { data, isLoading, isError, isFetching } = useQuery({
     queryKey: ["allUsers"],
     queryFn: allUsers,
-    refetchOnWindowFocus: true,
-    refetchOnReconnect: true,
-    refetchOnMount: "always",
-    staleTime: 0,
+    staleTime: 1000 * 60, // 1 minute
+    cacheTime: 1000 * 60 * 5, // keep in cache for 5 min
+    refetchOnWindowFocus: false, // don’t refetch every tab switch
   });
 
   // Delete mutation

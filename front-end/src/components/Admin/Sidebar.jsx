@@ -28,12 +28,12 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
             <li key={item.path}>
               <NavLink
                 to={item.path}
-                end={item.path === ""} // exact match only for home
+                end={item.path === ""}
                 className={({ isActive }) =>
                   `flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     isActive
-                      ? "bg-indigo-100 text-indigo-600 dark:bg-gray-700 dark:text-white"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700"
+                      ? "bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-white"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                   }`
                 }
               >

@@ -19,6 +19,7 @@ import ForgotPassword from "../pages/Auth/ForgotPassword";
 import Home from "../pages/Home/Home";
 import Profile from "../pages/profile/Profile";
 import ProfileForm from "../pages/profile/ProfileForm";
+import History from "../pages/profile/History";
 import Courts from "../pages/Courts/Courts";
 import CourtView from "../pages/Courts/CourtView";
 
@@ -29,6 +30,8 @@ import EditCourt from "../components/Admin/Courts/EditCourt";
 import AddCourt from "../components/Admin/Courts/AddCourt";
 import Users from "../pages/Admin/Users";
 import AdminHome from "../pages/Admin/Home";
+
+// Resources
 import Support from "../pages/Resources/Support";
 import About from "../pages/Resources/About";
 import Privacy from "../pages/Resources/Privacy";
@@ -78,6 +81,7 @@ export default function AppRouter() {
           }
         >
           <Route index element={<ProfileForm />} />
+          <Route path="history" element={<History />} />
         </Route>
       </Route>
 
@@ -91,7 +95,6 @@ export default function AppRouter() {
         }
       >
         <Route index element={<AdminHome />} />
-        <Route path="home" element={<AdminHome />} />
         <Route path="courts" element={<AdminCourts />} />
         <Route path="courts/edit/:id" element={<EditCourt />} />
         <Route path="courts/add" element={<AddCourt />} />

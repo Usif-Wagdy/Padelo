@@ -31,8 +31,6 @@ export default function CourtView() {
     refetchOnWindowFocus: false,
   });
 
-  console.log(reviews);
-
   const [day, setDay] = useState("Monday");
   const [slot, setSlot] = useState(null);
 
@@ -64,9 +62,11 @@ export default function CourtView() {
     court.schedule.find((s) => s.day === day)?.slots || [];
 
   const getSlotTime = (slotNumber) => {
-    let hour = 11 + (slotNumber - 1);
+    // 16 slots: slot 1 = 8:00 AM, slot 16 = 11:00 PM
+    const startHour = 8;
+    const hour = startHour + (slotNumber - 1);
     const suffix = hour >= 12 ? "PM" : "AM";
-    const displayHour = hour > 12 ? hour - 12 : hour;
+    const displayHour = hour % 12 === 0 ? 12 : hour % 12;
     return `${displayHour}:00 ${suffix}`;
   };
 
