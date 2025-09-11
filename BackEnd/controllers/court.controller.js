@@ -119,7 +119,7 @@ exports.getReviews = async (req, res) => {
 
     const court = await Court.findById(id).populate(
       'reviews.user',
-      'name email',
+      'name image',
     );
 
     if (!court) {

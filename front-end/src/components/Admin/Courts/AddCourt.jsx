@@ -11,9 +11,14 @@ export default function AddCourt() {
 
   const { mutate: addCourtMutate, isPending } = useMutation({
     mutationFn: addCourt,
-    onSuccess: () => {
+    onSuccess: (newCourt) => {
       toast.success("Court added successfully!");
+
       queryClient.invalidateQueries({ queryKey: ["courts"] });
+
+      // Seed single court cache so CourtView doesn’t need to refetch
+      queryClient.setQueryData(["court", newCourt._id], newCourt);
+
       navigate("/dashboard/courts");
     },
     onError: () => {

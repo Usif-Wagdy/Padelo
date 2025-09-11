@@ -22,9 +22,11 @@ export default function EditCourt() {
 
   const { mutate: updateCourtMutate, isPending } = useMutation({
     mutationFn: (courtData) => updateCourt(id, courtData),
-    onSuccess: () => {
+    onSuccess: (updatedCourt) => {
       toast.success("Court updated successfully!");
       queryClient.invalidateQueries({ queryKey: ["courts"] });
+      queryClient.setQueryData(["court", id], updatedCourt);
+
       navigate("/dashboard/courts");
     },
     onError: () => {
@@ -36,7 +38,11 @@ export default function EditCourt() {
     mutationFn: () => deleteCourt(id),
     onSuccess: () => {
       toast.success("Court deleted successfully!");
+
       queryClient.invalidateQueries({ queryKey: ["courts"] });
+
+      queryClient.removeQueries({ queryKey: ["court", id] });
+
       navigate("/dashboard/courts");
     },
     onError: () => {

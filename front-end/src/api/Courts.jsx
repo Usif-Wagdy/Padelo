@@ -10,6 +10,11 @@ export const getCourtById = async (courtId) => {
   return data.court;
 }; //Done
 
+export const getReviewsById = async (courtId) => {
+  const { data } = await Axios.get(`/api/courts/${courtId}/reviews`);
+  return data.reviews;
+}; //Done
+
 export const deleteCourt = async (courtId) => {
   const { data } = await Axios.delete(`/admin/courts/${courtId}`);
   return data;

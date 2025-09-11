@@ -14,7 +14,9 @@ export default function CourtsPage({ isDashboard = false }) {
   const { data, isFetching } = useQuery({
     queryKey: ["courts"],
     queryFn: allCourts,
-    refetchOnMount: true,
+    staleTime: 1000 * 60, // 1 minute
+    cacheTime: 1000 * 60 * 5, // keep in cache for 5 min
+    refetchOnWindowFocus: false, // don’t refetch every tab switch
   });
 
   const courts = data?.courts || [];
