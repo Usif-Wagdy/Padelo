@@ -242,9 +242,13 @@ export default function CourtView() {
                       {renderStars(review.rating)}
                       <span className="ml-2">{review.rating}/5</span>
                     </div>
+                    {/* Date & time */}
+                    <p className="text-xs text-gray-400">
+                      {new Date(review.createdAt).toLocaleString()}
+                    </p>
                   </div>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 ml-13">
+                <p className="text-gray-700 dark:text-gray-300 ml-13 break-words whitespace-pre-wrap max-h-40 overflow-y-auto">
                   {review.comment}
                 </p>
               </div>

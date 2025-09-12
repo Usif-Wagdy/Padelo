@@ -1,4 +1,5 @@
-import { useState } from "react";
+// src/pages/Profile/History.jsx
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../../context/AuthContext";
 import {
@@ -9,26 +10,43 @@ import {
   reviewCourt,
 } from "../../api/Reservation";
 import { toast } from "react-toastify";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaExternalLinkAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function History() {
   const { auth } = useAuth();
   const user = auth?.user;
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const [page, setPage] = useState(1);
-  const limit = 4 ; // reservations per page
+  const limit = 4;
 
-  // === Fetch reservations (with pagination) ===
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isFetching } = useQuery({
     queryKey: ["reservations", user?._id, page],
     queryFn: () => history(user._id, page, limit),
     enabled: !!user,
     keepPreviousData: true,
+    staleTime: 1000 * 60, // data stays fresh for 1 min
+    cacheTime: 1000 * 60 * 5, // keep cache for 5 min
+    refetchOnWindowFocus: false, // don’t refetch when tab focused
+    refetchOnReconnect: false, // don’t refetch on reconnect
   });
 
   const reservations = data?.reservations || [];
   const totalPages = data?.totalPages || 1;
+
+  // Skeleton loader
+  const [showSkeleton, setShowSkeleton] = useState(true);
+  useEffect(() => {
+    let timeout;
+    if (isLoading || isFetching) {
+      setShowSkeleton(true);
+    } else {
+      timeout = setTimeout(() => setShowSkeleton(false), 800);
+    }
+    return () => clearTimeout(timeout);
+  }, [isLoading, isFetching]);
 
   // === Mutations ===
   const cancelMutation = useMutation({
@@ -55,7 +73,7 @@ export default function History() {
     mutationFn: ({ reservationId, details }) =>
       reviewReservation(details, reservationId),
     onSuccess: () => {
-      toast.success("Reservation review submitted 🎉");
+      toast.success("Reservation review submitted");
       queryClient.invalidateQueries(["reservations", user._id, page]);
     },
     onError: () => toast.error("Failed to submit reservation review"),
@@ -64,7 +82,7 @@ export default function History() {
   const reviewCourtMutation = useMutation({
     mutationFn: ({ courtId, details }) => reviewCourt(details, courtId),
     onSuccess: () => {
-      toast.success("Court review submitted 🏟️");
+      toast.success("Court review submitted");
       queryClient.invalidateQueries(["reservations", user._id, page]);
     },
     onError: () => toast.error("Failed to submit court review"),
@@ -84,14 +102,10 @@ export default function History() {
     return `${displayHour}:00 ${suffix}`;
   };
 
-  if (isLoading) {
-    return <p className="text-center mt-10">Loading reservations...</p>;
-  }
-
-  if (!reservations || reservations.length === 0) {
+  if (!isLoading && reservations.length === 0) {
     return (
       <p className="text-center mt-10 text-gray-600 dark:text-gray-400">
-        You don’t have any reservations yet.
+        You don't have any reservations yet.
       </p>
     );
   }
@@ -102,106 +116,148 @@ export default function History() {
         Reservation History
       </h1>
 
-      {reservations.map((res) => (
-        <div
-          key={res._id}
-          className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-        >
-          {/* Court Info */}
-          <div>
-            <p className="font-semibold text-gray-900 dark:text-white">
-              {res.court?.name}
-            </p>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              {res.day} at {getSlotTime(res.slotNumber)}
-            </p>
-            <p className="text-sm text-gray-500">Status: {res.status}</p>
+      {showSkeleton ? (
+        // Skeleton cards
+        <>
+          {[...Array(limit)].map((_, idx) => (
+            <div
+              key={idx}
+              className="animate-pulse rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow p-5 flex justify-between items-center"
+            >
+              {/* Left side (Court Info) */}
+              <div className="flex flex-col gap-2 w-1/2">
+                <div className="h-4 w-32 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                <div className="h-3 w-24 bg-gray-200 dark:bg-gray-600 rounded"></div>
+                <div className="h-3 w-20 bg-gray-200 dark:bg-gray-600 rounded"></div>
+              </div>
+
+              {/* Right side (Actions) */}
+              <div className="flex gap-2">
+                <div className="h-8 w-20 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                <div className="h-8 w-24 bg-gray-300 dark:bg-gray-700 rounded"></div>
+              </div>
+            </div>
+          ))}
+
+          {/* Skeleton Pagination Controls */}
+          <div className="flex items-center justify-between mt-6 animate-pulse">
+            <span className="h-4 w-24 bg-gray-300 dark:bg-gray-700 rounded"></span>
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-16 bg-gray-300 dark:bg-gray-700 rounded"></div>
+              <div className="h-8 w-16 bg-gray-300 dark:bg-gray-700 rounded"></div>
+            </div>
           </div>
+        </>
+      ) : (
+        <>
+          {reservations.map((res) => (
+            <div
+              key={res._id}
+              className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+            >
+              {/* Court Info */}
+              <div>
+                <p className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                  {res.court?.name}
+                  <span
+                    onClick={() => navigate(`/courts/${res.court?._id}`)}
+                    className="text-sm text-emerald-600 hover:text-emerald-800 cursor-pointer transition-all  flex items-center gap-1"
+                  >
+                    Visit Court <FaExternalLinkAlt className="inline" />
+                  </span>
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {res.day} at {getSlotTime(res.slotNumber)}
+                </p>
+                <p className="text-sm text-gray-500">Status: {res.status}</p>
+              </div>
 
-          {/* Actions */}
-          <div className="flex gap-3 flex-wrap">
-            {res.status === "reserved" && (
-              <>
-                <button
-                  onClick={() =>
-                    cancelMutation.mutate({
-                      reservationId: res._id,
-                      details: { user: user._id, court: res.court._id },
-                    })
-                  }
-                  disabled={cancelMutation.isPending}
-                  className="px-3 py-1 rounded bg-red-600 hover:bg-red-700 text-white text-sm"
-                >
-                  {cancelMutation.isPending ? "Canceling..." : "Cancel"}
-                </button>
+              {/* Actions */}
+              <div className="flex gap-3 flex-wrap">
+                {res.status === "reserved" && (
+                  <>
+                    <button
+                      onClick={() =>
+                        cancelMutation.mutate({
+                          reservationId: res._id,
+                          details: { user: user._id, court: res.court._id },
+                        })
+                      }
+                      disabled={cancelMutation.isPending}
+                      className="px-3 py-1 rounded bg-red-500 hover:bg-red-600 text-white text-sm cursor-pointer disabled:opacity-50"
+                    >
+                      {cancelMutation.isPending ? "Canceling..." : "Cancel"}
+                    </button>
 
-                <button
-                  onClick={() =>
-                    completeMutation.mutate({
-                      reservationId: res._id,
-                      details: { user: user._id, court: res.court._id },
-                    })
-                  }
-                  disabled={completeMutation.isPending}
-                  className="px-3 py-1 rounded bg-emerald-600 hover:bg-emerald-700 text-white text-sm"
-                >
-                  {completeMutation.isPending
-                    ? "Completing..."
-                    : "Mark Complete"}
-                </button>
-              </>
-            )}
+                    <button
+                      onClick={() =>
+                        completeMutation.mutate({
+                          reservationId: res._id,
+                          details: { user: user._id, court: res.court._id },
+                        })
+                      }
+                      disabled={completeMutation.isPending}
+                      className="px-3 py-1 rounded bg-emerald-500 hover:bg-emerald-600 text-white text-sm cursor-pointer disabled:opacity-50"
+                    >
+                      {completeMutation.isPending
+                        ? "Completing..."
+                        : "Mark Complete"}
+                    </button>
+                  </>
+                )}
 
-            {res.status === "completed" && (
-              <>
-                <button
-                  onClick={() =>
-                    setReviewing({ type: "reservation", id: res._id })
-                  }
-                  className="px-3 py-1 rounded bg-yellow-500 hover:bg-yellow-600 text-white text-sm"
-                >
-                  Review Reservation
-                </button>
-                <button
-                  onClick={() =>
-                    setReviewing({ type: "court", id: res.court._id })
-                  }
-                  className="px-3 py-1 rounded bg-blue-500 hover:bg-blue-600 text-white text-sm"
-                >
-                  Review Court
-                </button>
-              </>
-            )}
+                {res.status === "completed" && (
+                  <>
+                    <button
+                      onClick={() =>
+                        setReviewing({ type: "reservation", id: res._id })
+                      }
+                      className="px-3 py-1 rounded bg-yellow-500 hover:bg-yellow-600 text-white text-sm cursor-pointer"
+                    >
+                      Review Reservation
+                    </button>
+                    <button
+                      onClick={() =>
+                        setReviewing({ type: "court", id: res.court._id })
+                      }
+                      className="px-3 py-1 rounded bg-blue-500 hover:bg-blue-600 text-white text-sm cursor-pointer"
+                    >
+                      Review Court
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          ))}
+
+          {/* Pagination Controls */}
+          <div className="flex items-center justify-between mt-6">
+            <span className="text-sm text-gray-600 dark:text-gray-400">
+              Page {page} of {totalPages}
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                disabled={page === 1}
+                onClick={() => setPage((p) => p - 1)}
+                className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 text-sm disabled:opacity-50 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer"
+              >
+                Prev
+              </button>
+              <button
+                disabled={page === totalPages}
+                onClick={() => setPage((p) => p + 1)}
+                className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 text-sm disabled:opacity-50 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer"
+              >
+                Next
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
-
-      {/* Pagination Controls */}
-      <div className="flex items-center justify-between mt-6">
-        <span className="text-sm text-gray-600 dark:text-gray-400">
-          Page {page} of {totalPages}
-        </span>
-        <div className="flex items-center gap-2">
-          <button
-            disabled={page === 1}
-            onClick={() => setPage((p) => p - 1)}
-            className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 text-sm disabled:opacity-50 hover:bg-gray-300 dark:hover:bg-gray-600"
-          >
-            Prev
-          </button>
-          <button
-            disabled={page === totalPages}
-            onClick={() => setPage((p) => p + 1)}
-            className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 text-sm disabled:opacity-50 hover:bg-gray-300 dark:hover:bg-gray-600"
-          >
-            Next
-          </button>
-        </div>
-      </div>
+        </>
+      )}
 
       {/* Review Modal */}
       {reviewing && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow max-w-md w-full space-y-4">
             <h2 className="text-xl font-semibold dark:text-white">
               {reviewing.type === "reservation"
@@ -231,7 +287,7 @@ export default function History() {
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setReviewing(null)}
-                className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200"
+                className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 cursor-pointer"
               >
                 Cancel
               </button>
@@ -245,14 +301,14 @@ export default function History() {
                   } else if (reviewing.type === "court") {
                     reviewCourtMutation.mutate({
                       courtId: reviewing.id,
-                      details: { user: user._id, rating, comment },
+                      details: { userId: user._id, rating, comment },
                     });
                   }
                   setReviewing(null);
                   setRating(0);
                   setComment("");
                 }}
-                className="px-3 py-1 rounded bg-emerald-600 hover:bg-emerald-700 text-white"
+                className="px-3 py-1 rounded bg-emerald-500 hover:bg-emerald-600 text-white cursor-pointer"
               >
                 Submit
               </button>
