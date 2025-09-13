@@ -77,77 +77,105 @@ exports.addUser = async (req, res) => {
     console.log('Sending email to:', email);
 
     const emailContent = `
-    <html>
-      <head>
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            margin: 0;
-            padding: 0;
-          }
-          .email-container {
-            max-width: 600px;
-            margin: 30px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-          }
-          .email-header {
-            text-align: center;
-            padding-bottom: 20px;
-          }
-          .email-header h1 {
-            color: #4CAF50;
-          }
-          .email-body {
-            font-size: 16px;
-            line-height: 1.6;
-          }
-          .verification-code {
-            font-size: 24px;
-            font-weight: bold;
-            color: #4CAF50;
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 20px 0;
-            background-color: #e8f5e9;
-            border: 1px solid #4CAF50;
-            border-radius: 5px;
-          }
-          .footer {
-            text-align: center;
-            padding-top: 20px;
-            font-size: 14px;
-            color: #777;
-          }
-          .footer a {
-            color: #4CAF50;
-            text-decoration: none;
-          }
-        </style>
-      </head>
-      <body>
-        <div class="email-container">
-          <div class="email-header">
-            <h1>Welcome to Our Service, ${name}!</h1>
-          </div>
-          <div class="email-body">
-            <p>Hi ${name},</p>
-            <p>Thank you for registering with us. To complete your registration, please use the verification code below:</p>
-            <div class="verification-code">${verificationCode}</div>
-            <p>Please enter this code on the verification page to activate your account.</p>
-            <p>If you did not request this, please ignore this email.</p>
-          </div>
-          <div class="footer">
-            <p>Thank you for choosing us!</p>
-            <p>If you have any questions, feel free to <a href="mailto:support@example.com">contact our support team</a>.</p>
-          </div>
-        </div>
-      </body>
-    </html>
+    <!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Email Verification</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="x-apple-disable-message-reformatting">
+    <style>
+      @media (prefers-color-scheme: dark) {
+        .bg-body { background-color: #0b1220 !important; }
+        .bg-card { background-color: #111827 !important; }
+        .text-main { color: #e5e7eb !important; }
+        .text-muted { color: #9ca3af !important; }
+        .btn {
+          background-color: #10b981 !important;
+          color: #0b1220 !important;
+        }
+        .btn:hover { background-color: #0ea271 !important; }
+        .divider { border-color: #1f2937 !important; }
+      }
+      @media only screen and (max-width: 600px) {
+        .container { width: 100% !important; }
+        .p-24 { padding: 16px !important; }
+        .mb-24 { margin-bottom: 16px !important; }
+      }
+    </style>
+  </head>
+  <body class="bg-body" style="margin:0; padding:0; background:#f3f4f6;">
+    <!-- Preheader text -->
+    <div style="display:none; font-size:1px; color:#f3f4f6; line-height:1px; max-height:0; max-width:0; opacity:0; overflow:hidden;">
+      Verify your email address to activate your Padelo account.
+    </div>
+
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+      <tr>
+        <td align="center" style="padding: 24px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" class="container" style="width:600px; max-width:100%; background:#ffffff; border-radius:14px; box-shadow:0 10px 30px rgba(0,0,0,0.06); overflow:hidden;">
+            
+            <!-- Header -->
+            <tr>
+              <td align="center" style="padding: 24px 24px 0 24px; background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 65%);">
+                <div style="font-family: Arial, Helvetica, sans-serif; font-size:20px; font-weight:700; color:#0f172a;">
+                  Padelo
+                </div>
+                <div style="height: 8px;"></div>
+                <h1 class="text-main" style="margin:0; font-family: Arial, Helvetica, sans-serif; font-size:24px; line-height:32px; color:#111827;">
+                  Verify Your Email
+                </h1>
+                <div style="height: 16px;"></div>
+              </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+              <td class="bg-card p-24" style="padding:24px; background:#ffffff;">
+                <p class="text-main" style="margin:0 0 12px 0; font-family: Arial, Helvetica, sans-serif; font-size:16px; line-height:24px; color:#111827;">
+                  Hi <strong>${name}</strong>,
+                </p>
+                <p class="text-muted" style="margin:0 0 16px 0; font-family: Arial, Helvetica, sans-serif; font-size:15px; line-height:24px; color:#4b5563;">
+                  Thanks for joining Padelo! Please confirm your email by entering the verification code below. This helps us secure your account and get you started right away.
+                </p>
+
+                <!-- Verification Code -->
+                <div style="text-align:center; margin:24px 0;">
+                  <div class="verification-code"
+                    style="display:inline-block; font-size:24px; font-weight:bold; color:#10b981; background:#ecfdf5; border:1px solid #10b981; padding:12px 24px; border-radius:8px; font-family:Arial, Helvetica, sans-serif;">
+                    ${verificationCode}
+                  </div>
+                </div>
+
+                <p class="text-muted" style="margin:0 0 16px 0; font-family: Arial, Helvetica, sans-serif; font-size:13px; line-height:20px; color:#6b7280; text-align:center;">
+                  Enter this code on your profile page after login to activate your account.
+                </p>
+
+                <hr class="divider" style="border:none; border-top:1px solid #e5e7eb; margin:24px 0;">
+                <p class="text-muted" style="margin:0; font-family: Arial, Helvetica, sans-serif; font-size:13px; line-height:20px; color:#6b7280;">
+                  Didn’t sign up? You can safely ignore this email.
+                </p>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="padding: 20px; background:#f9fafb; text-align:center;">
+                <p class="text-muted" style="margin:0 0 8px 0; font-family: Arial, Helvetica, sans-serif; font-size:12px; line-height:18px; color:#6b7280;">
+                  Need help? <a href="mailto:padeloteamcs@gmail.com" style="color:#10b981; text-decoration:none;">Contact support</a>
+                </p>
+                <p class="text-muted" style="margin:0; font-family: Arial, Helvetica, sans-serif; font-size:12px; line-height:18px; color:#9ca3af;">
+                  © ${new Date().getFullYear()} Padelo. All rights reserved.
+                </p>
+              </td>
+            </tr>
+
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
   `;
 
     await sendEmail({
